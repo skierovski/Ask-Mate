@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Question</title>
+</head>
+<body>
+<h1>Answer fo question : </h1>
+<a href="/list" > Return to list</a>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>Title:</p>
+            </td>
+            <td>
+                {{ selected_question.title }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Message:</p>
+            </td>
+            <td>
+                {{ selected_question.message  }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table>
+<thead>
+    <th>Id</th>
+    <th>Submission Time</th>
+    <th>Vote number</th>
+    <th>Message</th>
+    <th>Image</th>
+    </thead>
+<tbody>
+    {% for row in selected_answer %}
+        <tr>
+            <td>
+                {{ row.id }}
+            </td>
+            <td>
+                {{ row.submission_time }}
+            </td>
+            <td>
+                {{ row.vote_number }}
+            </td>
+            <td>
+                {{ row.message }}
+            </td>
+            <td>
+                {{ row.image }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
