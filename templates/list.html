@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ask Mate</title>
+</head>
+<body>
+<h1>Ask Mate</h1>
+<a href="/add_question">Add new Question</a>
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Submission Time</th>
+    <th>View Number</th>
+    <th>Vote Number</th>
+    <th>Tittle</th>
+    <th>Message</th>
+    <th>Image</th>
+    </thead>
+    <tbody>
+    {% for row in questions %}
+    <tr>
+        <td>
+            {{ row.id }}
+        </td>
+        <td>
+            {{ row.submission_time }}
+        </td>
+        <td>
+            {{ row.view_number }}
+        </td>
+        <td>
+            {{ row.vote_number }}
+        </td>
+        <td>
+            <a href="/question/{{ row.id }}">{{ row.tittle }}</a>
+        </td>
+        <td>
+            {{ row.message }}
+        </td>
+    </tr>
+    {%  endfor %}
+    </tbody>
+</table>
+</body>
+</html>
+
