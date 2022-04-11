@@ -14,3 +14,5 @@ def get_questions():
                 questions[QUESTIONS_HEADERS[i]] = record[i]
             result.append(questions)
         return result
+
+def get_details():
