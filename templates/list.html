@@ -2,21 +2,23 @@
 <html lang="en">
 
 <head>
-
-
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
 <h1>Ask Mate</h1>
-<a href="/add-question"> Add new question </a>
 <table>
     <thead>
     <th>Id</th>
     <th>Submission Time</th>
     <th>View number</th>
     <th>Vote number</th>
-    <th>Title</th>
+    <th>Title
+        <a href="/list?order_by=title&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=title"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
     <th>Message</th>
     <th>Image</th>
     </thead>
@@ -42,13 +44,13 @@
                 {{ row.message }}
             </td>
             <td>
-                {{ row.image }}
+                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 
 </table>
-
+<a href="/add-question"> Add new question </a>
 
 </body>
