@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <title>Question</title>
+    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
 <h1>Question detail : </h1>
@@ -41,6 +43,7 @@
     <th>Vote number</th>
     <th>Message</th>
     <th>Image</th>
+    <th>Delete</th>
     </thead>
 <tbody>
     {% for row in selected_answer %}
@@ -52,18 +55,24 @@
                 {{ row.submission_time }}
             </td>
             <td>
+                <a href="/answer/{{ row.id }}/vote-down"><i class="fa-solid fa-angle-down"></i></a>
                 {{ row.vote_number }}
+                <a href="/answer/{{ row.id }}/vote-up"><i class="fa-solid fa-angle-up"></i></a>
             </td>
             <td>
                 {{ row.message }}
             </td>
             <td>
-                {{ row.image }}
+                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/delete"> Delete answer</a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
 <a href="/question/{{ selected_question.id }}/delete"> Delete question</a>
+<a href="/question/{{ selected_question.id }}/edit"> Edit question</a>
 <a href="/question/{{ selected_question.id }}/new-answer"> Add answer</a>
 </body>

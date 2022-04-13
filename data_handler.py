@@ -1,4 +1,3 @@
-import csv
 import os
 
 DATA_FILE_PATH_QUESTION = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
@@ -8,13 +7,11 @@ DATA_HEADER_ANSWER = ['id', 'submission_time', 'vote_number', 'question_id', 'me
 STATUSES = ['planning', 'todo', 'in progress', 'review', 'done']
 
 
-def get_all_question():
+def get_all_question(question_id=None):
     question = {}
-    record = []
     result = []
-    # with open('sample_data/question.csv') as file:
+    select_question = []
     with open(DATA_FILE_PATH_QUESTION, "r") as file:
-    #with open('C:\CC\web\\ask_mate3\sample_data\question.csv', 'r') as file:
         for row in file:
             record = row.split(",")
             if len(record) == 7:
@@ -22,16 +19,19 @@ def get_all_question():
                     question[value] = record[index].rstrip("\n")
                 result.append(question)
                 question = {}
+    if question_id != None:
+        for item in result:
+            if item['id'] == question_id:
+                select_question = item
+        return select_question
     return result
 
 
-def get_all_answer():
+def get_all_answer(answer_id=None):
     answer = {}
-    record = []
     result = []
-    # with open('sample_data/question.csv') as file:
+    select_answer = []
     with open(DATA_FILE_PATH_ANSWER, 'r') as file:
-    # open('C:\CC\web\\ask_mate3\sample_data\\answer.csv', 'r') as file:
         for row in file:
             record = row.split(",")
             if len(record) == 6:
@@ -39,7 +39,19 @@ def get_all_answer():
                     answer[value] = record[index].rstrip("\n")
                 result.append(answer)
                 answer = {}
+    if answer_id != None:
+        for item in result:
+            if item['question_id'] == answer_id:
+                select_answer.append(item)
+        return select_answer
     return result
+
+
+def create_list_to_write(list):
+    list_to_return=[]
+    for item in list:
+        list_to_return.append(item.values())
+    return list_to_return
 
 
 def write_table_to_file_question(table, separator=','):
@@ -54,7 +66,6 @@ def write_table_to_file_answer(table, separator=','):
         for record in table:
             row = separator.join(record)
             file.write(row + "\n")
-
 
 
 if __name__ == '__main__':

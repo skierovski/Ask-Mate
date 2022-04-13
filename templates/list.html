@@ -12,14 +12,26 @@
 <table>
     <thead>
     <th>Id</th>
-    <th>Submission Time</th>
-    <th>View number</th>
-    <th>Vote number</th>
+    <th>Submission Time
+        <a href="/list?order_by=submission_time&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=submission_time"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th>View number
+        <a href="/list?order_by=view_number&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=view_number"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th>Vote number
+        <a href="/list?order_by=vote_number&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=vote_number"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
     <th>Title
         <a href="/list?order_by=title&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
         <a href="/list?order_by=title"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th>Message</th>
+    <th>Message
+        <a href="/list?order_by=message&order_direction=asc"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=message"><i class="fa-solid fa-angle-down"></i>
+    </th>
     <th>Image</th>
     </thead>
     <tbody>
@@ -35,7 +47,9 @@
                 {{ row.view_number }}
             </td>
             <td>
+                <a href="/question/{{ row.id }}/vote-down"><i class="fa-solid fa-angle-down"></i></a>
                 {{ row.vote_number }}
+                <a href="/question/{{ row.id }}/vote-up"><i class="fa-solid fa-angle-up"></i></a>
             </td>
             <td>
                 <a href="/question/{{ row.id }}"> {{ row.title }} </a>
