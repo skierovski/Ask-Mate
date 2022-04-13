@@ -16,11 +16,11 @@ def questions():
 
 @app.route("/questions/<question_id>")
 def question_details(question_id):
-    questions = data_handler.get_questions()
-    for item in questions:
+    data = data_handler.get_questions()
+    for item in data:
         if item["id"] == question_id:
-            question = item
-    return render_template("deatails.html", selected_question = question)
+            question_id = item
+    return render_template("details.html", questions = question_details)
 
 if __name__ == "__main__":
     app.run()
