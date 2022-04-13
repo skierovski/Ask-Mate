@@ -10,9 +10,9 @@ def get_questions():
     with open(QUESTIONS) as file:
         for row in file:
             record = row.split(",")
+            questions = dict.fromkeys(QUESTIONS_HEADERS)
             for i in range(len(record)):
                 questions[QUESTIONS_HEADERS[i]] = record[i]
             result.append(questions)
         return result
 
-def get_details():
