@@ -142,19 +142,8 @@ def vote_answer(answer_id, vote):
     answers = data_handler.get_all_answer()
     question_id = int([a['question_id'] for a in answers if a['id'] == answer_id].pop())
     answers = additional_functions.vote(answers, answer_id, 1 if vote == 'vote-up' else -1)
-    # if vote == 'vote-up':
-    #     for item in answers:
-    #         if item['id'] == answer_id:
-    #             question_id = item['question_id']
-    #             item['vote_number'] = str(int(item['vote_number']) + 1)
-    # elif vote == 'vote-down':
-    #     for item in answers:
-    #         if item['id'] == answer_id:
-    #             question_id = item['question_id']
-    #             item['vote_number'] = str(int(item['vote_number']) - 1)
     data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
-    link_direct = "/question/" + str(question_id)
-    return redirect(link_direct)
+    return redirect(f"/question/{str(question_id)}")
 
 
 if __name__ == "__main__":
