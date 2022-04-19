@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Question</title>
+</head>
+<body>
+<h1>Add new Question</h1>
+<form action="/question/{{ selected_question.id  }}/edit" method="POST" enctype="multipart/form-data">
+    <label for="title">Story title:</label><br>
+    <input type="text" name="title" id="title" value={{ selected_question.title}} required><br>
+    <label for="message">message</label><br>
+    <textarea id="message" name="message" required>{{selected_question.message}}</textarea><br>
+    <input type="submit" value="Edit question"><br>
+</form>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div id="header">
+    <p id="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+</div>
+<h1>Question list</h1>
+
+<table>
+    <thead>
+    <th id="list_col1">Id</th>
+    <th id="list_col2">Submission Time<br>
+        <a href="/list?order_by=submission_time&order_direction=asc" id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=submission_time"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th id="list_col3">View number<br>
+        <a href="/list?order_by=view_number&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=view_number"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th id="list_col4">Vote number<br>
+        <a href="/list?order_by=vote_number&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=vote_number"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th id="list_col5">Title<br>
+        <a href="/list?order_by=title&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=title"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    </th>
+    <th id="list_col6">
+        Message<br>
+        <a href="/list?order_by=message&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=message"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i>
+    </th>
+    <th id="list_col7">Image</th>
+    </thead>
+    <tbody>
+    {% for row in user_question %}
+        <tr id="{{ loop.index % 2 }}" class="{{ loop.index % 2 }}">
+            <td>
+                {{ row.id }}
+            </td>
+            <td>
+                {{ row.submission_time }}
+            </td>
+            <td>
+                {{ row.view_number }}
+            </td>
+            <td>
+                <a href="/question/{{ row.id }}/vote-down" id="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                {{ row.vote_number }}
+                <a href="/question/{{ row.id }}/vote-up" id="up"><i class="fa-solid fa-hand-point-up"></i></a>
+            </td>
+            <td>
+                <a href="/question/{{ row.id }}" id="title"> {{ row.title }} </a>
+            </td>
+            <td id="message">
+                {{ row.message }}
+            </td>
+            <td>
+                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <td colspan="7">
+            <a href="/add-question" id="user_button"> Add new question </a>
+    </td>
+    </tfoot>
+</table>
+
+</body>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Question</title>
+</head>
+<body>
+<h1>Add new Question</h1>
+<form action="/add-question" method="POST" enctype="multipart/form-data">
+    <label for="title">Story title:</label><br>
+    <input type="text" name="title" id="title" required><br>
+    <label for="message">message</label><br>
+    <textarea id="message" name="message" required></textarea><br>
+    <input type = "file" name = "file" />
+    <input type="submit" value="Add new question"><br>
+</form>
+</body>
+</html>

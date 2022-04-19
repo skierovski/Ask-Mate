@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Question</title>
+    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<h1>Question detail : </h1>
+<a href="/list" > Return to list</a>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <p>Title:</p>
+            </td>
+            <td>
+                {{ selected_question.title }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Message:</p>
+            </td>
+            <td>
+                {{ selected_question.message  }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Image:</p>
+            </td>
+            <td>
+                <img width="300px" src="{{url_for('static', filename=selected_question.image)}}" alt="Question image"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table>
+<thead>
+    <th>Id</th>
+    <th>Submission Time</th>
+    <th>Vote number</th>
+    <th>Message</th>
+    <th>Image</th>
+    <th>Delete</th>
+    </thead>
+<tbody>
+    {% for row in selected_answer %}
+        <tr>
+            <td>
+                {{ row.id }}
+            </td>
+            <td>
+                {{ row.submission_time }}
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/vote-down"><i class="fa-solid fa-angle-down"></i></a>
+                {{ row.vote_number }}
+                <a href="/answer/{{ row.id }}/vote-up"><i class="fa-solid fa-angle-up"></i></a>
+            </td>
+            <td>
+                {{ row.message }}
+            </td>
+            <td>
+                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/delete"> Delete answer</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="/question/{{ selected_question.id }}/delete"> Delete question</a>
+<a href="/question/{{ selected_question.id }}/edit"> Edit question</a>
+<a href="/question/{{ selected_question.id }}/new-answer"> Add answer</a>
+</body>
