@@ -7,40 +7,40 @@
 </head>
 
 <body>
-<div id="header">
-    <p id="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+<div class="header">
+    <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
 </div>
 <h1>Question list</h1>
 
 <table>
     <thead>
-    <th id="list_col1">Id</th>
-    <th id="list_col2">Submission Time<br>
-        <a href="/list?order_by=submission_time&order_direction=asc" id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=submission_time"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    <th class="list_col1">Id</th>
+    <th class="list_col2">Submission Time<br>
+        <a href="/list?order_by=submission_time&order_direction=asc" class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=submission_time"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th id="list_col3">View number<br>
-        <a href="/list?order_by=view_number&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=view_number"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    <th class="list_col3">View number<br>
+        <a href="/list?order_by=view_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=view_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th id="list_col4">Vote number<br>
-        <a href="/list?order_by=vote_number&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=vote_number"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    <th class="list_col4">Vote number<br>
+        <a href="/list?order_by=vote_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=vote_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th id="list_col5">Title<br>
-        <a href="/list?order_by=title&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=title"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+    <th class="list_col5">Title<br>
+        <a href="/list?order_by=title&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=title"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th id="list_col6">
+    <th class="list_col6">
         Message<br>
-        <a href="/list?order_by=message&order_direction=asc"id="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=message"id="UPandDOWN"><i class="fa-solid fa-angle-down"></i>
+        <a href="/list?order_by=message&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+        <a href="/list?order_by=message"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
-    <th id="list_col7">Image</th>
+    <th class="list_col7">Image</th>
     </thead>
     <tbody>
     {% for row in user_question %}
-        <tr id="{{ loop.index % 2 }}" class="{{ loop.index % 2 }}">
+        <tr class="{{ loop.index % 2 }}" class="{{ loop.index % 2 }}">
             <td>
                 {{ row.id }}
             </td>
@@ -51,14 +51,14 @@
                 {{ row.view_number }}
             </td>
             <td>
-                <a href="/question/{{ row.id }}/vote-down" id="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                <a href="/question/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
                 {{ row.vote_number }}
-                <a href="/question/{{ row.id }}/vote-up" id="up"><i class="fa-solid fa-hand-point-up"></i></a>
+                <a href="/question/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
             </td>
             <td>
-                <a href="/question/{{ row.id }}" id="title"> {{ row.title }} </a>
+                <a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a>
             </td>
-            <td id="message">
+            <td class="message">
                 {{ row.message }}
             </td>
             <td>
@@ -69,7 +69,7 @@
     </tbody>
     <tfoot>
     <td colspan="7">
-            <a href="/add-question" id="user_button"> Add new question </a>
+            <a href="/add-question" class="user_button"> Add new question </a>
     </td>
     </tfoot>
 </table>
