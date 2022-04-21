@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
 <title>Question</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
+<div id="header">
+    <p id="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+</div>
 <h1>Question detail : </h1>
-<a href="/list" > Return to list</a>
-<table>
+<a href="/list" id="user_button"> Return to list</a>
+<br><br>
+<table id="question">
     <tbody>
         <tr>
             <td>
@@ -36,7 +41,8 @@
         </tr>
     </tbody>
 </table>
-<table>
+<br>
+<table id="answer">
 <thead>
     <th>Id</th>
     <th>Submission Time</th>
@@ -55,9 +61,9 @@
                 {{ row.submission_time }}
             </td>
             <td>
-                <a href="/answer/{{ row.id }}/vote-down"><i class="fa-solid fa-angle-down"></i></a>
+                <a href="/answer/{{ row.id }}/vote-down"id="down"><i class="fa-solid fa-hand-point-down"></i></a>
                 {{ row.vote_number }}
-                <a href="/answer/{{ row.id }}/vote-up"><i class="fa-solid fa-angle-up"></i></a>
+                <a href="/answer/{{ row.id }}/vote-up" id="up"><i class="fa-solid fa-hand-point-up"></i></a>
             </td>
             <td>
                 {{ row.message }}
@@ -66,13 +72,14 @@
                 <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
             </td>
             <td>
-                <a href="/answer/{{ row.id }}/delete"> Delete answer</a>
+                <a href="/answer/{{ row.id }}/delete" id="title"> Delete answer</a>
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-<a href="/question/{{ selected_question.id }}/delete"> Delete question</a>
-<a href="/question/{{ selected_question.id }}/edit"> Edit question</a>
-<a href="/question/{{ selected_question.id }}/new-answer"> Add answer</a>
+<br>
+<a href="/question/{{ selected_question.id }}/delete" id="user_button"> Delete question</a>
+<a href="/question/{{ selected_question.id }}/edit" id="user_button"> Edit question</a>
+<a href="/question/{{ selected_question.id }}/new-answer" id="user_button"> Add answer</a>
 </body>
