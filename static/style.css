@@ -3,14 +3,14 @@
 
 /* Main style */
 body{
-    background-color: #0D0D0D;
+    background-color: black;
     height: 100vh;
 }
 h1{
     color: #efefef;
 }
 
-#header{
+.header{
     font-family: "Press Start 2P", cursive;
     text-decoration: underline;
     text-decoration-style: dashed;
@@ -21,13 +21,15 @@ h1{
     padding: 10px;
 }
 
-#logo {
+.logo {
     padding-right: 20px;
     border: #efefef;
     border-width: 1px;
 
 }
 
+#logo{ padding-right: 10px;
+}
 /* List table */
 table{
     background-color: #F2F2F2;
@@ -38,7 +40,7 @@ table{
     border-collapse: collapse;
 }
 
-#main{
+.main{
     background-color: #F2F2F2;
     border-radius: 25px;
     padding: 20px;
@@ -48,7 +50,7 @@ table{
     color: black;
 }
 
-#question{
+.question{
     background-color: #F2F2F2;
     border-radius: 25px;
     padding: 20px;
@@ -58,7 +60,7 @@ table{
     color: black;
 }
 
-#answer{
+.answer{
     background-color: #F2F2F2;
     border-radius: 25px;
     padding: 20px;
@@ -76,18 +78,18 @@ thead{
     text-align: center;
 }
 
-#list_col1 {
+.list_col1 {
     width: 3%;
 }
-#list_col2, #list_col3, #list_col4, #list_col7 {
+.list_col2, .list_col3, .list_col4, .list_col7 {
     width: 10%;
     text-align: center;
 }
 
-#list_col5 {
+.list_col5 {
     width: 20%;
 }
-#list_col6 {
+.list_col6 {
     width: 37%;
 }
 
@@ -101,46 +103,46 @@ tfoot{
     padding: 10px;
 }
 
-#message{
+.message{
     text-align: left;
 }
 
 /* Css for links*/
 
 /*Up down link style*/
-a:link#UPandDOWN, a:visited#UPandDOWN {
+a:link.UPandDOWN, a:visited.UPandDOWN {
   color: #2A708C;
 }
 
-a:hover#UPandDOWN, a:active#UPandDOWN {
+a:hover.UPandDOWN, a:active.UPandDOWN {
   color: #D9B2A9;
 }
 
 /*Hand up and down style*/
 
-a:link#up, a:visited#up,a:hover#up, a:active#up {
+a:link.up, a:visited.up,a:hover.up, a:active.up {
   color: #2a8c2c;
 }
 
-a:link#down, a:visited#down,a:hover#down, a:active#down {
+a:link.down, a:visited.down,a:hover.down, a:active.down {
   color: rgba(140, 15, 15, 0.92);
 }
 
 /*Title link style*/
 
-a:link#title, a:visited#title {
+a:link.title, a:visited.title {
     color: #2A708C;
     font-weight: bold;
     text-decoration: none;
 }
 
-a:hover#title, a:active#title {
+a:hover.title, a:active.title {
   color: #D9B2A9;
 }
 
 /*Style for buttons link*/
 
-#user_button {
+.user_button {
 	box-shadow:inset 0px 1px 0px 0px #ffffff;
 	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
 	background-color:#ffffff;
@@ -157,11 +159,11 @@ a:hover#title, a:active#title {
 	text-shadow:0px 1px 0px #ffffff;
     margin-left: 10px;
 }
-#user_button:hover {
+.user_button:hover {
 	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
 	background-color:#f6f6f6;
 }
-#user_button:active {
+.user_button:active {
 	position:relative;
 	top:1px;
 }
