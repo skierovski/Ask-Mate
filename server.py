@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect
 import data_handler
 import additional_functions
 
@@ -29,10 +29,6 @@ templates_answer = {
 
 
 @app.route("/")
-def hello():
-    return "Hello World!"
-
-
 @app.route('/list')
 def route_list():
     questions = data_handler.get_all_question()
@@ -58,7 +54,7 @@ def add_new_question():
     questions = data_handler.get_all_question()
     new_question['id'] = additional_functions.get_index(questions)
     new_question['submission_time'] = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
-    new_question['title'] = request.form['title'] if request.form['title'] else ""
+    new_question['title'] = request.form.get('title', default="") #poprawic
     new_question['message'] = request.form['message'] if request.form['message'] else ""
     upload_file = request.files['file']
     new_question['image'] = additional_functions.file_operation(upload_file)

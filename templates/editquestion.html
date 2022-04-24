@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>New Question</title>
+    <title>Edit Question</title>
 </head>
 <body>
 <div class="header">
     <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
 </div>
 <h1>Add new Question</h1>
+<a href="/list" class="user_button"> Return to list</a>
+<br><br>
 <div class="main">
 <form action="/question/{{ selected_question.id  }}/edit" method="POST" enctype="multipart/form-data">
     <label for="title">Story title:</label><br>
-    <input type="text" name="title" class="title" value={{ selected_question.title}} required><br>
+    <input type="text" name="title" class="title"   value="{{ selected_question.title}}" required><br>
     <label for="message">message</label><br>
     <textarea class="message" name="message" required>{{selected_question.message}}</textarea><br>
     <input type="submit" value="Edit question"><br>
