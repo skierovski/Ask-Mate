@@ -1,14 +1,8 @@
-id,submission_time,view_number,vote_number,title,message,image
-1,1493368154,29,7,"How to make lists in Python?","I am totally new to this, any hints?",
-2,1493068124,15,9,"Wordpress loading multiple jQuery Versions","I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();
-
-I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
-
-BUT in my theme i also using jquery via webpack so the loading order is now following:
-
-jquery
-booklet
-app.js (bundled file with webpack, including jquery)","images/image1.png"
-3,1493015432,1364,57,"Drawing canvas with an image picked with Cordova Camera Plugin","I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
+1,13/04/22 14:06,0,0,How to make: Post an answer,Implement posting a new answer.,website.jpg
+2,13/04/22 14:06,0,0,How to make:  Ask a question,Implement a form that allows the user to add a question.,4.jpg
+3,13/04/22 14:07,0,4,How to make: Delete question,Implement deleting a question.,5.jpg
+5,13/04/22 20:10,0,6,How to make: List questions,Implement the /list page that displays all questions.,adsasadsad7jpg1649873438.926651.jpg
+6,13/04/22 20:18,0,11,How to make:  Add image,Allow the user to upload an image for a question or answer.,adsasadsad7164987393420659.jpg
+7,13/04/22 20:58,0,1,How to make: Display a question,Create the /question/<question_id> page that displays a question and the answers for it.,adsasadsad71649876292571824.jpg
+9,14/04/22 20:26,0,0,How to make: Sort questions,Implement sorting for the question list.,adsasadsad71649960797871819.jpg
+10,24/04/22 15:34,0,0,dsaasd,asddsa,adsasadsad71650807263358249.jpg

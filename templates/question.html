@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Question detail</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="header">
+    <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+</div>
+<h1>Question detail : </h1>
+<a href="/list" class="user_button"> Return to list</a>
+<br><br>
+<table class="question">
+    <tbody>
+        <tr>
+            <td>
+                <p>Title:</p>
+            </td>
+            <td>
+                {{ selected_question.title }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Message:</p>
+            </td>
+            <td>
+                {{ selected_question.message  }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Image:</p>
+            </td>
+            <td>
+                <img width="300px" src="{{url_for('static', filename=selected_question.image)}}" alt="Question image"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<table class="answer">
+<thead>
+    <th>Id</th>
+    <th>Submission Time</th>
+    <th>Vote number</th>
+    <th>Message</th>
+    <th>Image</th>
+    <th>Delete</th>
+    </thead>
+<tbody>
+    {% for row in selected_answer %}
+        <tr>
+            <td>
+                {{ row.id }}
+            </td>
+            <td>
+                {{ row.submission_time }}
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/vote-down"class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                {{ row.vote_number }}
+                <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
+            </td>
+            <td>
+                {{ row.message }}
+            </td>
+            <td>
+                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/delete" class="title"> Delete answer</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+<a href="/question/{{ selected_question.id }}/delete" class="user_button"> Delete question</a>
+<a href="/question/{{ selected_question.id }}/edit" class="user_button"> Edit question</a>
+<a href="/question/{{ selected_question.id }}/new-answer" class="user_button"> Add answer</a>
+</body>
