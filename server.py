@@ -31,7 +31,7 @@ templates_answer = {
 @app.route("/")
 @app.route('/list')
 def route_list():
-    questions = data_handler.get_all_question()
+    questions = data_handler.get_questions()
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
