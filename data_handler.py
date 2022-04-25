@@ -1,18 +1,46 @@
-import csv
-import os
-QUESTIONS = "C:/Users/salon/Codecool/ask-mate-1-python-AdrianRymaszewski/sample_data/question.csv"
-ANSWERS = "C:/Users/salon/Codecool/ask-mate-1-python-AdrianRymaszewski/sample_data/answer.csv"
-QUESTIONS_HEADERS = ["id", "submission_time", "view_number", "vote_number", "title", "message"]
+import database_common
 
-def get_questions():
-    questions = {}
-    result = []
-    with open(QUESTIONS) as file:
-        for row in file:
-            record = row.split(",")
-            questions = dict.fromkeys(QUESTIONS_HEADERS)
-            for i in range(len(record)):
-                questions[QUESTIONS_HEADERS[i]] = record[i]
-            result.append(questions)
-        return result
 
+@database_common.connection_handler
+def get_questions(cursor):
+    query = """
+            SELECT submission_time, view_number, vote_number, title, message, image
+            FROM question
+            ORDER BY submission_time"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_answers(cursor):
+    query = """
+           SELECT id, submission_time, vote_number, question_id, message, image
+           FROM answer
+           ORDER BY first_name"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+def create_list_to_write(list):
+    list_to_return=[]
+    for item in list:
+        list_to_return.append(item.values())
+    return list_to_return
+
+
+def write_table_to_file_question(table, separator=','):
+    with open(DATA_FILE_PATH_QUESTION, "w") as file:
+        for record in table:
+            row = separator.join(record)
+            file.write(row + "\n")
+
+
+def write_table_to_file_answer(table, separator=','):
+    with open(DATA_FILE_PATH_ANSWER, "w") as file:
+        for record in table:
+            row = separator.join(record)
+            file.write(row + "\n")
+
+
+if __name__ == '__main__':
+    res = get_all_question()
+    print(res)
