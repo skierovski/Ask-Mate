@@ -2,7 +2,7 @@ import datetime
 from flask import Flask, render_template, request, redirect
 import data_handler
 import additional_functions
-
+import templates
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static'
