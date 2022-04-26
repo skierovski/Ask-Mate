@@ -35,7 +35,7 @@
                 <p>Image:</p>
             </td>
             <td>
-                <img width="300px" src="{{url_for('static', filename=selected_question.image)}}" alt="Question image"/>
+                <img width="300px" src="" alt="Question image"/>
             </td>
         </tr>
     </tbody>
@@ -68,7 +68,7 @@
                 {{ row.message }}
             </td>
             <td>
-                <img width="100px" src="{{url_for('static', filename=row.image)}}" alt="Question image"/>
+                <img width="100px" src="" alt="Question image"/>
             </td>
             <td>
                 <a href="/answer/{{ row.id }}/delete" class="title"> Delete answer</a>

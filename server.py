@@ -8,26 +8,6 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 
-templates_question = {
-    'id': "",
-    'submission_time': "",
-    'view_number': "0",
-    'vote_number': "0",
-    'title': "",
-    'message': "",
-    'image': "img.png"
-}
-
-templates_answer = {
-    'id': "",
-    'submission_time': "",
-    'vote_number': "0",
-    'question_id': "",
-    'message': "",
-    'image': "img.png"
-}
-
-
 @app.route("/")
 @app.route('/list')
 def route_list():
@@ -40,8 +20,8 @@ def route_list():
 
 @app.route('/question/<q_id>')
 def view_question(q_id):
-    select_question = data_handler.get_all_question(q_id)
-    select_answer = data_handler.get_all_answer(q_id)
+    select_question = data_handler.get_question(q_id)
+    select_answer = data_handler.get_answer(q_id)
     return render_template('question.html', selected_question=select_question, selected_answer=select_answer)
 
 
@@ -50,9 +30,6 @@ def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
 
-    new_question = templates_question.copy()
-    questions = data_handler.get_all_question()
-    new_question['id'] = additional_functions.get_index(questions)
     new_question['submission_time'] = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
     new_question['title'] = request.form.get('title', default="") #poprawic
     new_question['message'] = request.form['message'] if request.form['message'] else ""
