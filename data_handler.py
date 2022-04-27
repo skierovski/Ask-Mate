@@ -67,7 +67,32 @@ def add_question(cursor):
     """
     cursor.execute(query, (new_title, new_message, new_image))
 
+@database_common.connection_handler
+def get_last_id(cursor):
+    query = """
+            SELECT max(id) FROM question"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
+@database_common.connection_handler
+def add_answer(cursor,question_id):
+    new_message = request.form['message']
+    upload_file = request.files['file_answer']
+    new_image = additional_functions.file_operation(upload_file)
+    query = """
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
+        VALUES (now(), 0, %s, %s, %s);    
+    """
+    cursor.execute(query, (question_id, new_message, new_image))
+
+
+@database_common.connection_handler
+def delete_question(cursor, question_id):
+    query = """
+        DELETE FROM question
+        WHERE id= %s;
+    """
+    cursor.execute(query, (question_id,))
 
 
 def create_list_to_write(list):

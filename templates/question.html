@@ -19,7 +19,7 @@
                 <p>Title:</p>
             </td>
             <td>
-                {{ selected_question.title }}
+                {{ selected_question[0].title }}
             </td>
         </tr>
         <tr>
@@ -27,7 +27,7 @@
                 <p>Message:</p>
             </td>
             <td>
-                {{ selected_question.message  }}
+                {{ selected_question[0].message  }}
             </td>
         </tr>
         <tr>
@@ -78,7 +78,7 @@
     </tbody>
 </table>
 <br>
-<a href="/question/{{ selected_question.id }}/delete" class="user_button"> Delete question</a>
-<a href="/question/{{ selected_question.id }}/edit" class="user_button"> Edit question</a>
-<a href="/question/{{ selected_question.id }}/new-answer" class="user_button"> Add answer</a>
+<a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a>
+<a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a>
+<a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a>
 </body>
