@@ -30,7 +30,7 @@ def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
     data_handler.add_question()
-    new_question_index= data_handler.get_last_id()
+    new_question_index = data_handler.get_last_id()
     return redirect(f"/question/{str(new_question_index[0]['max'])}")
 
 
@@ -38,25 +38,13 @@ def add_new_question():
 def add_answer(question_id):
     if request.method == "GET":
         return render_template('newanswer.html', question_id=question_id)
-
-    answer = data_handler.get_all_answer()
-    new_answer = templates_answer.copy()
-    new_answer['id'] = additional_functions.get_index(answer)
-    new_answer['submission_time'] = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
-    new_answer['question_id'] = question_id
-    new_answer['message'] = request.form['message'] if 'message' in request.form else ""
-    upload_file = request.files['file_answer']
-    new_answer['image'] = additional_functions.file_operation(upload_file)
-    answer.append(new_answer)
-    data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answer))
+    data_handler.add_answer(question_id)
     return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/question/<q_id>/delete')
 def delete_question(q_id):
-    questions = data_handler.get_all_question()
-    questions = [item for item in questions if item['id'] != str(q_id)]
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
+    data_handler.delete_question(q_id)
     return redirect("/list")
 
 
