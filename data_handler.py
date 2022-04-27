@@ -13,7 +13,7 @@ STATUSES = ['planning', 'todo', 'in progress', 'review', 'done']
 @database_common.connection_handler
 def get_questions(cursor):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image
+            SELECT *
             FROM question
             ORDER BY submission_time"""
     cursor.execute(query)
@@ -23,7 +23,7 @@ def get_questions(cursor):
 @database_common.connection_handler
 def get_question(cursor, q_id):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image
+            SELECT *
             FROM question
             WHERE id = %s
             ORDER BY submission_time"""
@@ -34,7 +34,7 @@ def get_question(cursor, q_id):
 @database_common.connection_handler
 def get_answer(cursor, q_id):
     query = """
-           SELECT id, submission_time, vote_number, question_id, message, image
+           SELECT *
            FROM answer
            WHERE question_id = %s
            ORDER BY submission_time"""
@@ -45,7 +45,7 @@ def get_answer(cursor, q_id):
 @database_common.connection_handler
 def get_answers(cursor):
     query = """
-           SELECT id, submission_time, vote_number, question_id, message, image
+           SELECT *
            FROM answer
            ORDER BY first_name"""
     cursor.execute(query)
@@ -71,6 +71,19 @@ def get_last_id(cursor):
             SELECT max(id) FROM question"""
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def add_answer(cursor, question_id):
+    upload_file = request.files['file']
+    image_name = additional_functions.file_operation(upload_file)
+    message = request.form['message']
+    query = """
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
+        VALUES (now(), 0, %s, %s, %s);    
+    """
+    cursor.execute(query, (question_id, message, image_name))
+
 
 
 def create_list_to_write(list):
