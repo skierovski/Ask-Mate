@@ -2,7 +2,6 @@ import datetime
 from flask import Flask, render_template, request, redirect
 import data_handler
 import additional_functions
-import templates
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static'
@@ -29,15 +28,9 @@ def view_question(q_id):
 def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
-
-    new_question['submission_time'] = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
-    new_question['title'] = request.form.get('title', default="") #poprawic
-    new_question['message'] = request.form['message'] if request.form['message'] else ""
-    upload_file = request.files['file']
-    new_question['image'] = additional_functions.file_operation(upload_file)
-    questions.append(new_question)
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
-    return redirect(f"/question/{str(new_question['id'])}")
+    data_handler.add_question()
+    question_id = data_handler.get_last_id()
+    return redirect(f"/question/{str(question_id[0]['max'])}")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
