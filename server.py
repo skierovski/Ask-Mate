@@ -65,15 +65,10 @@ def edit_question(q_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    answers = data_handler.get_all_answer()
-    question_id = ""
-    for item in answers:
-        if item['id'] == str(answer_id):
-            question_id = item['question_id']
-            answers.remove(item)
-    data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
-    link_direct = "/question/" + str(question_id)
-    return redirect(link_direct)
+    int_answer_id = int(answer_id)
+    question_id = data_handler.get_id(int_answer_id)
+    data_handler.delete_answer(answer_id)
+    return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/question/<question_id>/<vote>')

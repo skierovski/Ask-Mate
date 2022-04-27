@@ -1,5 +1,6 @@
 import os
 import datetime
+
 DATA_FILE_PATH_QUESTION = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/question.csv'
 DATA_FILE_PATH_ANSWER = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.environ else 'sample_data/answer.csv'
 DATA_HEADER_QUESTION = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
@@ -43,8 +44,6 @@ def get_answer(cursor, q_id):
     return cursor.fetchall()
 
 
-
-
 @database_common.connection_handler
 def get_answers(cursor):
     query = """
@@ -54,9 +53,10 @@ def get_answers(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def add_question(cursor):
-    #new_submission = datetime.datetime.now().strftime("%d/%m/%y %H:%M")
+    # new_submission = datetime.datetime.now().strftime("%d/%m/%y %H:%M")
     new_title = request.form.get('title', default="")  # poprawic
     new_message = request.form['message']
     upload_file = request.files['file']
@@ -67,6 +67,7 @@ def add_question(cursor):
     """
     cursor.execute(query, (new_title, new_message, new_image))
 
+
 @database_common.connection_handler
 def get_last_id(cursor):
     query = """
@@ -74,8 +75,9 @@ def get_last_id(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
-def add_answer(cursor,question_id):
+def add_answer(cursor, question_id):
     new_message = request.form['message']
     upload_file = request.files['file_answer']
     new_image = additional_functions.file_operation(upload_file)
@@ -94,28 +96,26 @@ def delete_question(cursor, question_id):
     """
     cursor.execute(query, (question_id,))
 
+@database_common.connection_handler
+def delete_answer(cursor, answer_id):
+    query = """
+           DELETE
+           FROM answer
+           WHERE id = %s"""
+    query_1 = """
+            DELETE
+            FROM comment
+            WHERE answer_id = %s"""
 
-def create_list_to_write(list):
-    list_to_return=[]
-    for item in list:
-        list_to_return.append(item.values())
-    return list_to_return
-
-
-def write_table_to_file_question(table, separator=','):
-    with open(DATA_FILE_PATH_QUESTION, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
-
-
-def write_table_to_file_answer(table, separator=','):
-    with open(DATA_FILE_PATH_ANSWER, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
+    cursor.execute(query_1, (answer_id,))
+    cursor.execute(query, (answer_id,))
 
 
-if __name__ == '__main__':
-    res = get_all_question()
-    print(res)
+@database_common.connection_handler
+def get_id(cursor, answer_id):
+    query = """
+           SELECT question_id
+           FROM answer
+           WHERE id = %s"""
+    cursor.execute(query, (int(answer_id),))
+
