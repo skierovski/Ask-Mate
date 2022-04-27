@@ -2,6 +2,7 @@ import datetime
 from flask import Flask, render_template, request, redirect
 import data_handler
 import additional_functions
+import templates
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static'
@@ -29,8 +30,8 @@ def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
     data_handler.add_question()
-    question_id = data_handler.get_last_id()
-    return redirect(f"/question/{str(question_id[0]['max'])}")
+    new_question_index = data_handler.get_last_id()
+    return redirect(f"/question/{str(new_question_index[0]['max'])}")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
@@ -43,9 +44,7 @@ def add_answer(question_id):
 
 @app.route('/question/<q_id>/delete')
 def delete_question(q_id):
-    questions = data_handler.get_all_question()
-    questions = [item for item in questions if item['id'] != str(q_id)]
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
+    data_handler.delete_question(q_id)
     return redirect("/list")
 
 
