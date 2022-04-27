@@ -67,6 +67,12 @@ def add_question(cursor):
     """
     cursor.execute(query, (new_title, new_message, new_image))
 
+@database_common.connection_handler
+def get_last_id(cursor):
+    query = """
+            SELECT max(id) FROM question"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 

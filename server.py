@@ -30,7 +30,8 @@ def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
     data_handler.add_question()
-    return redirect(f"/question/<q_id>")
+    new_question_index= data_handler.get_last_id()
+    return redirect(f"/question/{str(new_question_index[0]['max'])}")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
