@@ -29,15 +29,8 @@ def view_question(q_id):
 def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
-
-    new_question['submission_time'] = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
-    new_question['title'] = request.form.get('title', default="") #poprawic
-    new_question['message'] = request.form['message'] if request.form['message'] else ""
-    upload_file = request.files['file']
-    new_question['image'] = additional_functions.file_operation(upload_file)
-    questions.append(new_question)
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
-    return redirect(f"/question/{str(new_question['id'])}")
+    data_handler.add_question()
+    return redirect(f"/question/<q_id>")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
