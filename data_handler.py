@@ -5,7 +5,7 @@ DATA_FILE_PATH_ANSWER = os.getenv('DATA_FILE_PATH') if 'DATA_FILE_PATH' in os.en
 DATA_HEADER_QUESTION = ['id', 'submission_time', 'view_number', 'vote_number', 'title', 'message', 'image']
 DATA_HEADER_ANSWER = ['id', 'submission_time', 'vote_number', 'question_id', 'message', 'image']
 STATUSES = ['planning', 'todo', 'in progress', 'review', 'done']
-
+from flask import request
 import additional_functions
 
 import database_common
@@ -55,18 +55,22 @@ def get_answers(cursor):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question(cursor, request):
+def add_question(cursor):
+    #new_submission = datetime.datetime.now().strftime("%d/%m/%y %H:%M")
+    new_title = request.form.get('title', default="")  # poprawic
+    new_message = request.form['message']
     upload_file = request.files['file']
-    image_name = additional_functions.file_operation(upload_file)
-    message = request.form['message']
-    title = request.form.get('title', default="")
-    time = str(datetime.datetime.now().strftime("%d/%m/%y %H:%M"))
+    new_image = additional_functions.file_operation(upload_file)
     query = """
-    INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
-    VALUES (time,title,message,image_name )
-    
+        INSERT INTO question (submission_time, title, message, image) VALUES (now(), %s, %s, %s);
+        SELECT id
+    FROM question
+    ORDER BY id DESC
+    LIMIT 1;
+        
     """
-
+    cursor.execute(query, (new_title, new_message, new_image))
+    return cursor.fetchall()
 
 
 
