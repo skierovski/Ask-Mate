@@ -62,15 +62,11 @@ def add_question(cursor):
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image) VALUES (now(), 0, 0, %s, %s, %s);
-        SELECT id
-    FROM question
-    ORDER BY id DESC
-    LIMIT 1;
-        
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
+        VALUES (now(), 0, 0, %s, %s, %s);    
     """
     cursor.execute(query, (new_title, new_message, new_image))
-    return cursor.fetchall()
+
 
 
 
