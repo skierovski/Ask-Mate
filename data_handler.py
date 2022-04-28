@@ -94,28 +94,27 @@ def delete_question(cursor, question_id):
     """
     cursor.execute(query, (question_id,))
 
+@database_common.connection_handler
+def delete_answer(cursor, answers_id):
+    query = """
+        DELETE FROM answer
+        WHERE id = %s;
+    """
+    query_1 = """
+        DELETE FROM comment
+        WHERE answer_id = %s;
+    """
+    cursor.execute(query_1, (answers_id,))
+    cursor.execute(query, (answers_id,))
 
-def create_list_to_write(list):
-    list_to_return=[]
-    for item in list:
-        list_to_return.append(item.values())
-    return list_to_return
+@database_common.connection_handler
+def get_id(cursor, answers_id):
+    query = """
+           SELECT question_id
+           FROM answer
+           WHERE question_id = %s
+           """
+    cursor.execute(query, (answers_id,))
+    return cursor.fetchall()
 
 
-def write_table_to_file_question(table, separator=','):
-    with open(DATA_FILE_PATH_QUESTION, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
-
-
-def write_table_to_file_answer(table, separator=','):
-    with open(DATA_FILE_PATH_ANSWER, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
-
-
-if __name__ == '__main__':
-    res = get_all_question()
-    print(res)

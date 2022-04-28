@@ -65,29 +65,15 @@ def edit_question(q_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    answers = data_handler.get_all_answer()
-    question_id = ""
-    for item in answers:
-        if item['id'] == str(answer_id):
-            question_id = item['question_id']
-            answers.remove(item)
-    data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
-    link_direct = "/question/" + str(question_id)
-    return redirect(link_direct)
+    question_id = data_handler.get_id(answer_id)
+    data_handler.delete_answer(answer_id)
+    return redirect("/question/" + str(question_id))
 
 
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
     questions = data_handler.get_all_question()
     questions = additional_functions.vote(questions, question_id, 1 if vote == 'vote-up' else -1)
-    # if vote == 'vote-up':
-    #     for item in questions:
-    #         if item['id'] == question_id:
-    #             item['vote_number'] = str(int(item['vote_number']) + 1)
-    # elif vote == 'vote-down':
-    #     for item in questions:
-    #         if item['id'] == question_id:
-    #             item['vote_number'] = str(int(item['vote_number']) + 1)
     data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
     return redirect("/list")
 
