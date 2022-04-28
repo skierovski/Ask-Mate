@@ -117,5 +117,5 @@ def get_id(cursor, answer_id):
            SELECT question_id
            FROM answer
            WHERE id = %s"""
-    cursor.execute(query, (int(answer_id),))
-
+    cursor.execute(query, (answer_id,))
+    return cursor.fetchall()

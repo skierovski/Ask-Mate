@@ -65,10 +65,9 @@ def edit_question(q_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    int_answer_id = int(answer_id)
-    question_id = data_handler.get_id(int_answer_id)
+    q_id = data_handler.get_id(int(answer_id))
     data_handler.delete_answer(answer_id)
-    return redirect(f"/question/{str(question_id)}")
+    return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
 
 @app.route('/question/<question_id>/<vote>')
