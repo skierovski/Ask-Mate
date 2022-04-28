@@ -65,19 +65,19 @@ def delete_answer(answer_id):
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
 
-@app.route('/<question>/<question_id>/<vote>')
-def vote_question(question_id, vote, question):
+@app.route('/question/<question_id>/<vote>')
+def vote_question(question_id, vote):
     direction = 1 if vote == 'vote-up' else -1
-    data_handler.vote(question, direction, question_id)
+    data_handler.vote('question', direction, question_id)
     return redirect("/list")
 
 
-@app.route('/<answer>/<answer_id>/<vote>')
-def vote_answer(answer_id, vote, answer):
+@app.route('/answer/<answer_id>/<vote>')
+def vote_answer(answer_id, vote):
     direction = 1 if vote == 'vote-up' else -1
-    data_handler.vote(answer, direction, answer_id)
+    data_handler.vote('answer', direction, answer_id)
     question_id = data_handler.get_id(int(answer_id))
-    return redirect(f"/qfuestion/{str(question_id[0]['question_id'])}")
+    return redirect(f"/question/{str(question_id[0]['question_id'])}")
 
 
 if __name__ == "__main__":
