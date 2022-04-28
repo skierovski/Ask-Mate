@@ -51,15 +51,10 @@ def delete_question(q_id):
 @app.route('/question/<q_id>/edit', methods=['POST', 'GET'])
 def edit_question(q_id):
     if request.method == 'GET':
-        select_question = data_handler.get_all_question(q_id)
+        select_question = data_handler.get_question(q_id)
         return render_template('editquestion.html', selected_question=select_question)
 
-    questions = data_handler.get_all_question()
-    for item in questions:
-        if item['id'] == str(q_id):
-            item['title'] = request.form['title'] if 'title' in request.form else item['title']
-            item['message'] = request.form['message'] if 'message' in request.form else item['message']
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
+    data_handler.update_question(q_id)
     return redirect(f"/question/{str(q_id)}")
 
 
@@ -74,6 +69,7 @@ def delete_answer(answer_id):
     data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
     link_direct = "/question/" + str(question_id)
     return redirect(link_direct)
+    return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/question/<question_id>/<vote>')

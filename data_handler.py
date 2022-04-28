@@ -57,7 +57,7 @@ def get_answers(cursor):
 @database_common.connection_handler
 def add_question(cursor):
     #new_submission = datetime.datetime.now().strftime("%d/%m/%y %H:%M")
-    new_title = request.form.get('title', default="")  # poprawic
+    new_title = request.form.get('title', default="")
     new_message = request.form['message']
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
@@ -93,6 +93,18 @@ def delete_question(cursor, question_id):
         WHERE id= %s;
     """
     cursor.execute(query, (question_id,))
+
+@database_common.connection_handler
+def update_question(cursor, question_id):
+    new_title = request.form.get('title', default="")
+    new_message = request.form['message']
+    query = """
+        UPDATE question 
+        SET title= %s, message =%s
+     WHERE id = %s;
+    """
+    cursor.execute(query, (new_title,new_message,int(question_id)))
+
 
 
 def create_list_to_write(list):
