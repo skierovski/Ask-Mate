@@ -14,11 +14,11 @@
 <a href="/list" class="user_button"> Return to list</a>
 <br><br>
 <div class="main">
-<form action="/question/{{ selected_question.id  }}/edit" method="POST" enctype="multipart/form-data">
+<form action="/question/{{ selected_question[0].id  }}/edit" method="POST" enctype="multipart/form-data">
     <label for="title">Story title:</label><br>
-    <input type="text" name="title" class="title"   value="{{ selected_question.title}}" required><br>
+    <input type="text" name="title" class="title"   value="{{ selected_question[0].title}}" required><br>
     <label for="message">message</label><br>
-    <textarea class="message" name="message" required>{{selected_question.message}}</textarea><br>
+    <textarea class="message" name="message" required>{{selected_question[0].message}}</textarea><br>
     <input type="submit" value="Edit question"><br>
 </form></div>
 </body>
