@@ -2,7 +2,6 @@ import datetime
 from flask import Flask, render_template, request, redirect
 import data_handler
 import additional_functions
-import templates
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static'
@@ -30,8 +29,8 @@ def add_new_question():
     if request.method == "GET":
         return render_template('newquestion.html')
     data_handler.add_question()
-    new_question_index = data_handler.get_last_id()
-    return redirect(f"/question/{str(new_question_index[0]['max'])}")
+    question_id = data_handler.get_last_id()
+    return redirect(f"/question/{str(question_id[0]['max'])}")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
@@ -44,7 +43,9 @@ def add_answer(question_id):
 
 @app.route('/question/<q_id>/delete')
 def delete_question(q_id):
-    data_handler.delete_question(q_id)
+    questions = data_handler.get_all_question()
+    questions = [item for item in questions if item['id'] != str(q_id)]
+    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
     return redirect("/list")
 
 
@@ -65,15 +66,29 @@ def edit_question(q_id):
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    question_id = data_handler.get_id(answer_id)
-    data_handler.delete_answer(answer_id)
-    return redirect("/question/" + str(question_id))
+    answers = data_handler.get_all_answer()
+    question_id = ""
+    for item in answers:
+        if item['id'] == str(answer_id):
+            question_id = item['question_id']
+            answers.remove(item)
+    data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
+    link_direct = "/question/" + str(question_id)
+    return redirect(link_direct)
 
 
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
     questions = data_handler.get_all_question()
     questions = additional_functions.vote(questions, question_id, 1 if vote == 'vote-up' else -1)
+    # if vote == 'vote-up':
+    #     for item in questions:
+    #         if item['id'] == question_id:
+    #             item['vote_number'] = str(int(item['vote_number']) + 1)
+    # elif vote == 'vote-down':
+    #     for item in questions:
+    #         if item['id'] == question_id:
+    #             item['vote_number'] = str(int(item['vote_number']) + 1)
     data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
     return redirect("/list")
 
