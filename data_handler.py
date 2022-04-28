@@ -92,6 +92,21 @@ def delete_question(cursor, question_id):
         DELETE FROM question
         WHERE id= %s;
     """
+    query_1 = """
+        DELETE FROM answer
+        WHERE question_id= %s;
+    """
+    query_2 = """
+            DELETE FROM comment
+            WHERE question_id= %s;
+        """
+    query_3 = """
+                DELETE FROM question_tag
+                WHERE question_id= %s;
+            """
+    cursor.execute(query_3, (question_id,))
+    cursor.execute(query_2, (question_id,))
+    cursor.execute(query_1, (question_id,))
     cursor.execute(query, (question_id,))
 
 @database_common.connection_handler
@@ -103,22 +118,9 @@ def update_question(cursor, question_id):
         SET title= %s, message =%s
      WHERE id = %s;
     """
-    cursor.execute(query, (new_title,new_message,int(question_id)))
+    cursor.execute(query, (new_title,new_message,question_id))
 
 
-
-def create_list_to_write(list):
-    list_to_return=[]
-    for item in list:
-        list_to_return.append(item.values())
-    return list_to_return
-
-
-def write_table_to_file_question(table, separator=','):
-    with open(DATA_FILE_PATH_QUESTION, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
     query = """
@@ -133,11 +135,6 @@ def delete_answer(cursor, answer_id):
     cursor.execute(query_1, (answer_id,))
     cursor.execute(query, (answer_id,))
 
-def write_table_to_file_answer(table, separator=','):
-    with open(DATA_FILE_PATH_ANSWER, "w") as file:
-        for record in table:
-            row = separator.join(record)
-            file.write(row + "\n")
 
 @database_common.connection_handler
 def get_id(cursor, answer_id):
@@ -147,3 +144,18 @@ def get_id(cursor, answer_id):
            WHERE id = %s"""
     cursor.execute(query, (answer_id,))
     return cursor.fetchall()
+@database_common.connection_handler
+def vote(cursor, table, direction, id):
+    if table == 'question':
+        query = """
+            UPDATE question
+            SET vote_number = vote_number + %s
+            WHERE id = %s
+        """
+    else:
+        query = """
+                UPDATE answer
+                SET vote_number = vote_number + %s
+                WHERE id = %s
+            """
+    cursor.execute(query, (direction, id))

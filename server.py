@@ -65,29 +65,19 @@ def delete_answer(answer_id):
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
 
-@app.route('/question/<question_id>/<vote>')
-def vote_question(question_id, vote):
-    questions = data_handler.get_all_question()
-    questions = additional_functions.vote(questions, question_id, 1 if vote == 'vote-up' else -1)
-    # if vote == 'vote-up':
-    #     for item in questions:
-    #         if item['id'] == question_id:
-    #             item['vote_number'] = str(int(item['vote_number']) + 1)
-    # elif vote == 'vote-down':
-    #     for item in questions:
-    #         if item['id'] == question_id:
-    #             item['vote_number'] = str(int(item['vote_number']) + 1)
-    data_handler.write_table_to_file_question(data_handler.create_list_to_write(questions))
+@app.route('/<question>/<question_id>/<vote>')
+def vote_question(question_id, vote, question):
+    direction = 1 if vote == 'vote-up' else -1
+    data_handler.vote(question, direction, question_id)
     return redirect("/list")
 
 
-@app.route('/answer/<answer_id>/<vote>')
-def vote_answer(answer_id, vote):
-    answers = data_handler.get_all_answer()
-    question_id = int([a['question_id'] for a in answers if a['id'] == answer_id].pop())
-    answers = additional_functions.vote(answers, answer_id, 1 if vote == 'vote-up' else -1)
-    data_handler.write_table_to_file_answer(data_handler.create_list_to_write(answers))
-    return redirect(f"/question/{str(question_id)}")
+@app.route('/<answer>/<answer_id>/<vote>')
+def vote_answer(answer_id, vote, answer):
+    direction = 1 if vote == 'vote-up' else -1
+    data_handler.vote(answer, direction, answer_id)
+    question_id = data_handler.get_id(int(answer_id))
+    return redirect(f"/qfuestion/{str(question_id[0]['question_id'])}")
 
 
 if __name__ == "__main__":
