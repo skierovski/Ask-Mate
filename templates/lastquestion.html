@@ -10,15 +10,10 @@
 <div class="header">
     <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
 </div>
-<div>
-        <form action="/search-phrase">
-            <label for="search-input">Filter by mentor last name:</label>
-            <input id="search-input" type="text" name="search-phrase">
-            <button type="submit">Search</button>
-        </form>
-</div>
-<h1>Question list</h1>
 
+<h1>Last Question</h1>
+<a href="/list" class="user_button"> All question list</a>
+<br><br>
 <table>
     <thead>
     <th class="list_col1">Id</th>
@@ -74,11 +69,6 @@
         </tr>
     {% endfor %}
     </tbody>
-    <tfoot>
-    <td colspan="7">
-            <a href="/add-question" class="user_button"> Add new question </a>
-    </td>
-    </tfoot>
 </table>
 
 </body>

@@ -38,8 +38,25 @@
                 <img width="300px" src="" alt="Question image"/>
             </td>
         </tr>
+        <tr>
+            <td>
+                <p>Tags:<a href="/question/{{ selected_question[0].id }}/new-tag" class="title"> <i class="fa-solid fa-plus"></i></a></p>
+            </td>
+            <td>
+                {% if selected_question_tag|length == 0 %}
+                    No Tags
+                {% else %}
+                     {% for tag in selected_question_tag %}
+                         {{ tag.name }}
+                     {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+
     </tbody>
 </table>
+<br>
+<h1>Answers:</h1>
 <br>
 <table class="answer">
 <thead>
@@ -49,6 +66,8 @@
     <th>Message</th>
     <th>Image</th>
     <th>Delete</th>
+    <th>Edit</th>
+    <th>Comment</th>
     </thead>
 <tbody>
     {% for row in selected_answer %}
@@ -60,7 +79,7 @@
                 {{ row.submission_time }}
             </td>
             <td>
-                <a href="/answer/{{ row.id }}/vote-down"class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                <a href="/answer/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
                 {{ row.vote_number }}
                 <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
             </td>
@@ -71,7 +90,54 @@
                 <img width="100px" src="" alt="Question image"/>
             </td>
             <td>
-                <a href="/answer/{{ row.id }}/delete" class="title"> Delete answer</a>
+                <a href="/answer/{{ row.id }}/delete" class="title"> <i class="fa-solid fa-trash"></i></a>
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/edit" class="title"> <i class="fa-solid fa-file-pen"></i></a>
+            </td>
+            <td>
+                <a href="/answer/{{ row.id }}/new-comment" class="title"> <i class="fa-solid fa-plus"></i></a>
+            </td>
+        </tr>
+        {% for comment in selected_answer_comments %}
+
+            {% if comment.answer_id  ==  row.id  %}
+                <tr>
+                    <td colspan="3"> {{ comment.submission_time }}{% if comment.edited_count != 0 %}
+        <i class="fa-solid fa-user-pen"></i>Edited {{ comment.edited_count }} times.
+    {% endif %}</td>
+                    <td colspan="4">{{ comment.message }}
+                    </Td>
+                    <td colspan="1">
+                        <a href="/comment/{{ comment.id }}/edit" class="title"> <i class="fa-solid fa-file-pen"></i></a>
+                        <a href="/comments/{{ comment.id }}/delete" class="title" onclick="return confirm('Are you sure you want to delete this comment?')"> <i class="fa-solid fa-trash"></i></a>
+                    </Td>
+                </tr>
+            {% endif %}
+
+        {% endfor %}
+
+
+
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+<h1>Comments:</h1>
+<br>
+<table class="comment">
+<thead>
+    <th>Submission Time</th>
+    <th>Message</th>
+    </thead>
+<tbody>
+    {% for row in selected_question_comments %}
+        <tr>
+            <td>
+                {{ row.submission_time }}
+            </td>
+            <td>
+                {{ row.message }}
             </td>
         </tr>
     {% endfor %}
@@ -81,4 +147,6 @@
 <a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a>
 <a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a>
 <a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a>
+<a href="/question/{{ selected_question[0].id }}/new-comment" class="user_button"> Add comment</a>
 </body>
+</html>

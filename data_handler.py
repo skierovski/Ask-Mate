@@ -137,6 +137,8 @@ def get_id(cursor, answer_id):
            WHERE id = %s"""
     cursor.execute(query, (answer_id,))
     return cursor.fetchall()
+
+
 @database_common.connection_handler
 def vote(cursor, table, direction, id):
     if table == 'question':
@@ -152,3 +154,131 @@ def vote(cursor, table, direction, id):
                 WHERE id = %s
             """
     cursor.execute(query, (direction, id))
+
+
+@database_common.connection_handler
+def get_question_comments(cursor, q_id):
+    query = """
+           SELECT id, answer_id, submission_time, question_id, message, edited_count
+           FROM comment
+           WHERE question_id = %s AND answer_id is NULL 
+           ORDER BY submission_time"""
+    cursor.execute(query, (q_id,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def add_question_comment(cursor, question_id):
+    new_message = request.form['message']
+    query = """
+        INSERT INTO comment (question_id, message, submission_time, edited_count ) 
+        VALUES (%s, %s, now(), 0);    
+    """
+    cursor.execute(query, (question_id, new_message))
+
+@database_common.connection_handler
+def get_answer_comments(cursor, question_id):
+    query = """
+           SELECT id, submission_time, question_id, answer_id, message, edited_count
+           FROM comment
+           WHERE question_id = %s
+           ORDER BY submission_time"""
+    cursor.execute(query, (question_id,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def add_answer_comment(cursor, answer_id, question_id):
+    new_message = request.form['message']
+    query = """
+        INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count ) 
+        VALUES (%s, %s, %s, now(), 0);    
+    """
+    cursor.execute(query, (question_id[0]['question_id'],answer_id, new_message))
+
+@database_common.connection_handler
+def search_question(cursor, search_phrase):
+    query = """
+            SELECT * FROM question
+            WHERE title like '%{}%' or message like '%{}%'   
+        """.format(search_phrase,search_phrase)
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def update_answer(cursor, answer_id):
+    new_message = request.form['message']
+    query = """
+        UPDATE answer 
+        SET message =%s
+     WHERE id = %s;
+    """
+    cursor.execute(query, (new_message, answer_id))
+
+@database_common.connection_handler
+def get_answer_to_edit(cursor, q_id):
+    query = """
+           SELECT id, submission_time, vote_number, question_id, message, image
+           FROM answer
+           WHERE id = %s
+           ORDER BY submission_time"""
+    cursor.execute(query, (q_id,))
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_comment_to_edit(cursor, c_id):
+    query = """
+           SELECT *
+           FROM comment
+           WHERE id = %s
+           ORDER BY submission_time"""
+    cursor.execute(query, (c_id,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def update_comment(cursor, comment_id):
+    new_message = request.form['message']
+    query = """
+        UPDATE comment 
+        SET edited_count = edited_count + 1, message =%s, submission_time = now()
+     WHERE id = %s;
+    """
+    cursor.execute(query, (new_message, comment_id))
+
+
+@database_common.connection_handler
+def get_q_id_from_comment(cursor, comment_id):
+    query = """
+           SELECT question_id
+           FROM comment
+           WHERE id = %s"""
+    cursor.execute(query, (comment_id,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def delete_comment(cursor, comment_id):
+    query = """
+            DELETE
+            FROM comment
+            WHERE id = %s"""
+    cursor.execute(query, (comment_id,))
+
+
+@database_common.connection_handler
+def get_n_last_question(cursor, n):
+    query = """
+           SELECT * 
+           FROM question 
+           ORDER BY submission_time desc limit %s;"""
+    cursor.execute(query, (n,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def get_tags_for_question(cursor, question_id):
+    query = """
+            SELECT question_tag.question_id, question_tag.tag_id, tag.name
+            FROM question_tag
+            INNER JOIN tag ON question_tag.tag_id=tag.id
+            WHERE question_tag.question_id = %s;"""
+    cursor.execute(query, (question_id,))
+    return cursor.fetchall()
