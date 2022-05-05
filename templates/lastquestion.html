@@ -1,74 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
 <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
     <title>Question list</title>
 </head>
 
 <body>
+
 <div class="header">
-    <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    </div>
+
 </div>
 
-<h1>Last Question</h1>
-<a href="/list" class="user_button"> All question list</a>
-<br><br>
-<table>
-    <thead>
-    <th class="list_col1">Id</th>
-    <th class="list_col2">Submission Time<br>
-        <a href="/list?order_by=submission_time&order_direction=asc" class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=submission_time"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
-    </th>
-    <th class="list_col3">View number<br>
-        <a href="/list?order_by=view_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=view_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
-    </th>
-    <th class="list_col4">Vote number<br>
-        <a href="/list?order_by=vote_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=vote_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
-    </th>
-    <th class="list_col5">Title<br>
-        <a href="/list?order_by=title&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=title"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
-    </th>
-    <th class="list_col6">
-        Message<br>
-        <a href="/list?order_by=message&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
-        <a href="/list?order_by=message"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
-    </th>
-    <th class="list_col7">Image</th>
-    </thead>
-    <tbody>
-    {% for row in user_question %}
-        <tr>
-            <td>
-                {{ row.id }}
-            </td>
-            <td>
-                {{ row.submission_time }}
-            </td>
-            <td>
-                {{ row.view_number }}
-            </td>
-            <td>
-                <a href="/question/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
-                {{ row.vote_number }}
-                <a href="/question/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
-            </td>
-            <td>
-                <a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a>
-            </td>
-            <td class="message">
-                {{ row.message }}
-            </td>
-            <td>
-                <img width="100px" src="{{row.image}}" alt="Question image"/>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class="main">
+    <div class="title">
+        <h1>Last Question</h1>
+        <a href="/list" class="user_button"> All question list</a>
+    </div>
 
+    {% for row in user_question %}
+        <div class="list-question">
+            <div class="question-statistic">
+                <div ><p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p> </div>
+                <div><p><span class="static_value">{{ row.vote_number }}</span><span class="static_txt"> question votes</span></p></div>
+            </div>
+
+            <div class="question-image">
+                <img width="130px" src="/static/img.png" alt="Question image"/>
+            </div>
+            <div class="question-details"></div>
+        {{ row.submission_time }}
+        <a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a>
+         {{ row.message }}
+        <img widtr="100px" src="{{row.image}}" alt="Question image"/>
+        </div>
+    {% endfor %}
+</div>
+<div class="footer">Team APA</div>
 </body>
