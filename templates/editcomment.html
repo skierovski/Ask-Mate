@@ -1,23 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
     <title>Edit comment</title>
 </head>
+
 <body>
+
 <div class="header">
-    <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    </div>
+
 </div>
-<h1>Edit comment</h1>
-<a href="/list" class="user_button"> Return to list</a>
-<br><br>
+
 <div class="main">
-<form action="/comment/{{ selected_comment[0].id  }}/edit" method="POST" enctype="multipart/form-data">
-    <label for="message">message</label><br>
-    <textarea class="message" name="message" required>{{selected_comment[0].message}}</textarea><br>
-    <input type="submit" value="Edit comment"><br>
-</form></div>
+    <div class="title">
+        <h1>Edit comment</h1>
+        <a href="/list" class="user_button"> All question list</a>
+    </div>
+
+        <div class="list-question">
+            <div class="question-footer" style="width: 832px">
+            <form action="/comment/{{ selected_comment[0].id  }}/edit" method="POST" enctype="multipart/form-data">
+                <label class="static_txt" for="message">Message:</label><br>
+                <textarea class="message" name="message" required>{{selected_comment[0].message}}</textarea><br>
+                <input class="user_button" type="submit" value="Edit comment"><br>
+            </form>
+            </div>
+        </div>
+</div>
+<div class="footer">Team APA</div>
 </body>
 </html>
+

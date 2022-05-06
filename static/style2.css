@@ -14,7 +14,7 @@ body{
   position: fixed;
   top: 0;
   width: 100%;
-  overflow: hide;
+  overflow: hidden;
 }
 
 .main {
@@ -23,13 +23,13 @@ body{
   margin-bottom: 100px;
   margin-top: 100px;
   overflow: auto;
-  width: 60%;
+  width: 900px;
 }
 
 .footer {
   position: fixed;
   bottom: 0px;
-  overflow: hide;
+  overflow: hidden;
   width: 100%;
   background-color: #212130;
   color: #F93A0B;
@@ -92,9 +92,10 @@ h1{
     margin: 10px;
     padding: 10px 30px 10px 10px;
     text-align: right;
-    width: 15%;
+    width: 22%;
     background-color: #17171E;
     border-radius: 25px;
+    height: 80px;
 
 }
 
@@ -103,24 +104,56 @@ h1{
     margin: 10px;
     padding: 20px;
     text-align: center;
-    width: 15%;
+    width: 22%;
     background-color: #17171E;
     border-radius: 25px;
+    height: 150px;
 
 }
 
+
+
 .question-details{
-    position: relative;
      z-index: 0;
-    left: 185px;
-    top: -276px;
     margin: 10px;
     padding: 20px;
-    text-align: center;
-    width: 73%;
-    height: 400px;
+    text-align: left;
+    width: 78%;
     background-color: #17171E;
-    border-radius: 25px;}
+    border-radius: 25px;
+    vertical-align:top;
+}
+.question-footer{
+     z-index: 0;
+    margin: 10px;
+    padding: 10px 20px 10px 20px;
+    text-align: left;
+    width: 100%;
+    background-color: #17171E;
+    border-radius: 25px;
+    vertical-align:top;
+}
+
+
+.question-tag{
+    color: #86989B;
+}
+.question-title{
+    color: #F93A0B;
+}
+.question-message{
+    color: white;
+}
+
+.search_by{
+    color: #F93A0B;
+    padding-left: 10px;
+}
+
+.search_col{
+    color: white;
+    padding: 0px 15px 0px 15px;
+}
 
 /*Style for buttons link*/
 
@@ -143,4 +176,34 @@ h1{
 .user_button:active {
 	position:relative;
 	top:1px;
+}
+
+a:link.title, a:visited.title {
+    color: #F93A0B;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover.title, a:active.title {
+  color: white;
+}
+
+/*Hand up and down style*/
+
+a:link.up, a:visited.up,a:hover.up, a:active.up {
+  color: #2a8c2c;
+}
+
+a:link.down, a:visited.down,a:hover.down, a:active.down {
+  color: rgba(140, 15, 15, 0.92);
+}
+
+
+/*Up down link style*/
+a:link.UPandDOWN, a:visited.UPandDOWN {
+  color: #F93A0B;
+}
+
+a:hover.UPandDOWN, a:active.UPandDOWN {
+  color: white;
 }

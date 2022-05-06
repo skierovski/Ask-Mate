@@ -3,7 +3,7 @@
 <head>
 <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
 <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>Question list</title>
+    <title>AskMate - Question</title>
 </head>
 
 <body>
@@ -24,21 +24,43 @@
 
     {% for row in user_question %}
         <div class="list-question">
-            <div class="question-statistic">
-                <div ><p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p> </div>
-                <div><p><span class="static_value">{{ row.vote_number }}</span><span class="static_txt"> question votes</span></p></div>
-            </div>
-
-            <div class="question-image">
-                <img width="130px" src="/static/img.png" alt="Question image"/>
-            </div>
-            <div class="question-details"></div>
-        {{ row.submission_time }}
-        <a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a>
-         {{ row.message }}
-        <img widtr="100px" src="{{row.image}}" alt="Question image"/>
+            <table>
+                <tbody>
+                  <tr>
+                    <td class="question-statistic">
+                        <p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p>
+                        <p><span class="static_value">{{ row.vote_number }}</span><span class="static_txt"> question votes</span></p>
+                    </td>
+                    <td></td>
+                    <td rowspan="4" class="question-details">
+                        <p><a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a></p>
+                        <p class="question-tag">Tags: CSS HTML PYTHON</p>
+                        <p class="question-message">{{ row.message }}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td class="question-image"><img width="130px" src="/static/img.png" alt="Question image"/></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="3"></td>
+                  </tr>
+                  <tr>
+                     <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">Team Apa</spam>
+                     </td>
+                  </tr>
+                </tbody>
+            </table>
         </div>
     {% endfor %}
 </div>
 <div class="footer">Team APA</div>
 </body>
+</html>

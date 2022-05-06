@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 
+
 @app.route('/list')
 def route_list():
     questions = data_handler.get_questions()
@@ -85,6 +86,7 @@ def vote_answer(answer_id, vote):
     question_id = data_handler.get_id(int(answer_id))
     return redirect(f"/question/{str(question_id[0]['question_id'])}")
 
+
 @app.route('/question/<question_id>/new-comment', methods=['POST', 'GET'])
 def add_question_comment(question_id):
     if request.method == "GET":
@@ -102,32 +104,14 @@ def add_answer_comment(answer_id):
     return redirect(f"/question/{str(question_id[0]['question_id'])}")
 
 
-
-@app.route('/search-phrase', methods=['POST', 'GET'])
+@app.route('/search', methods=['POST', 'GET'])
 def search():
-    search_phrase = request.args.get('search-phrase')
+    search_phrase = request.args.get('q')
     questions = data_handler.search_question(search_phrase)
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
     return render_template('list.html', user_question=questions)
-
-
-#
-# @app.route('/search-phrase', methods=['POST', 'GET'])
-# def search():
-#     search_phrase = request.args.get('search-phrase')
-#     return redirect(f"/search?q={str(search_phrase)}")
-#
-#
-# @app.route('/search?q=<search>', methods=['POST', 'GET'])
-# def search_question(search):
-#     print(search)
-#     questions = data_handler.get_questions()
-#     order_direction = request.args.get("order_direction", "desc")
-#     order_by = request.args.get("order_by", "title")
-#     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
-#     return render_template('list.html', user_question=questions)
 
 
 @app.route('/answer/<a_id>/edit', methods=['POST', 'GET'])
@@ -166,6 +150,7 @@ def last_question_list():
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
     return render_template('lastquestion.html', user_question=questions)
+
 
 if __name__ == "__main__":
     app.run()
