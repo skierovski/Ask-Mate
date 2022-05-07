@@ -111,12 +111,13 @@ def add_answer_comment(answer_id):
 def search():
     search_phrase = request.args.get('q')
     questions = data_handler.search_question(search_phrase)
+    answer = data_handler.search_answer(search_phrase)
     # for question in questions:
     #     question['message'] = colored_text(question['message'],search_phrase)
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
-    return render_template('list.html', user_question=questions, search_phrase=search_phrase)
+    return render_template('search.html', user_question=questions, user_answer=answer, search_phrase=search_phrase)
 
 
 @app.route('/answer/<a_id>/edit', methods=['POST', 'GET'])

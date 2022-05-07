@@ -85,21 +85,21 @@ def delete_question(cursor, question_id):
         DELETE FROM question
         WHERE id= %s;
     """
-    query_1 = """
-        DELETE FROM answer
-        WHERE question_id= %s;
-    """
-    query_2 = """
-            DELETE FROM comment
-            WHERE question_id= %s;
-        """
-    query_3 = """
-                DELETE FROM question_tag
-                WHERE question_id= %s;
-            """
-    cursor.execute(query_3, (question_id,))
-    cursor.execute(query_2, (question_id,))
-    cursor.execute(query_1, (question_id,))
+    # query_1 = """
+    #     DELETE FROM answer
+    #     WHERE question_id= %s;
+    # """
+    # query_2 = """
+    #         DELETE FROM comment
+    #         WHERE question_id= %s;
+    #     """
+    # query_3 = """
+    #             DELETE FROM question_tag
+    #             WHERE question_id= %s;
+    #         """
+    # cursor.execute(query_3, (question_id,))
+    # cursor.execute(query_2, (question_id,))
+    # cursor.execute(query_1, (question_id,))
     cursor.execute(query, (question_id,))
 
 @database_common.connection_handler
@@ -120,12 +120,12 @@ def delete_answer(cursor, answer_id):
            DELETE
            FROM answer
            WHERE id = %s"""
-    query_1 = """
-            DELETE
-            FROM comment
-            WHERE answer_id = %s"""
+    # query_1 = """
+    #         DELETE
+    #         FROM comment
+    #         WHERE answer_id = %s"""
 
-    cursor.execute(query_1, (answer_id,))
+    # cursor.execute(query_1, (answer_id,))
     cursor.execute(query, (answer_id,))
 
 
@@ -200,6 +200,16 @@ def search_question(cursor, search_phrase):
             SELECT * FROM question
             WHERE title like '%{}%' or message like '%{}%'   
         """.format(search_phrase,search_phrase)
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def search_answer(cursor, search_phrase):
+    query = """
+            SELECT * FROM answer
+            WHERE message like '%{}%'   
+        """.format(search_phrase)
     cursor.execute(query)
     return cursor.fetchall()
 
