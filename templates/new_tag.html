@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+    <title>Add tag</title>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    </div>
+
+</div>
+
+<div class="main">
+    <div class="title">
+        <h1>Add tag</h1>
+        <a href="/list" class="user_button"> All question list</a>
+    </div>
+
+        <div class="list-question">
+            <div class="question-footer" style="width: 832px">
+             <form action="/question/{{ question_id }}/new-tag" method="POST" enctype="multipart/form-data">
+     <div>
+         <label class="static_txt" for="python">python</label>
+         <input type="radio" name="tag" id="python" value="python">
+         <label class="static_txt" for="sql">sql</label>
+         <input type="radio" name="tag" id="sql" value="sql">
+         <label class="static_txt" for="css">css</label>
+         <input type="radio" name="tag" id="css" value="css"><br><br>
+    <input class="user_button" type="submit" value="Submit"><br>
+     </div>
+</form>
+            </div>
+        </div>
+</div>
+<div class="footer">Team APA</div>
+</body>
+</html>

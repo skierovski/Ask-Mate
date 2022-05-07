@@ -152,5 +152,16 @@ def last_question_list():
     return render_template('lastquestion.html', user_question=questions)
 
 
+@app.route('/question/<question_id>/new-tag', methods=['POST', 'GET'])
+def add_tag(question_id):
+    if request.method == 'GET':
+        return render_template('new_tag.html', question_id=question_id)
+    selected_tag = request.form.get('tag')
+    selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
+    data_handler.add_tag_to_question(selected_tag_id, question_id)
+    return redirect(f"/question/{str(question_id)}")
+
+
+
 if __name__ == "__main__":
     app.run()

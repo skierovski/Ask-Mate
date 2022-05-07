@@ -282,3 +282,23 @@ def get_tags_for_question(cursor, question_id):
             WHERE question_tag.question_id = %s;"""
     cursor.execute(query, (question_id,))
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_tag_id(cursor, selected_tag):
+    query = """
+                SELECT id
+                FROM tag
+                WHERE name = %s
+                """
+    cursor.execute(query, (selected_tag,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def add_tag_to_question(cursor, selected_tag_id, question_id):
+    query = """
+                INSERT INTO question_tag
+                VALUES(%s, %s)
+                """
+    cursor.execute(query, (question_id, selected_tag_id))
+
