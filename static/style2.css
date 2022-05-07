@@ -7,6 +7,11 @@ body{
     padding: 0;
     background-color: #17171E;
 }
+
+mark{
+    color: black;
+    background-color: white;
+}
 .header {
   height: 100px;
      z-index: 1;

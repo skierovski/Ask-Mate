@@ -28,9 +28,7 @@
         <table>
 
     <thead>
-    <th class="search_by">
-        Sort by:
-    </th>
+    <th class="search_by">Sort by: </th>
     <th class="search_col">Submission Time<br>
         <a href="/list?order_by=submission_time&order_direction=asc" class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
         <a href="/list?order_by=submission_time"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
@@ -53,7 +51,7 @@
         <a href="/list?order_by=message"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
     <th><form action="/search">
-            <input id="search-input" type="text" name="q" style="width: 150px">
+            <input id="search-input" type="text" name="q" placeholder="Search question..." style="width: 150px">
             <button class="user_button" type="submit">Search</button>
         </form></th>
     </thead>
@@ -75,9 +73,23 @@
                     </td>
                     <td></td>
                     <td rowspan="4" class="question-details">
-                        <p><a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a></p>
+                        <p><a href="/question/{{ row.id }}" class="title">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.title | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {{ row.title }}
+                            {% endif %}
+
+                            </a></p>
                         <p class="question-tag">Tags: CSS HTML PYTHON</p>
-                        <p class="question-message">{{ row.message }}</p>
+                        <p class="question-message">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {{ row.message }}
+                            {% endif %}
+
+                        </p>
                     </td>
                   </tr>
                   <tr>
