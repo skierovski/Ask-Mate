@@ -51,7 +51,7 @@
         <a href="/list?order_by=message"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
     </th>
     <th><form action="/search">
-            <input id="search-input" type="text" name="q" placeholder="Search question..." style="width: 150px">
+            <input id="search-input" type="text" name="q" placeholder="Search..." style="width: 150px">
             <button class="user_button" type="submit">Search</button>
         </form></th>
     </thead>
@@ -116,7 +116,7 @@
     {% endfor %}
 
     <div class="list-question">
-        <h2 class="static_txt" style="padding-left: 10px"> Answer with phrase</h2>
+        <h2 class="static_txt" style="padding-left: 10px"> Answer with the search phrase:</h2>
         {% for row in user_answer %}
 
         <div class="question-footer" style="width: 834px">
