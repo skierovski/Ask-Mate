@@ -22,6 +22,41 @@ mark{
   overflow: hidden;
 }
 
+.account-panel {
+    position: fixed;
+    top: 24px;
+    right: 5px;
+}
+.register-btn {
+    background-color:#17171E;
+	border-radius:25px;
+	border:1px solid #F93A0B;
+	display:inline-block;
+	cursor:pointer;
+	color: white;
+    font-family: Arial;
+	font-size:15px;
+	font-weight:bold;
+    margin-right: -20px;
+	padding:10px 35px;
+	text-decoration:none;
+}
+
+.login-btn {
+    background-color:#17171E;
+	border-radius:25px;
+	border:1px solid #F93A0B;
+	display:inline-block;
+	cursor:pointer;
+	color: white;
+    font-family: Arial;
+	font-size:15px;
+	font-weight:bold;
+    margin-right: 5px;
+	padding:10px 35px;
+	text-decoration:none;
+}
+
 .main {
   margin-left: auto;
   margin-right: auto;
