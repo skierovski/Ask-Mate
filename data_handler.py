@@ -312,3 +312,10 @@ def add_tag_to_question(cursor, selected_tag_id, question_id):
                 """
     cursor.execute(query, (question_id, selected_tag_id))
 
+@database_common.connection_handler
+def sign_user(cursor, username, email, password):
+    query = """
+    INSERT INTO users (username, email, hashed_password, register_time)
+    VALUES(%s, %s, %s, now())
+    """
+    cursor.execute(query, (username, email, password))

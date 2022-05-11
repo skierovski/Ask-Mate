@@ -42,6 +42,12 @@ mark{
 	text-decoration:none;
 }
 
+.sign-up-labels{
+    color: #ffffff;
+    font-size: 25px;
+}
+
+
 .login-btn {
     background-color:#17171E;
 	border-radius:25px;

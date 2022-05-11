@@ -2,6 +2,7 @@
 from flask import Flask, render_template, request, redirect
 import data_handler
 import re
+import bcrypt
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = 'static'
@@ -10,6 +11,19 @@ app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 
 def colored_text(text,search_phrase):
     return text.replace(search_phrase,search_phrase.upper())
+
+@app.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    if request.method == 'GET':
+        return render_template('registration.html')
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = bcrypt.hashpw(request.form.get('password').encode("utf-8"), bcrypt.gensalt())
+    data_handler.sign_user(username, email, password.decode('utf-8'))
+    return render_template('successful_register.html', name=username)
+
+
+
 
 
 @app.route('/list')
