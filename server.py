@@ -1,4 +1,4 @@
-import data
+
 from flask import Flask, render_template, request, redirect, session, url_for
 import data_handler
 import bcrypt
@@ -175,7 +175,7 @@ def add_tag(question_id):
 @app.route("/sign_up", methods=['POST', 'GET'])
 def sign_up():
     if request.method == 'GET':
-        return render_template("sign_up.html")
+        return render_template("registration.html")
     username = request.form.get('username')
     if data_handler.check_username(username) == 0:
         email = request.form.get('email')
@@ -184,7 +184,7 @@ def sign_up():
         data_handler.sign_user(username, email, password.decode('utf-8'))
         return render_template('/hello.html', user_name=username, email=email, password=password)
     else:
-        return render_template('/sign_up.html', user_duplicated=True, username=username)
+        return render_template('/registration.html', user_duplicated=True, username=username)
 
 
 @app.route('/list_of_users', methods=['GET'])
@@ -204,7 +204,7 @@ def index():
     is_log_in = False
     if "username" in session:
         is_log_in = True
-    return render_template("index.html", is_log_in=is_log_in)
+    return render_template("lastquestion.html", is_log_in=is_log_in)
 
 
 @app.route('/login', methods=['GET', 'POST'])
