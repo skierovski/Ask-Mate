@@ -11,7 +11,7 @@
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate </p>
     </div>
 </div>
 
@@ -30,7 +30,11 @@
 <div class="main">
     <div class="title">
         <h1>Question list</h1>
-
+        {% if is_log_in %}
+        <a class="user_button" href="/logout">Log-out</a>
+        {% else %}
+        <a class="user_button" href="/login">Login</a>
+        {% endif %}
         <a href="/list" class="user_button"> All question list</a>
         <a href="/add-question" class="user_button"> Add new question </a>
         <br><br>

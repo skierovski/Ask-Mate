@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style3.css')}}">
+    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+</head>
+
+<body>
+    <div class="title">
+    <h1>Ask Mate</h1>
+    </div>
+            <table>
+                <thead>
+                    <h4>Sign up</h4>
+                </thead>
+                <tbody>
+                    <div class="duplicated_user_name">
+                        {% if user_duplicated %}
+                        <h1>{{ username }} already exist</h1>
+                        {% endif %}
+                    </div>
+                <div class="register_form">
+                <form  action="/sign_up" method="POST" enctype="multipart/form-data">
+                    <div class="username">
+                        <label for="username">Username:</label>
+                    <input type="text" name="username" placeholder="Your beautiful name here" required/><br>
+                    </div>
+
+                    <div class="email">
+                        <label for="email">Email:</label>
+                    <input type="email" name="email" placeholder="Your email" required/><br>
+                    </div>
+
+                    <div class="password">
+                        <label for="password">Password:</label>
+                    <input type="password" name="password" required/>
+                    </div>
+
+                    <input class="user_button" type="submit" value="Sign up">
+                </form>
+                </div>
+                </tbody>
+            </table>
+</body>
+</html>
