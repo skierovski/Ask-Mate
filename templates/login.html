@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='style3.css')}}">
+    <title>Log in</title>
+</head>
+<body>
+<h1><b>Log in</b></h1>
+    <div>
+        <form action="/login" method="POST" enctype="multipart/form-data">
+            {% if status %}
+            <h2>Wrong username or password</h2>
+            {% endif %}
+            <label for="username">username</label>
+            <input name="username" id="username" type="text" required/>
+            <br><br>
+            <label for="password">password</label>
+            <input name="password" id="password" type="password" required/>
+            <br><br>
+            <input class="user_button" type="submit" value="Log in"/>
+        </form>
+    </div>
+</body>
+</html>

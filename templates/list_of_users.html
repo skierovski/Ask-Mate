@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='style3.css')}}">
+    <title>All users</title>
+</head>
+<body>
+<h1><b>List of all users: </b></h1>
+    <div>
+        {% for user in all_users %}
+        <div class="id">
+            Id: {{user.id}}
+        </div>
+        <div class="username">
+            Username: <b>{{user.username}}</b>
+        </div>
+        <div class="email">
+            Email: {{user.email}}
+        </div>
+        <div class="registered_time">
+            Registered time: {{user.register_time}}
+        </div><br>
+        <div class="user_delete">
+            <a class="user_button" href="/user/{{user.id}}/delete">Delete user</a>
+        </div><br>
+        {% endfor %}
+    </div>
+<a class="user_button" href="/">Return to home page</a>
+</body>
+</html>
