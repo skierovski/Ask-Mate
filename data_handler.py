@@ -1,6 +1,6 @@
 from flask import request
 import additional_functions
-
+import datetime
 import database_common
 
 
@@ -313,12 +313,12 @@ def add_tag_to_question(cursor, selected_tag_id, question_id):
     cursor.execute(query, (question_id, selected_tag_id))
 
 @database_common.connection_handler
-def sign_user(cursor, username, email, hashed_password):
+def sign_user(cursor, username, email, hashed_password, time):
     query = """
     INSERT INTO users (username, email, hashed_password, register_time)
-    VALUES (%s, %s, %s, now())
+    VALUES (%s, %s, %s, %s)
     """
-    cursor.execute(query, (username, email, hashed_password))
+    cursor.execute(query, (username, email, hashed_password, time))
 
 
 @database_common.connection_handler
@@ -329,6 +329,7 @@ def get_users(cursor):
     """
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def delete_user(cursor, id):
@@ -349,6 +350,7 @@ def get_hashed_password(cursor, username):
     """
     cursor.execute(query, (username,))
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def check_username(cursor, username):
