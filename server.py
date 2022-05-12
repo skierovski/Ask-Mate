@@ -1,18 +1,17 @@
-
+import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 import data_handler
 import bcrypt
 app = Flask(__name__)
-app.secret_key = b'abc'
 
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 
 
-def colored_text(text,search_phrase):
-    return text.replace(search_phrase,search_phrase.upper())
+def colored_text(text, search_phrase):
+    return text.replace(search_phrase, search_phrase.upper())
 
-
+@app.route('/')
 @app.route('/list')
 def route_list():
     is_log_in = False
@@ -153,8 +152,11 @@ def delete_comment(comment_id):
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
 
-@app.route("/latest_questions")
+@app.route("/")
 def last_question_list():
+    is_log_in = False
+    if "username" in session:
+        is_log_in = True
     questions = data_handler.get_n_last_question(5)
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
@@ -175,16 +177,17 @@ def add_tag(question_id):
 @app.route("/sign_up", methods=['POST', 'GET'])
 def sign_up():
     if request.method == 'GET':
-        return render_template("registration.html")
+        return render_template("sign_up.html")
     username = request.form.get('username')
     if data_handler.check_username(username) == 0:
         email = request.form.get('email')
         salt = bcrypt.gensalt()
         password = bcrypt.hashpw(request.form.get('password').encode('utf-8'), salt)
-        data_handler.sign_user(username, email, password.decode('utf-8'))
+        time = datetime.datetime.now()
+        data_handler.sign_user(username, email, password.decode('utf-8'), time)
         return render_template('/hello.html', user_name=username, email=email, password=password)
     else:
-        return render_template('/registration.html', user_duplicated=True, username=username)
+        return render_template('/sign_up.html', user_duplicated=True, username=username)
 
 
 @app.route('/list_of_users', methods=['GET'])
@@ -199,32 +202,34 @@ def delete_user(user_id):
     return redirect('/list_of_users')
 
 
-@app.route('/')
-def index():
-    is_log_in = False
-    if "username" in session:
-        is_log_in = True
-    return render_template("lastquestion.html", is_log_in=is_log_in)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = data_handler.get_hashed_password(username)[0]['hashed_password'].encode('utf-8')
-        if hashed_password is not None:
-            if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
-                session['username'] = username
-                return redirect('/latest_questions')
-        session['bad_login_or_password'] = True
-        return redirect(url_for("login"))
+        if if_valid_username(username):
+            password = request.form.get("password")
+            hashed_password = data_handler.get_hashed_password(username)[0]['hashed_password'].encode('utf-8')
+            if hashed_password is not None:
+                if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+                    session['username'] = username
+                    return redirect('/list')
+            session['bad_login_or_password'] = True
+            return redirect(url_for("login"))
     return render_template("login.html", status=session.get('bad_login_or_password', default=False))
+
 
 @app.route('/logout', methods=['GET'])
 def logout():
     session.clear()
-    return redirect(url_for("index"))
+    return redirect('/list')
+
+
+def if_valid_username(username):
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    for i in range(len(numbers)):
+        if numbers[i] in list(username):
+            return False
+        return True
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate </p>
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
     </div>
 </div>
 
@@ -21,11 +21,14 @@
         <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
         <div class ="account-panel">
             <a href="/sign_up" class="register-btn"> Sign Up</a>
-            <a href="/login" class="login-btn"> Log in</a>
+            {% if is_log_in %}
+            <a class="login-btn" href="/logout">Log-out</a>
+            {% else %}
+            <a class="login-btn" href="/login">Login</a>
+            {% endif %}
         </div>
     </div>
 </div>
-
 
 <div class="main">
     <div class="title">
@@ -36,8 +39,12 @@
         <a class="user_button" href="/login">Login</a>
         {% endif %}
         <a href="/list" class="user_button"> All question list</a>
+        <div>
+        <a href="/latest_questions" class="user_button"> Latest questions</a>
         <a href="/add-question" class="user_button"> Add new question </a>
-        <br><br>
+        <a href="/list_of_users" class="user_button"> Users list </a>
+        </div>
+        <br>
         <div class="list-question">
 
         <table>

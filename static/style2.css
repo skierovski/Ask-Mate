@@ -204,24 +204,38 @@ h1{
 /*Style for buttons link*/
 
 .user_button {
-	background-color:#17171E;
-	border-radius:25px;
-	border:1px solid #F93A0B;
-	display:inline-block;
-	cursor:pointer;
+	background-color: transparent;
 	color: white;
-	font-family:Arial;
-	font-size:12px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
+	border: solid gray 2px;
+	border-radius: 20px;
+	text-align: center;
+	padding: 10px 24px;
+	text-decoration: none;
+	font-size: 16px;
+	margin: 10px 4px;
+	display: inline-block;
+	cursor: pointer;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
 }
 .user_button:hover {
-	background-color:#F93A0B;
+	background-color:#F93A0B    ;
+	box-shadow: 0 14px 18px 0 #333333, 0 17px 50px 0 #333333;
+	transform: scale(1.2);
 }
 .user_button:active {
 	position:relative;
 	top:1px;
+}
+
+a:link.title, a:visited.title {
+    color: #F93A0B;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:hover.title, a:active.title {
+  color: white;
 }
 
 a:link.title, a:visited.title {
@@ -252,4 +266,11 @@ a:link.UPandDOWN, a:visited.UPandDOWN {
 
 a:hover.UPandDOWN, a:active.UPandDOWN {
   color: white;
+}
+.duplicated_user_name{
+    background-color: #B33A3A;
+    border: black solid 4px;
+    border-radius: 35px;
+    width: fit-content;
+    margin: auto;
 }

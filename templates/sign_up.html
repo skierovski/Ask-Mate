@@ -1,47 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-    <script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
+<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
     <title>Sign up</title>
 </head>
 
 <body>
-    <div class="title">
-    <h1>Ask Mate</h1>
+
+<div class="header">
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
     </div>
-            <table>
-                <thead>
-                    <h4>Sign up</h4>
-                </thead>
-                <tbody>
-                    <div class="duplicated_user_name">
-                        {% if user_duplicated %}
-                        <h1>{{ username }} already exist</h1>
-                        {% endif %}
-                    </div>
-                <div class="register_form">
-                <form  action="/sign_up" method="POST" enctype="multipart/form-data">
-                    <div class="username">
-                        <label for="username">Username:</label>
-                    <input type="text" name="username" placeholder="Your beautiful name here" required/><br>
-                    </div>
+</div>
 
-                    <div class="email">
-                        <label for="email">Email:</label>
-                    <input type="email" name="email" placeholder="Your email" required/><br>
-                    </div>
 
-                    <div class="password">
-                        <label for="password">Password:</label>
-                    <input type="password" name="password" required/>
-                    </div>
+<div class="main">
+    <div class="title">
+        <h1>Sign up</h1>
+        <a href="/list" class="user_button"> All question list</a>
+    </div>
 
-                    <input class="user_button" type="submit" value="Sign up">
-                </form>
+    <div class="list-question">
+        <div class="question-footer" style="width: 832px">
+
+            <form action="/sign_up" method="POST" enctype="multipart/form-data">
+                <div class="duplicated_user_name">
+                    {% if user_duplicated %}
+                        <h1 style="color: white">{{ username }} already exist, keep trying ;)</h1>
+                    {% endif %}
                 </div>
-                </tbody>
-            </table>
+
+                <label class="sign-up-labels" for="username">Username</label><br>
+                <input name="username" id="username" size="50" type="text" placeholder="Your beautiful name here" required/>
+                <br><br>
+                <label class="sign-up-labels" for="email">Email</label><br>
+                <input name="email" id="email" size="50" type="email" placeholder="Your email" required/>
+                <br><br>
+                <label class="sign-up-labels" for="password">Password</label><br>
+                <input name="password" id="password" size="50" type="password" required/>
+                <br><br>
+                <input class="user_button" type="submit" value="Sign up"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="footer">Team APA</div>
 </body>
 </html>
