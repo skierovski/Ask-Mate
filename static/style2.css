@@ -222,6 +222,7 @@ h1{
 	background-color:#F93A0B    ;
 	box-shadow: 0 14px 18px 0 #000000, 0 17px 50px 0 #000000;
 	transform: scale(1.2);
+
 }
 .user_button:active {
 	position:relative;
