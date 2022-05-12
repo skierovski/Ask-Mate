@@ -8,7 +8,7 @@ app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 
 
-def colored_text(text,search_phrase):
+def colored_text(text, search_phrase):
     return text.replace(search_phrase, search_phrase.upper())
 
 @app.route('/')
@@ -106,7 +106,7 @@ def add_answer_comment(answer_id):
     if request.method == "GET":
         return render_template('new_answer_comment.html', answer_id=answer_id)
     question_id = data_handler.get_id(int(answer_id))
-    data_handler.add_answer_comment(answer_id,question_id)
+    data_handler.add_answer_comment(answer_id, question_id)
     return redirect(f"/question/{str(question_id[0]['question_id'])}")
 
 
@@ -206,14 +206,15 @@ def delete_user(user_id):
 def login():
     if request.method == "POST":
         username = request.form.get("username")
-        password = request.form.get("password")
-        hashed_password = data_handler.get_hashed_password(username)[0]['hashed_password'].encode('utf-8')
-        if hashed_password is not None:
-            if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
-                session['username'] = username
-                return redirect('/list')
-        session['bad_login_or_password'] = True
-        return redirect(url_for("login"))
+        if if_valid_username(username):
+            password = request.form.get("password")
+            hashed_password = data_handler.get_hashed_password(username)[0]['hashed_password'].encode('utf-8')
+            if hashed_password is not None:
+                if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+                    session['username'] = username
+                    return redirect('/list')
+            session['bad_login_or_password'] = True
+            return redirect(url_for("login"))
     return render_template("login.html", status=session.get('bad_login_or_password', default=False))
 
 
@@ -221,6 +222,14 @@ def login():
 def logout():
     session.clear()
     return redirect('/list')
+
+
+def if_valid_username(username):
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    for i in range(len(numbers)):
+        if numbers[i] in list(username):
+            return False
+        return True
 
 
 if __name__ == "__main__":
