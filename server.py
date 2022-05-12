@@ -196,8 +196,11 @@ def sign_up():
 
 @app.route('/list_of_users', methods=['GET'])
 def list_of_users():
+    is_log_in = False
+    if "username" in session:
+        is_log_in = True
     all_users = data_handler.get_users()
-    return render_template('list_of_users.html', all_users=all_users)
+    return render_template('list_of_users.html', all_users=all_users, is_log_in=is_log_in)
 
 
 @app.route('/user/<user_id>/delete', methods=['GET'])
