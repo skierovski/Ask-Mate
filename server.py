@@ -11,6 +11,7 @@ app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
 def colored_text(text, search_phrase):
     return text.replace(search_phrase, search_phrase.upper())
 
+
 @app.route('/')
 @app.route('/list')
 def route_list():
@@ -26,6 +27,9 @@ def route_list():
 
 @app.route('/question/<q_id>')
 def view_question(q_id):
+    is_log_in = False
+    if "username" in session:
+        is_log_in = True
     select_question = data_handler.get_question(q_id)
     select_answer = data_handler.get_answer(q_id)
     select_question_comments = data_handler.get_question_comments(q_id)
@@ -35,7 +39,8 @@ def view_question(q_id):
                            selected_answer=select_answer,
                            selected_question_comments=select_question_comments,
                            selected_answer_comments=select_answer_comments,
-                           selected_question_tag=select_question_tag)
+                           selected_question_tag=select_question_tag,
+                           is_log_in=is_log_in)
 
 
 @app.route('/add-question', methods=['POST', 'GET'])

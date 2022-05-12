@@ -35,7 +35,9 @@
         <h1>Question list</h1>
         <div>
         <a href="/latest_questions" class="user_button"> Latest questions</a>
-        <a href="/add-question" class="user_button"> Add new question </a>
+        {% if is_log_in %}
+            <a href="/add-question" class="user_button"> Add new question </a>
+        {% endif %}
         <a href="/list_of_users" class="user_button"> Users list </a>
         </div>
         <br>
@@ -82,9 +84,15 @@
                     <td class="question-statistic">
                         <p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p>
                         <p><span class="static_value">
+                            {% if is_log_in %}
                             <a href="/question/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                            {% endif %}
+
                 {{ row.vote_number }}
+
+                {% if is_log_in %}
                 <a href="/question/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
+                {% endif %}
                         </span><span class="static_txt"> question votes</span></p>
                     </td>
                     <td></td>
