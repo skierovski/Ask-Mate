@@ -1,8 +1,13 @@
-import datetime
+import data
 from flask import Flask, render_template, request, redirect, session, url_for
 import data_handler
+<<<<<<<<< Temporary merge branch 1
+import re
+=========
+>>>>>>>>> Temporary merge branch 2
 import bcrypt
 app = Flask(__name__)
+app.secret_key = b'abc'
 
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
@@ -152,11 +157,8 @@ def delete_comment(comment_id):
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
 
-@app.route("/")
+@app.route("/latest_questions")
 def last_question_list():
-    is_log_in = False
-    if "username" in session:
-        is_log_in = True
     questions = data_handler.get_n_last_question(5)
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
@@ -183,8 +185,7 @@ def sign_up():
         email = request.form.get('email')
         salt = bcrypt.gensalt()
         password = bcrypt.hashpw(request.form.get('password').encode('utf-8'), salt)
-        time = datetime.datetime.now()
-        data_handler.sign_user(username, email, password.decode('utf-8'), time)
+        data_handler.sign_user(username, email, password.decode('utf-8'))
         return render_template('/hello.html', user_name=username, email=email, password=password)
     else:
         return render_template('/sign_up.html', user_duplicated=True, username=username)
@@ -200,6 +201,7 @@ def list_of_users():
 def delete_user(user_id):
     data_handler.delete_user(user_id)
     return redirect('/list_of_users')
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

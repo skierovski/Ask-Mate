@@ -313,12 +313,12 @@ def add_tag_to_question(cursor, selected_tag_id, question_id):
     cursor.execute(query, (question_id, selected_tag_id))
 
 @database_common.connection_handler
-def sign_user(cursor, username, email, hashed_password, time):
+def sign_user(cursor, username, email, hashed_password):
     query = """
     INSERT INTO users (username, email, hashed_password, register_time)
-    VALUES (%s, %s, %s, %s)
+    VALUES (%s, %s, %s, now())
     """
-    cursor.execute(query, (username, email, hashed_password, time))
+    cursor.execute(query, (username, email, hashed_password))
 
 
 @database_common.connection_handler
@@ -329,7 +329,6 @@ def get_users(cursor):
     """
     cursor.execute(query)
     return cursor.fetchall()
-
 
 @database_common.connection_handler
 def delete_user(cursor, id):
@@ -351,7 +350,6 @@ def get_hashed_password(cursor, username):
     cursor.execute(query, (username,))
     return cursor.fetchall()
 
-
 @database_common.connection_handler
 def check_username(cursor, username):
     query = """
@@ -363,3 +361,4 @@ def check_username(cursor, username):
     if cursor.fetchone() is None:
         return 0
     return 1
+>>>>>>>>> Temporary merge branch 2
