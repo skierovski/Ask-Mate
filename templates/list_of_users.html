@@ -6,26 +6,63 @@
     <title>All users</title>
 </head>
 <body>
-<h1><b>List of all users: </b></h1>
-    <div>
-        {% for user in all_users %}
-        <div class="id">
-            Id: {{user.id}}
+<div class="header">
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+        <div class ="account-panel">
+            {% if not is_log_in %}
+            <a href="/sign_up" class="register-btn"> Sign Up</a>
+            {% endif %}
+            {% if is_log_in %}
+            <a class="login-btn" href="/logout">Log-out</a>
+            {% else %}
+            <a class="login-btn" href="/login">Login</a>
+            {% endif %}
         </div>
-        <div class="username">
-            Username: <b>{{user.username}}</b>
-        </div>
-        <div class="email">
-            Email: {{user.email}}
-        </div>
-        <div class="registered_time">
-            Registered time: {{user.register_time}}
-        </div><br>
-        <div class="user_delete">
-            <a class="user_button" href="/user/{{user.id}}/delete">Delete user</a>
-        </div><br>
-        {% endfor %}
     </div>
-<a class="user_button" href="/">Return to home page</a>
+</div>
+
+<div class="main-user-list">
+    <div class="title">
+        <h1><b>List of all users: </b></h1>
+        <a class="user_button" href="/">Return to home page</a>
+    </div>
+
+    <div class="list-question">
+        {% for user in all_users %}
+        <table class="user-list">
+            <tbody>
+                <tr>
+                    <td>
+                        Id: {{user.id}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Username: <b>{{user.username}}</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email: {{user.email}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Registered time: {{user.register_time}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/user/{{user.id}}/delete" class="user_button">Delete user</a>
+                    </td>
+                </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="footer">Team APA</div>
 </body>
 </html>
