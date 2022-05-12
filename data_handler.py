@@ -48,17 +48,16 @@ def get_answers(cursor):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question(cursor):
-    #new_submission = datetime.datetime.now().strftime("%d/%m/%y %H:%M")
-    new_title = request.form.get('title', default="")  # poprawic
+def add_question(cursor, author_id):
+    new_title = request.form.get('title', default="")
     new_message = request.form['message']
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image) 
-        VALUES (now(), 0, 0, %s, %s, %s);    
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
+        VALUES (now(), 0, 0, %s, %s, %s, %s);    
     """
-    cursor.execute(query, (new_title, new_message, new_image))
+    cursor.execute(query, (new_title, new_message, new_image, author_id))
 
 @database_common.connection_handler
 def get_last_id(cursor):
@@ -363,3 +362,14 @@ def check_username(cursor, username):
     if cursor.fetchone() is None:
         return 0
     return 1
+
+
+@database_common.connection_handler
+def get_user_id(cursor, username):
+    query = """
+    SELECT id
+    FROM users
+    WHERE username = %s
+    """
+    cursor.execute(query, (username,))
+    return cursor.fetchone()

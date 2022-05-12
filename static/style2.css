@@ -274,6 +274,14 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     width: fit-content;
     margin: auto;
 }
+
+.hello-msg{
+    font-size: 40px;
+}
+.info-text{
+    color: white;
+    font-size: 20px;
+}
 .user-list{
     color: #ffffff;
     font-size: 15px;

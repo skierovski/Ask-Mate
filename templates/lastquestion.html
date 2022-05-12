@@ -12,6 +12,16 @@
     <div class="top-line"></div>
     <div class="logo2">
         <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+            <div class ="account-panel">
+            {% if not is_log_in %}
+            <a href="/sign_up" class="register-btn"> Sign Up</a>
+            {% endif %}
+            {% if is_log_in %}
+            <a class="login-btn" href="/logout">Log-out</a>
+            {% else %}
+            <a class="login-btn" href="/login">Login</a>
+            {% endif %}
+        </div>
     </div>
 
 </div>
