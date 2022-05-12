@@ -45,9 +45,10 @@ def view_question(q_id):
 
 @app.route('/add-question', methods=['POST', 'GET'])
 def add_new_question():
+    author_id = data_handler.get_user_id(session['username'])['id']
     if request.method == "GET":
         return render_template('newquestion.html')
-    data_handler.add_question()
+    data_handler.add_question(author_id)
     new_question_index = data_handler.get_last_id()
     return redirect(f"/question/{str(new_question_index[0]['max'])}")
 
@@ -120,8 +121,6 @@ def search():
     search_phrase = request.args.get('q')
     questions = data_handler.search_question(search_phrase)
     answer = data_handler.search_answer(search_phrase)
-    # for question in questions:
-    #     question['message'] = colored_text(question['message'],search_phrase)
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
