@@ -42,6 +42,14 @@ mark{
 	text-decoration:none;
 }
 
+.hello-msg{
+    font-size: 40px;
+}
+.info-text{
+    color: #ffffff;
+    font-size: 20px;
+}
+
 .sign-up-labels{
     color: #ffffff;
     font-size: 25px;
