@@ -49,7 +49,9 @@
                         <p class="question-title">{{ selected_question[0].title }}</p>
                         <p class="question-tag">Tags:
                         {% if is_log_in %}
-                            <a href="/question/{{ selected_question[0].id }}/new-tag" class="title"><i class="fa-solid fa-plus"></i></a>
+                            {% if ( selected_question[0].user_id ) == user_id %}
+                                <a href="/question/{{ selected_question[0].id }}/new-tag" class="title"><i class="fa-solid fa-plus"></i></a>
+                            {% endif %}
                         {% endif %}
                             {% if selected_question_tag|length == 0 %}
                                 No Tags
@@ -65,11 +67,15 @@
                     <td colspan="2"></td>
                   </tr>
                   <tr>
+                    <td class="question-image">
                       {% if is_log_in %}
-                    <td class="question-image"><a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a><br><br>
-<a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a><br><br>
-                    <a href="/question/{{ selected_question[0].id }}/new-comment" class="user_button"> Add comment</a><br><br></td>
-                        {% endif %}
+                          {% if ( selected_question[0].user_id ) == user_id %}
+                            <a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a><br><br>
+                            <a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a><br><br>
+                          {% endif %}
+                            <a href="/question/{{ selected_question[0].id }}/new-comment" class="user_button"> Add comment</a><br><br>
+                      {% endif %}
+                    </td>
                     <td></td>
                   </tr>
                   <tr>
@@ -97,8 +103,10 @@
                 <spam class="static_txt">Published: </spam><spam class="static_value"> {{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S') }} </spam>
                 <br><br><spam class="static_value">{{ row.message }}</spam><br><br>
                         {% if is_log_in %}
-                        <a href="/comment/{{ row.id }}/edit" class="user_button">Edit comment</a>
-                        <a href="/comments/{{ row.id }}/delete" class="user_button" onclick="return confirm('Are you sure you want to delete this comment?')"> Delete comment</a><br>
+                            {% if ( row.user_id ) == user_id %}
+                                <a href="/comment/{{ row.id }}/edit" class="user_button">Edit comment</a>
+                                <a href="/comments/{{ row.id }}/delete" class="user_button" onclick="return confirm('Are you sure you want to delete this comment?')"> Delete comment</a><br>
+                            {% endif %}
                         {% endif %}
                     </td>
                   </tr>
@@ -109,7 +117,9 @@
     </div>
     <h1>Answer</h1>
     {% if is_log_in %}
-    <a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a><br><br>
+        {% if ( selected_question[0].user_id ) != user_id %}
+            <a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a><br><br>
+        {% endif %}
     {% endif %}
     {% for row in selected_answer %}
         <div class="list-question">
@@ -119,11 +129,11 @@
                     <td class="question-statistic">
                         <p><span class="static_value">
                             {% if is_log_in %}
-                            <a href="/answer/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                                <a href="/answer/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
                             {% endif %}
-                {{ row.vote_number }}
+                                    {{ row.vote_number }}
                             {% if is_log_in %}
-                            <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
+                                <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
                             {% endif %}
                         </span><span class="static_txt"> question votes</span></p>
                     </td>
@@ -139,8 +149,10 @@
                   <tr>
                   {% if is_log_in %}
                     <td class="question-image">
+                    {% if ( selected_question[0].user_id ) == user_id %}
                         <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
                         <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
+                    {% endif %}
                         <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add comment</a>
                     </td>
                   {% endif %}

@@ -22,14 +22,20 @@ def route_list():
     order_direction = request.args.get("order_direction", "desc")
     order_by = request.args.get("order_by", "title")
     questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
+    if 'username' in session:
+        user_id = data_handler.get_user_id(session['username'])['id']
+        return render_template('list.html', user_question=questions, is_log_in=is_log_in, user_id=user_id)
     return render_template('list.html', user_question=questions, is_log_in=is_log_in)
 
 
 @app.route('/question/<q_id>')
 def view_question(q_id):
+    user_id = 0
     is_log_in = False
     if "username" in session:
         is_log_in = True
+    if 'username' in session:
+        user_id = data_handler.get_user_id(session['username'])['id']
     select_question = data_handler.get_question(q_id)
     select_answer = data_handler.get_answer(q_id)
     select_question_comments = data_handler.get_question_comments(q_id)
@@ -40,7 +46,8 @@ def view_question(q_id):
                            selected_question_comments=select_question_comments,
                            selected_answer_comments=select_answer_comments,
                            selected_question_tag=select_question_tag,
-                           is_log_in=is_log_in)
+                           is_log_in=is_log_in,
+                           user_id=user_id)
 
 
 @app.route('/add-question', methods=['POST', 'GET'])

@@ -1,13 +1,12 @@
 from flask import request
 import additional_functions
-import datetime
 import database_common
 
 
 @database_common.connection_handler
 def get_questions(cursor):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image
+            SELECT id, submission_time, view_number, vote_number, title, message, image, user_id
             FROM question
             ORDER BY submission_time"""
     cursor.execute(query)
@@ -17,7 +16,7 @@ def get_questions(cursor):
 @database_common.connection_handler
 def get_question(cursor, q_id):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image
+            SELECT id, submission_time, view_number, vote_number, title, message, image, user_id
             FROM question
             WHERE id = %s
             ORDER BY submission_time"""
@@ -67,7 +66,7 @@ def get_last_id(cursor):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_answer(cursor,question_id):
+def add_answer(cursor, question_id):
     new_message = request.form['message']
     upload_file = request.files['file_answer']
     new_image = additional_functions.file_operation(upload_file)
@@ -84,21 +83,6 @@ def delete_question(cursor, question_id):
         DELETE FROM question
         WHERE id= %s;
     """
-    # query_1 = """
-    #     DELETE FROM answer
-    #     WHERE question_id= %s;
-    # """
-    # query_2 = """
-    #         DELETE FROM comment
-    #         WHERE question_id= %s;
-    #     """
-    # query_3 = """
-    #             DELETE FROM question_tag
-    #             WHERE question_id= %s;
-    #         """
-    # cursor.execute(query_3, (question_id,))
-    # cursor.execute(query_2, (question_id,))
-    # cursor.execute(query_1, (question_id,))
     cursor.execute(query, (question_id,))
 
 @database_common.connection_handler
@@ -119,12 +103,6 @@ def delete_answer(cursor, answer_id):
            DELETE
            FROM answer
            WHERE id = %s"""
-    # query_1 = """
-    #         DELETE
-    #         FROM comment
-    #         WHERE answer_id = %s"""
-
-    # cursor.execute(query_1, (answer_id,))
     cursor.execute(query, (answer_id,))
 
 
@@ -158,7 +136,7 @@ def vote(cursor, table, direction, id):
 @database_common.connection_handler
 def get_question_comments(cursor, q_id):
     query = """
-           SELECT id, answer_id, submission_time, question_id, message, edited_count
+           SELECT id, answer_id, submission_time, question_id, message, edited_count, user_id
            FROM comment
            WHERE question_id = %s AND answer_id is NULL 
            ORDER BY submission_time"""
