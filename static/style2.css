@@ -23,9 +23,11 @@ mark{
 }
 
 .account-panel {
+    align-items: center;
     position: fixed;
-    top: 24px;
+    top: 15px;
     right: 5px;
+    display: flex;
 }
 .register-btn {
     background-color:#17171E;
@@ -302,4 +304,11 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     text-align: center;
     overflow: auto;
     width: 260px;
+}
+
+.profile-icon{
+    border-radius: 75px;
+    margin-right: 10px;
+    border-radius: 75px;
+
 }
