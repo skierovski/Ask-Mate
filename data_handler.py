@@ -6,7 +6,7 @@ import database_common
 @database_common.connection_handler
 def get_questions(cursor):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image, user_id
+            SELECT *
             FROM question
             ORDER BY submission_time"""
     cursor.execute(query)
@@ -16,7 +16,7 @@ def get_questions(cursor):
 @database_common.connection_handler
 def get_question(cursor, q_id):
     query = """
-            SELECT id, submission_time, view_number, vote_number, title, message, image, user_id
+            SELECT *
             FROM question
             WHERE id = %s
             ORDER BY submission_time"""
@@ -27,7 +27,7 @@ def get_question(cursor, q_id):
 @database_common.connection_handler
 def get_answer(cursor, q_id):
     query = """
-           SELECT id, submission_time, vote_number, question_id, message, image
+           SELECT *
            FROM answer
            WHERE question_id = %s
            ORDER BY submission_time"""
@@ -40,23 +40,23 @@ def get_answer(cursor, q_id):
 @database_common.connection_handler
 def get_answers(cursor):
     query = """
-           SELECT id, submission_time, vote_number, question_id, message, image
+           SELECT *
            FROM answer
            ORDER BY first_name"""
     cursor.execute(query)
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question(cursor, author_id):
+def add_question(cursor, author_id, author_username):
     new_title = request.form.get('title', default="")
     new_message = request.form['message']
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
-        VALUES (now(), 0, 0, %s, %s, %s, %s);    
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id, author) 
+        VALUES (now(), 0, 0, %s, %s, %s, %s, %s);    
     """
-    cursor.execute(query, (new_title, new_message, new_image, author_id))
+    cursor.execute(query, (new_title, new_message, new_image, author_id, author_username))
 
 @database_common.connection_handler
 def get_last_id(cursor):
@@ -66,15 +66,15 @@ def get_last_id(cursor):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_answer(cursor, question_id):
+def add_answer(cursor, question_id, author_id, author_username):
     new_message = request.form['message']
     upload_file = request.files['file_answer']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image) 
-        VALUES (now(), 0, %s, %s, %s);    
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id, author) 
+        VALUES (now(), 0, %s, %s, %s, %s, %s);    
     """
-    cursor.execute(query, (question_id, new_message, new_image))
+    cursor.execute(query, (question_id, new_message, new_image, author_id, author_username))
 
 
 @database_common.connection_handler
@@ -136,7 +136,7 @@ def vote(cursor, table, direction, id):
 @database_common.connection_handler
 def get_question_comments(cursor, q_id):
     query = """
-           SELECT id, answer_id, submission_time, question_id, message, edited_count, user_id
+           SELECT *
            FROM comment
            WHERE question_id = %s AND answer_id is NULL 
            ORDER BY submission_time"""
@@ -144,18 +144,18 @@ def get_question_comments(cursor, q_id):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question_comment(cursor, question_id):
+def add_question_comment(cursor, question_id, author_id, author_username):
     new_message = request.form['message']
     query = """
-        INSERT INTO comment (question_id, message, submission_time, edited_count ) 
-        VALUES (%s, %s, now(), 0);    
+        INSERT INTO comment (question_id, message, submission_time, edited_count, user_id, author) 
+        VALUES (%s, %s, now(), 0, %s, %s);    
     """
-    cursor.execute(query, (question_id, new_message))
+    cursor.execute(query, (question_id, new_message, author_id, author_username))
 
 @database_common.connection_handler
 def get_answer_comments(cursor, question_id):
     query = """
-           SELECT id, submission_time, question_id, answer_id, message, edited_count
+           SELECT *
            FROM comment
            WHERE question_id = %s
            ORDER BY submission_time"""
@@ -163,20 +163,21 @@ def get_answer_comments(cursor, question_id):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_answer_comment(cursor, answer_id, question_id):
+def add_answer_comment(cursor, answer_id, question_id, author_id, author_username):
     new_message = request.form['message']
     query = """
-        INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count ) 
-        VALUES (%s, %s, %s, now(), 0);    
+        INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count, user_id, author) 
+        VALUES (%s, %s, %s, now(), 0, %s, %s);    
     """
-    cursor.execute(query, (question_id[0]['question_id'],answer_id, new_message))
+    cursor.execute(query, (question_id, answer_id, new_message, author_id, author_username))
 
 @database_common.connection_handler
 def search_question(cursor, search_phrase):
     query = """
-            SELECT * FROM question
+            SELECT * 
+            FROM question
             WHERE title like '%{}%' or message like '%{}%'   
-        """.format(search_phrase,search_phrase)
+        """.format(search_phrase, search_phrase)
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -184,7 +185,8 @@ def search_question(cursor, search_phrase):
 @database_common.connection_handler
 def search_answer(cursor, search_phrase):
     query = """
-            SELECT * FROM answer
+            SELECT * 
+            FROM answer
             WHERE message like '%{}%'   
         """.format(search_phrase)
     cursor.execute(query)
@@ -197,14 +199,14 @@ def update_answer(cursor, answer_id):
     query = """
         UPDATE answer 
         SET message =%s
-     WHERE id = %s;
+        WHERE id = %s;
     """
     cursor.execute(query, (new_message, answer_id))
 
 @database_common.connection_handler
 def get_answer_to_edit(cursor, q_id):
     query = """
-           SELECT id, submission_time, vote_number, question_id, message, image
+           SELECT *
            FROM answer
            WHERE id = %s
            ORDER BY submission_time"""
@@ -350,4 +352,14 @@ def get_user_id(cursor, username):
     WHERE username = %s
     """
     cursor.execute(query, (username,))
+    return cursor.fetchone()
+
+@database_common.connection_handler
+def get_user_username(cursor, user_id):
+    query = """
+    SELECT username
+    FROM users
+    WHERE id = %s
+    """
+    cursor.execute(query, (user_id,))
     return cursor.fetchone()

@@ -86,7 +86,7 @@
                   </tr>
                   <tr>
                      <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ selected_question[0].submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
-                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">Team Apa</spam>
+                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ selected_question[0].author }}</spam>
                      </td>
                   </tr>
                     <tr>
@@ -101,6 +101,7 @@
 
                     <td colspan="3" class="question-footer" style="width: 845px">
                 <spam class="static_txt">Published: </spam><spam class="static_value"> {{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S') }} </spam>
+                        <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ row.author }}</spam>
                 <br><br><spam class="static_value">{{ row.message }}</spam><br><br>
                         {% if is_log_in %}
                             {% if ( row.user_id ) == user_id %}
@@ -116,10 +117,8 @@
         </div>
     </div>
     <h1>Answer</h1>
-    {% if is_log_in %}
-        {% if ( selected_question[0].user_id ) != user_id %}
+    {% if is_log_in and ( selected_question[0].user_id ) != user_id%}
             <a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a><br><br>
-        {% endif %}
     {% endif %}
     {% for row in selected_answer %}
         <div class="list-question">
@@ -149,9 +148,9 @@
                   <tr>
                   {% if is_log_in %}
                     <td class="question-image">
-                    {% if ( selected_question[0].user_id ) == user_id %}
-                        <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
-                        <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
+                    {% if ( selected_question[0].user_id ) != user_id and ( row.user_id ) == user_id %}
+                            <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
+                            <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
                     {% endif %}
                         <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add comment</a>
                     </td>
@@ -165,11 +164,11 @@
                   </tr>
                   <tr>
                      <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
-                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">Someone</spam>
+                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ row.author }}</spam>
                      </td>
                   </tr>
                   <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt">Answer comments: </spam>
+                     <td class="question-footer" colspan="3"><spam class="static_txt"><b>Answer comments: </b></spam>
                      </td>
                   </tr>
 
@@ -178,8 +177,12 @@
                             {% if comment.answer_id  ==  row.id  %}
                     <tr>
                         <td class="question-footer" colspan="3" >
-                            <spam class="static_txt">Published: </spam><spam class="static_value"> {{ comment.submission_time.strftime('%d-%m-%Y %H:%M:%S') }} {% if comment.edited_count != 0 %}
-                            <spam class="static_txt"><i class="fa-solid fa-user-pen"></i></spam> Edited {{ comment.edited_count }} times.</spam>{% endif %}
+                            <spam class="static_txt">Published: </spam><spam class="static_value"> {{ comment.submission_time.strftime('%d-%m-%Y %H:%M:%S') }}
+                            {% if comment.edited_count == 0 %}
+                                <spam class="static_txt"><i class="fa-solid fa-user"></i></spam> {{ comment.author }}
+                            {% else %}
+                            <spam class="static_txt"><i class="fa-solid fa-user-pen"></i></spam> Edited {{ comment.edited_count }} times by {{ comment.author }}.</spam>
+                            {% endif %}
 
                                     <br><br><spam class="static_value">{{ comment.message }}</spam><br><br>
                             {% if is_log_in %}

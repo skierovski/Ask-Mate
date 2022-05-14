@@ -16,15 +16,15 @@ def colored_text(text, search_phrase):
 @app.route('/list')
 def route_list():
     is_log_in = False
+    questions = data_handler.get_questions()
     if "username" in session:
         is_log_in = True
-    questions = data_handler.get_questions()
-    order_direction = request.args.get("order_direction", "desc")
-    order_by = request.args.get("order_by", "title")
-    questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
-    if 'username' in session:
+        order_direction = request.args.get("order_direction", "desc")
+        order_by = request.args.get("order_by", "title")
+        questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
         user_id = data_handler.get_user_id(session['username'])['id']
-        return render_template('list.html', user_question=questions, is_log_in=is_log_in, user_id=user_id)
+        user_username = data_handler.get_user_username(user_id)
+        return render_template('list.html', user_question=questions, is_log_in=is_log_in, user_id=user_id, user_username=user_username)
     return render_template('list.html', user_question=questions, is_log_in=is_log_in)
 
 
@@ -55,16 +55,19 @@ def add_new_question():
     author_id = data_handler.get_user_id(session['username'])['id']
     if request.method == "GET":
         return render_template('newquestion.html')
-    data_handler.add_question(author_id)
+    author_username = session['username']
+    data_handler.add_question(author_id, author_username)
     new_question_index = data_handler.get_last_id()
     return redirect(f"/question/{str(new_question_index[0]['max'])}")
 
 
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
 def add_answer(question_id):
+    author_id = data_handler.get_user_id(session['username'])['id']
+    author_username = session['username']
     if request.method == "GET":
         return render_template('newanswer.html', question_id=question_id)
-    data_handler.add_answer(question_id)
+    data_handler.add_answer(question_id, author_id, author_username)
     return redirect(f"/question/{str(question_id)}")
 
 
@@ -79,7 +82,6 @@ def edit_question(q_id):
     if request.method == 'GET':
         select_question = data_handler.get_question(q_id)
         return render_template('editquestion.html', selected_question=select_question)
-
     data_handler.update_question(q_id)
     return redirect(f"/question/{str(q_id)}")
 
@@ -108,19 +110,23 @@ def vote_answer(answer_id, vote):
 
 @app.route('/question/<question_id>/new-comment', methods=['POST', 'GET'])
 def add_question_comment(question_id):
+    author_id = data_handler.get_user_id(session['username'])['id']
+    author_username = session['username']
     if request.method == "GET":
         return render_template('newcomment.html', question_id=question_id)
-    data_handler.add_question_comment(question_id)
+    data_handler.add_question_comment(question_id, author_id, author_username)
     return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=['POST', 'GET'])
 def add_answer_comment(answer_id):
+    author_id = data_handler.get_user_id(session['username'])['id']
+    author_username = session['username']
     if request.method == "GET":
         return render_template('new_answer_comment.html', answer_id=answer_id)
-    question_id = data_handler.get_id(int(answer_id))
-    data_handler.add_answer_comment(answer_id, question_id)
-    return redirect(f"/question/{str(question_id[0]['question_id'])}")
+    question_id = data_handler.get_id(answer_id)[0]['question_id']
+    data_handler.add_answer_comment(answer_id, question_id, author_id, author_username)
+    return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/search', methods=['POST', 'GET'])
