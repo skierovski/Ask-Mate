@@ -251,6 +251,15 @@ def if_valid_username(username):
             return False
         return True
 
+@app.route('/users/<user_id>', methods=['GET'])
+def account_page(user_id):
+    is_log_in = False
+    if "username" in session:
+        is_log_in = True
+    user_content = data_handler.user_data(user_id)
+    return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in)
+
 
 if __name__ == "__main__":
     app.run()
+

@@ -54,13 +54,13 @@ mark{
     background-color:#17171E;
 	border-radius:25px;
 	border:1px solid #F93A0B;
-	display:inline-block;
+	display:flex;
 	cursor:pointer;
 	color: white;
     font-family: Arial;
 	font-size:15px;
 	font-weight:bold;
-    margin-right: 5px;
+    margin-right: 109px;
 	padding:10px 35px;
 	text-decoration:none;
 }
@@ -308,7 +308,7 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
 
 .profile-icon{
     border-radius: 75px;
-    margin-right: 10px;
+    margin-right: -148px;
     border-radius: 75px;
 
 }

@@ -363,3 +363,14 @@ def get_user_username(cursor, user_id):
     """
     cursor.execute(query, (user_id,))
     return cursor.fetchone()
+
+@database_common.connection_handler
+def user_data(cursor, user_id):
+    query = """
+        SELECT *
+        FROM question
+        WHERE user_id = %s
+    """
+
+    cursor.execute(query, user_id)
+    return cursor.fetchall()
