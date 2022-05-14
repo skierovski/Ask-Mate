@@ -257,7 +257,8 @@ def account_page(user_id):
     if "username" in session:
         is_log_in = True
     user_content = data_handler.user_data(user_id)
-    return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in)
+    username = data_handler.get_user_username(user_id)
+    return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in, username=username)
 
 
 if __name__ == "__main__":

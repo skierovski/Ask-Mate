@@ -366,11 +366,23 @@ def get_user_username(cursor, user_id):
 
 @database_common.connection_handler
 def user_data(cursor, user_id):
-    query = """
+    query1 = """
         SELECT *
         FROM question
         WHERE user_id = %s
     """
+    query2 = """
+            SELECT *
+            FROM answer
+            WHERE user_id = %s
+        """
+    query3 = """
+            SELECT *
+            FROM comment
+            WHERE user_id = %s
+        """
 
-    cursor.execute(query, user_id)
+    cursor.execute(query1, user_id)
+    cursor.execute(query2, user_id)
+    cursor.execute(query3, user_id)
     return cursor.fetchall()

@@ -28,6 +28,17 @@
     </div>
 </div>
 
+<div class="main">
+    {% for row in user_content %}
+    <br>
+    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150">
+    <p class="user-name">{{ row.author }}</p>
+    {% endfor %}
+
+
+</div>
+
+
 <div class="footer">Team APA</div>
 
 </body>

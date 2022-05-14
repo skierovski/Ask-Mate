@@ -314,3 +314,7 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     border-radius: 75px;
 
 }
+.user-name{
+    color: #F93A0B;
+    font-size: 40px;
+}

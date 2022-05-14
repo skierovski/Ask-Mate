@@ -15,6 +15,11 @@
             <a href="/sign_up" class="register-btn"> Sign Up</a>
             {% endif %}
             {% if is_log_in %}
+            <div class="profile-icon">
+                <a href="/users/{{ user_id }}" class="profile-icon">
+                <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="75" height="75" class="profile-icon">
+                </a>
+                </div>
             <a class="login-btn" href="/logout">Log-out</a>
             {% else %}
             <a class="login-btn" href="/login">Login</a>
