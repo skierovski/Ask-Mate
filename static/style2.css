@@ -26,7 +26,7 @@ mark{
     align-items: center;
     position: fixed;
     top: 15px;
-    right: 5px;
+    right: 90px;
     display: flex;
 }
 .register-btn {
@@ -38,8 +38,9 @@ mark{
 	color: white;
     font-family: Arial;
 	font-size:15px;
+    margin-top: 15px;
 	font-weight:bold;
-    margin-right: -20px;
+    margin-right: 10px;
 	padding:10px 35px;
 	text-decoration:none;
 }
@@ -60,7 +61,8 @@ mark{
     font-family: Arial;
 	font-size:15px;
 	font-weight:bold;
-    margin-right: 109px;
+    margin-top: 15px;
+    margin-right: -81px;
 	padding:10px 35px;
 	text-decoration:none;
 }
