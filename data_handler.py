@@ -38,8 +38,6 @@ def get_answer(cursor, q_id):
     return cursor.fetchall()
 
 
-
-
 @database_common.connection_handler
 def get_answers(cursor):
     query = """
@@ -48,6 +46,7 @@ def get_answers(cursor):
            INNER JOIN users  ON users.id = answer.user_id"""
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def add_question(cursor, author_id):
@@ -61,12 +60,14 @@ def add_question(cursor, author_id):
     """
     cursor.execute(query, (new_title, new_message, new_image, author_id))
 
+
 @database_common.connection_handler
 def get_last_id(cursor):
     query = """
             SELECT max(id) FROM question"""
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def add_answer(cursor, question_id, author_id):
@@ -88,6 +89,7 @@ def delete_question(cursor, question_id):
     """
     cursor.execute(query, (question_id,))
 
+
 @database_common.connection_handler
 def update_question(cursor, question_id):
     new_title = request.form.get('title', default="")
@@ -98,6 +100,7 @@ def update_question(cursor, question_id):
      WHERE id = %s;
     """
     cursor.execute(query, (new_title,new_message,question_id))
+
 
 @database_common.connection_handler
 def update_view_number(cursor, q_id):
@@ -156,6 +159,7 @@ def get_question_comments(cursor, q_id):
     cursor.execute(query, (q_id,))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def add_question_comment(cursor, question_id, author_id):
     new_message = request.form['message']
@@ -164,6 +168,7 @@ def add_question_comment(cursor, question_id, author_id):
         VALUES (%s, %s, now(), 0, %s);    
     """
     cursor.execute(query, (question_id, new_message, author_id))
+
 
 @database_common.connection_handler
 def get_answer_comments(cursor, question_id):
@@ -176,6 +181,7 @@ def get_answer_comments(cursor, question_id):
     cursor.execute(query, (question_id,))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def add_answer_comment(cursor, answer_id, question_id, author_id):
     new_message = request.form['message']
@@ -184,6 +190,7 @@ def add_answer_comment(cursor, answer_id, question_id, author_id):
         VALUES (%s, %s, %s, now(), 0, %s);    
     """
     cursor.execute(query, (question_id, answer_id, new_message, author_id))
+
 
 @database_common.connection_handler
 def search_question(cursor, search_phrase):
@@ -219,6 +226,7 @@ def update_answer(cursor, answer_id):
     """
     cursor.execute(query, (new_message, answer_id))
 
+
 @database_common.connection_handler
 def get_answer_to_edit(cursor, q_id):
     query = """
@@ -240,6 +248,7 @@ def get_comment_to_edit(cursor, c_id):
     cursor.execute(query, (c_id,))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def update_comment(cursor, comment_id):
     new_message = request.form['message']
@@ -260,6 +269,7 @@ def get_q_id_from_comment(cursor, comment_id):
     cursor.execute(query, (comment_id,))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def delete_comment(cursor, comment_id):
     query = """
@@ -274,10 +284,11 @@ def get_n_last_question(cursor, n):
     query = """
            SELECT question.*,users.username AS author
            FROM question 
-           INNER JOIN users  ON users.id = answer.user_id
+           INNER JOIN users  ON users.id = question.user_id
            ORDER BY submission_time desc limit %s;"""
     cursor.execute(query, (n,))
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def get_tags_for_question(cursor, question_id):
@@ -300,6 +311,7 @@ def get_tag_id(cursor, selected_tag):
     cursor.execute(query, (selected_tag,))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def add_tag_to_question(cursor, selected_tag_id, question_id):
     query = """
@@ -307,6 +319,7 @@ def add_tag_to_question(cursor, selected_tag_id, question_id):
                 VALUES(%s, %s)
                 """
     cursor.execute(query, (question_id, selected_tag_id))
+
 
 @database_common.connection_handler
 def sign_user(cursor, username, email, hashed_password, time):
@@ -371,6 +384,7 @@ def get_user_id(cursor, username):
     cursor.execute(query, (username,))
     return cursor.fetchone()
 
+
 @database_common.connection_handler
 def get_user_username(cursor, user_id):
     query = """
@@ -380,6 +394,7 @@ def get_user_username(cursor, user_id):
     """
     cursor.execute(query, (user_id,))
     return cursor.fetchone()
+
 
 @database_common.connection_handler
 def user_data(cursor, user_id):

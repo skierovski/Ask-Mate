@@ -56,7 +56,6 @@ def add_new_question():
     author_id = data_handler.get_user_id(session['username'])['id']
     if request.method == "GET":
         return render_template('newquestion.html')
-    author_username = session['username']
     data_handler.add_question(author_id)
     new_question_index = data_handler.get_last_id()
     return redirect(f"/question/{str(new_question_index[0]['max'])}")
@@ -65,7 +64,6 @@ def add_new_question():
 @app.route('/question/<question_id>/new-answer', methods=['POST', 'GET'])
 def add_answer(question_id):
     author_id = data_handler.get_user_id(session['username'])['id']
-    author_username = session['username']
     if request.method == "GET":
         return render_template('newanswer.html', question_id=question_id)
     data_handler.add_answer(question_id, author_id)
@@ -112,7 +110,6 @@ def vote_answer(answer_id, vote):
 @app.route('/question/<question_id>/new-comment', methods=['POST', 'GET'])
 def add_question_comment(question_id):
     author_id = data_handler.get_user_id(session['username'])['id']
-    author_username = session['username']
     if request.method == "GET":
         return render_template('newcomment.html', question_id=question_id)
     data_handler.add_question_comment(question_id, author_id)
@@ -122,7 +119,6 @@ def add_question_comment(question_id):
 @app.route('/answer/<answer_id>/new-comment', methods=['POST', 'GET'])
 def add_answer_comment(answer_id):
     author_id = data_handler.get_user_id(session['username'])['id']
-    author_username = session['username']
     if request.method == "GET":
         return render_template('new_answer_comment.html', answer_id=answer_id)
     question_id = data_handler.get_id(answer_id)[0]['question_id']
@@ -146,7 +142,6 @@ def edit_answer(a_id):
     if request.method == 'GET':
         select_answer = data_handler.get_answer_to_edit(a_id)
         return render_template('editanswer.html', selected_answer=select_answer)
-
     q_id = data_handler.get_id(a_id)
     data_handler.update_answer(a_id)
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
@@ -157,7 +152,6 @@ def edit_comment(c_id):
     if request.method == 'GET':
         select_comment = data_handler.get_comment_to_edit(c_id)
         return render_template('editcomment.html', selected_comment=select_comment)
-
     q_id = data_handler.get_q_id_from_comment(c_id)
     data_handler.update_comment(c_id)
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
