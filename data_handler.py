@@ -96,6 +96,15 @@ def update_question(cursor, question_id):
     """
     cursor.execute(query, (new_title,new_message,question_id))
 
+@database_common.connection_handler
+def update_view_number(cursor, q_id):
+    query = """
+    UPDATE question
+    SET view_number = view_number + 1
+    WHERE id = %s
+    """
+    cursor.execute(query, q_id)
+
 
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):

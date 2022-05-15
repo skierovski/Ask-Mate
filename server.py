@@ -36,6 +36,7 @@ def view_question(q_id):
         is_log_in = True
     if 'username' in session:
         user_id = data_handler.get_user_id(session['username'])['id']
+    data_handler.update_view_number(q_id)
     select_question = data_handler.get_question(q_id)
     select_answer = data_handler.get_answer(q_id)
     select_question_comments = data_handler.get_question_comments(q_id)
