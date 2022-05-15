@@ -6,8 +6,9 @@ import database_common
 @database_common.connection_handler
 def get_questions(cursor):
     query = """
-            SELECT *
+            SELECT question.*, users.username AS author
             FROM question
+            INNER JOIN users  ON users.id = question.user_id
             ORDER BY submission_time"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -16,9 +17,10 @@ def get_questions(cursor):
 @database_common.connection_handler
 def get_question(cursor, q_id):
     query = """
-            SELECT *
+            SELECT question.*, users.username AS author
             FROM question
-            WHERE id = %s
+            INNER JOIN users  ON users.id = question.user_id
+            WHERE question.id = %s
             ORDER BY submission_time"""
     cursor.execute(query, (q_id,))
     return cursor.fetchall()
@@ -27,9 +29,10 @@ def get_question(cursor, q_id):
 @database_common.connection_handler
 def get_answer(cursor, q_id):
     query = """
-           SELECT *
+           SELECT answer.*,users.username AS author
            FROM answer
-           WHERE question_id = %s
+           INNER JOIN users  ON users.id = answer.user_id
+           WHERE answer.question_id = %s
            ORDER BY submission_time"""
     cursor.execute(query, (q_id,))
     return cursor.fetchall()
@@ -40,23 +43,23 @@ def get_answer(cursor, q_id):
 @database_common.connection_handler
 def get_answers(cursor):
     query = """
-           SELECT *
+           SELECT answer.*,users.username AS author
            FROM answer
-           ORDER BY first_name"""
+           INNER JOIN users  ON users.id = answer.user_id"""
     cursor.execute(query)
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question(cursor, author_id, author_username):
+def add_question(cursor, author_id):
     new_title = request.form.get('title', default="")
     new_message = request.form['message']
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id, author) 
-        VALUES (now(), 0, 0, %s, %s, %s, %s, %s);    
+        INSERT INTO question (submission_time, view_number, vote_number, title, message, image, user_id) 
+        VALUES (now(), 0, 0, %s, %s, %s, %s);    
     """
-    cursor.execute(query, (new_title, new_message, new_image, author_id, author_username))
+    cursor.execute(query, (new_title, new_message, new_image, author_id))
 
 @database_common.connection_handler
 def get_last_id(cursor):
@@ -66,15 +69,15 @@ def get_last_id(cursor):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_answer(cursor, question_id, author_id, author_username):
+def add_answer(cursor, question_id, author_id):
     new_message = request.form['message']
     upload_file = request.files['file_answer']
     new_image = additional_functions.file_operation(upload_file)
     query = """
-        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id, author) 
+        INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
         VALUES (now(), 0, %s, %s, %s, %s, %s);    
     """
-    cursor.execute(query, (question_id, new_message, new_image, author_id, author_username))
+    cursor.execute(query, (question_id, new_message, new_image, author_id))
 
 
 @database_common.connection_handler
@@ -145,47 +148,50 @@ def vote(cursor, table, direction, id):
 @database_common.connection_handler
 def get_question_comments(cursor, q_id):
     query = """
-           SELECT *
+           SELECT comment.*, users.username AS author
            FROM comment
-           WHERE question_id = %s AND answer_id is NULL 
-           ORDER BY submission_time"""
+           INNER JOIN users  ON users.id = comment.user_id
+           WHERE comment.question_id = %s AND comment.answer_id is NULL 
+           ORDER BY comment.submission_time"""
     cursor.execute(query, (q_id,))
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_question_comment(cursor, question_id, author_id, author_username):
+def add_question_comment(cursor, question_id, author_id):
     new_message = request.form['message']
     query = """
-        INSERT INTO comment (question_id, message, submission_time, edited_count, user_id, author) 
-        VALUES (%s, %s, now(), 0, %s, %s);    
+        INSERT INTO comment (question_id, message, submission_time, edited_count, user_id) 
+        VALUES (%s, %s, now(), 0, %s);    
     """
-    cursor.execute(query, (question_id, new_message, author_id, author_username))
+    cursor.execute(query, (question_id, new_message, author_id))
 
 @database_common.connection_handler
 def get_answer_comments(cursor, question_id):
     query = """
-           SELECT *
+           SELECT comment.*, users.username AS author
            FROM comment
-           WHERE question_id = %s
+           INNER JOIN users  ON users.id = comment.user_id
+           WHERE comment.question_id = %s
            ORDER BY submission_time"""
     cursor.execute(query, (question_id,))
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_answer_comment(cursor, answer_id, question_id, author_id, author_username):
+def add_answer_comment(cursor, answer_id, question_id, author_id):
     new_message = request.form['message']
     query = """
-        INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count, user_id, author) 
-        VALUES (%s, %s, %s, now(), 0, %s, %s);    
+        INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count, user_id) 
+        VALUES (%s, %s, %s, now(), 0, %s);    
     """
-    cursor.execute(query, (question_id, answer_id, new_message, author_id, author_username))
+    cursor.execute(query, (question_id, answer_id, new_message, author_id))
 
 @database_common.connection_handler
 def search_question(cursor, search_phrase):
     query = """
-            SELECT * 
+            SELECT question.*,users.username AS author 
             FROM question
-            WHERE title like '%{}%' or message like '%{}%'   
+            INNER JOIN users  ON users.id = answer.user_id
+            WHERE question.title like '%{}%' or question.message like '%{}%'   
         """.format(search_phrase, search_phrase)
     cursor.execute(query)
     return cursor.fetchall()
@@ -194,9 +200,10 @@ def search_question(cursor, search_phrase):
 @database_common.connection_handler
 def search_answer(cursor, search_phrase):
     query = """
-            SELECT * 
+            SELECT answer.*,users.username AS author 
             FROM answer
-            WHERE message like '%{}%'   
+            INNER JOIN users  ON users.id = answer.user_id
+            WHERE answer.message like '%{}%'   
         """.format(search_phrase)
     cursor.execute(query)
     return cursor.fetchall()
@@ -265,8 +272,9 @@ def delete_comment(cursor, comment_id):
 @database_common.connection_handler
 def get_n_last_question(cursor, n):
     query = """
-           SELECT * 
+           SELECT question.*,users.username AS author
            FROM question 
+           INNER JOIN users  ON users.id = answer.user_id
            ORDER BY submission_time desc limit %s;"""
     cursor.execute(query, (n,))
     return cursor.fetchall()
