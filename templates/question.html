@@ -104,8 +104,12 @@
                   <tr>
 
                     <td colspan="3" class="question-footer" style="width: 845px">
-                <spam class="static_txt">Published: </spam><spam class="static_value"> {{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S') }} </spam>
-                        <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ row.author }}</spam>
+                            <spam class="static_txt">Published: </spam><spam class="static_value"> {{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S') }}
+                        {% if row.edited_count == 0 %}
+                            <spam class="static_txt"><i class="fa-solid fa-user"></i></spam> {{ row.author }}
+                        {% else %}
+                            <spam class="static_txt"><i class="fa-solid fa-user-pen"></i></spam> Edited {{ row.edited_count }} times by {{ row.author }}.</spam>
+                        {% endif %}
                 <br><br><spam class="static_value">{{ row.message }}</spam><br><br>
                         {% if is_log_in %}
                             {% if ( row.user_id ) == user_id %}
