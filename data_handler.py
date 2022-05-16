@@ -460,3 +460,25 @@ def delete_tag(cursor, question_id, tag_id):
     WHERE question_id = %s and tag_id = %s
     """
     cursor.execute(query, (question_id, tag_id))
+
+
+@database_common.connection_handler
+def accept_answer(cursor, answer_id):
+    query = """
+        UPDATE answer 
+        SET accepted = 1
+        WHERE id = %s;
+
+    """
+    cursor.execute(query, answer_id)
+
+
+@database_common.connection_handler
+def declined_answer(cursor, answer_id):
+    query = """
+            UPDATE answer 
+            SET accepted = 0
+            WHERE id = %s;
+
+        """
+    cursor.execute(query, answer_id)

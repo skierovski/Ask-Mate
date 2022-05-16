@@ -166,8 +166,11 @@
                             <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
                             <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
                     {% endif %}
-                        <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add comment</a>
-                    </td>
+                        {% if selected_question[0].user_id == user_id and row.accepted == 1 %}
+                            <a href="/answer/{{ row.id }}/declined" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
+                            {% elif selected_question[0].user_id == user_id and row.accepted == 0 %}
+                                <a href="/answer/{{ row.id }}/accept" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
+                        {% endif %}
                   {% endif %}
                   </tr>
                   <tr>

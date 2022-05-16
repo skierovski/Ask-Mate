@@ -282,6 +282,18 @@ def account_page(user_id):
     return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in, username=username)
 
 
+@app.route('/answer/<answer_id>/accept')
+def accept_answer(answer_id):
+    q_id = data_handler.get_id(answer_id)
+    data_handler.accept_answer(answer_id)
+    return redirect(f"/question/{str(q_id[0]['question_id'])}")
+
+@app.route('/answer/<answer_id>/declined')
+def decline_answer(answer_id):
+    q_id = data_handler.get_id(answer_id)
+    data_handler.declined_answer(answer_id)
+    return redirect(f"/question/{str(q_id[0]['question_id'])}")
+
 if __name__ == "__main__":
     app.run()
 
