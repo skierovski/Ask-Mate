@@ -418,3 +418,35 @@ def user_data(cursor, user_id):
     cursor.execute(query2, user_id)
     cursor.execute(query3, user_id)
     return cursor.fetchall()
+
+
+@database_common.connection_handler
+def check_if_tag_in_tags(cursor, selected_tag):
+    query = """
+    SELECT id
+    FROM tag
+    WHERE name = %s
+    """
+    cursor.execute(query, (selected_tag,))
+    if cursor.fetchone() is None:
+        return 0
+    return 1
+
+
+@database_common.connection_handler
+def add_new_tag_to_base(cursor, selected_tag):
+    query = """
+    INSERT INTO tag (name)
+    VALUES(%s)
+    """
+    cursor.execute(query, (selected_tag,))
+
+
+@database_common.connection_handler
+def get_tags(cursor):
+    query = """
+    SELECT *
+    FROM tag
+    """
+    cursor.execute(query)
+    return cursor.fetchall()

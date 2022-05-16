@@ -54,7 +54,12 @@
                         <p class="question-tag">Tags:
                         {% if is_log_in %}
                             {% if ( selected_question[0].user_id ) == user_id %}
-                                <a href="/question/{{ selected_question[0].id }}/new-tag" class="title"><i class="fa-solid fa-plus"></i></a>
+                                {% if selected_question_tag|length == 0 %}
+                                    <a href="/question/{{ selected_question[0].id }}/new-tag" class="title"><i class="fa-solid fa-plus"></i></a>
+                                {% else %}
+                                    <a href="/question/{{ selected_question[0].id }}/new-tag" class="title"><i class="fa-solid fa-plus"></i></a>
+                                    <a href="/question/{{ selected_question[0].id }}/delete-tag" class="title"><i class="fa-solid fa-minus"></i></a>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                             {% if selected_question_tag|length == 0 %}

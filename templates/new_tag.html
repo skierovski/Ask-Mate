@@ -25,16 +25,17 @@
         <div class="list-question">
             <div class="question-footer" style="width: 832px">
              <form action="/question/{{ question_id }}/new-tag" method="POST" enctype="multipart/form-data">
-     <div>
-         <label class="static_txt" for="python">python</label>
-         <input type="radio" name="tag" id="python" value="python">
-         <label class="static_txt" for="sql">sql</label>
-         <input type="radio" name="tag" id="sql" value="sql">
-         <label class="static_txt" for="css">css</label>
-         <input type="radio" name="tag" id="css" value="css"><br><br>
-    <input class="user_button" type="submit" value="Submit"><br>
-     </div>
-</form>
+                 <div>
+                     {% for tag in tags %}
+                     <label class="static_txt" for="{{ tag }}">{{ tag }}</label>
+                     <input type="radio" name="tag" id="{{ tag }}" value="{{ tag }}">
+                     {% endfor %}
+                     <br><br>
+                     <label class="static_txt" for="new_tag">Add new tag: </label>
+                     <input type="text" name="tag" id="new_tag" placeholder="New tag"><br><br>
+                <input class="user_button" type="submit" value="Submit"><br>
+                 </div>
+            </form>
             </div>
         </div>
 </div>
