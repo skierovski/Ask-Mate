@@ -197,6 +197,20 @@ def add_tag(question_id):
     return redirect(f"/question/{str(question_id)}")
 
 
+@app.route('/question/<question_id>/delete-tag', methods=['POST', 'GET'])
+def delete_tag(question_id):
+    if request.method == 'GET':
+        question_tags = []
+        for i in range(len(data_handler.get_tags_for_question(question_id))):
+            question_tags.append(data_handler.get_tags_for_question(question_id)[i]['name'])
+        return render_template('delete_tag.html', question_id=question_id, question_tags=question_tags)
+    selected_tag_id = data_handler.get_tag_id(request.form.get('tag'))[0]['id']
+    data_handler.delete_tag(question_id, selected_tag_id)
+    return redirect(f"/question/{str(question_id)}")
+
+
+
+
 @app.route("/sign_up", methods=['POST', 'GET'])
 def sign_up():
     if request.method == 'GET':
@@ -256,6 +270,7 @@ def if_valid_username(username):
         if numbers[i] in list(username):
             return False
         return True
+
 
 @app.route('/users/<user_id>', methods=['GET'])
 def account_page(user_id):
