@@ -282,6 +282,8 @@ def account_page(user_id):
     return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in, username=username)
 
 
+
+
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
     q_id = data_handler.get_id(answer_id)

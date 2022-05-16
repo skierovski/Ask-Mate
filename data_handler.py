@@ -473,6 +473,8 @@ def accept_answer(cursor, answer_id):
     cursor.execute(query, answer_id)
 
 
+
+
 @database_common.connection_handler
 def declined_answer(cursor, answer_id):
     query = """
