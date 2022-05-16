@@ -109,7 +109,7 @@ def update_view_number(cursor, q_id):
     SET view_number = view_number + 1
     WHERE id = %s
     """
-    cursor.execute(query, q_id)
+    cursor.execute(query, (q_id,))
 
 
 @database_common.connection_handler
