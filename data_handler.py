@@ -324,8 +324,8 @@ def add_tag_to_question(cursor, selected_tag_id, question_id):
 @database_common.connection_handler
 def sign_user(cursor, username, email, hashed_password, time):
     query = """
-    INSERT INTO users (username, email, hashed_password, register_time)
-    VALUES (%s, %s, %s, %s)
+    INSERT INTO users (username, email, hashed_password, register_time, reputation)
+    VALUES (%s, %s, %s, %s, 0)
     """
     cursor.execute(query, (username, email, hashed_password, time))
 
@@ -418,3 +418,23 @@ def user_data(cursor, user_id):
     cursor.execute(query2, user_id)
     cursor.execute(query3, user_id)
     return cursor.fetchall()
+
+@database_common.connection_handler
+def accept_answer(cursor, answer_id):
+    query = """
+        UPDATE answer 
+        SET accepted = 1
+        WHERE id = %s;
+    
+    """
+    cursor.execute(query, answer_id)
+
+@database_common.connection_handler
+def declined_answer(cursor, answer_id):
+    query = """
+            UPDATE answer 
+            SET accepted = 0
+            WHERE id = %s;
+
+        """
+    cursor.execute(query, answer_id)
