@@ -51,7 +51,7 @@ def get_answers(cursor):
 @database_common.connection_handler
 def add_question(cursor, author_id):
     new_title = request.form.get('title', default="")
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     upload_file = request.files['file']
     new_image = additional_functions.file_operation(upload_file)
     query = """
@@ -71,12 +71,12 @@ def get_last_id(cursor):
 
 @database_common.connection_handler
 def add_answer(cursor, question_id, author_id):
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     upload_file = request.files['file_answer']
     new_image = additional_functions.file_operation(upload_file)
     query = """
         INSERT INTO answer (submission_time, vote_number, question_id, message, image, user_id) 
-        VALUES (now(), 0, %s, %s, %s, %s, %s);    
+        VALUES (now(), 0, %s, %s, %s, %s);    
     """
     cursor.execute(query, (question_id, new_message, new_image, author_id))
 
@@ -93,7 +93,7 @@ def delete_question(cursor, question_id):
 @database_common.connection_handler
 def update_question(cursor, question_id):
     new_title = request.form.get('title', default="")
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     query = """
         UPDATE question 
         SET title= %s, message =%s
@@ -162,7 +162,7 @@ def get_question_comments(cursor, q_id):
 
 @database_common.connection_handler
 def add_question_comment(cursor, question_id, author_id):
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     query = """
         INSERT INTO comment (question_id, message, submission_time, edited_count, user_id) 
         VALUES (%s, %s, now(), 0, %s);    
@@ -184,7 +184,7 @@ def get_answer_comments(cursor, question_id):
 
 @database_common.connection_handler
 def add_answer_comment(cursor, answer_id, question_id, author_id):
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     query = """
         INSERT INTO comment (question_id,answer_id, message, submission_time, edited_count, user_id) 
         VALUES (%s, %s, %s, now(), 0, %s);    
@@ -197,7 +197,7 @@ def search_question(cursor, search_phrase):
     query = """
             SELECT question.*,users.username AS author 
             FROM question
-            INNER JOIN users  ON users.id = answer.user_id
+            INNER JOIN users  ON users.id = question.user_id
             WHERE question.title like '%{}%' or question.message like '%{}%'   
         """.format(search_phrase, search_phrase)
     cursor.execute(query)
@@ -218,7 +218,7 @@ def search_answer(cursor, search_phrase):
 
 @database_common.connection_handler
 def update_answer(cursor, answer_id):
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     query = """
         UPDATE answer 
         SET message =%s
@@ -251,7 +251,7 @@ def get_comment_to_edit(cursor, c_id):
 
 @database_common.connection_handler
 def update_comment(cursor, comment_id):
-    new_message = request.form['message']
+    new_message = request.form.get('ckeditor')
     query = """
         UPDATE comment 
         SET edited_count = edited_count + 1, message =%s, submission_time = now()

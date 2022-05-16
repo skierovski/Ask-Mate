@@ -7,7 +7,7 @@
 </head>
 
 <body>
-
+{{ ckeditor.load() }}
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
@@ -28,7 +28,7 @@
                 <label class="static_txt" for="title">Story title:</label><br>
                 <input type="text" name="title" class="title" required><br>
                 <label class="static_txt" for="message">Message:</label><br>
-                <textarea class="message" name="message" required></textarea><br>
+                {{ ckeditor.create() }}<br>
                 <input class="static_txt" type = "file" name = "file" />
                 <input class="user_button" type="submit" value="Add new question"><br>
             </form>

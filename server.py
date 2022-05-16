@@ -2,7 +2,13 @@ import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 import data_handler
 import bcrypt
+from flask_ckeditor import CKEditor
+from flask_wtf import FlaskForm
+from flask_ckeditor import CKEditorField
+from wtforms import StringField, SubmitField
+
 app = Flask(__name__)
+ckeditor = CKEditor(app)
 app.secret_key = b'abc'
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024

@@ -7,7 +7,7 @@
 </head>
 
 <body>
-
+{{ ckeditor.load() }}
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
@@ -120,7 +120,7 @@
                             {% if search_phrase is defined %}
                                   {% autoescape false %}{{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
                             {% else %}
-                                    {{ row.message }}
+                                    {% autoescape false %}{{ row.message }}{% endautoescape %}
                             {% endif %}
 
                         </p>
