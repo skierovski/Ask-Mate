@@ -171,10 +171,6 @@
                             {% elif selected_question[0].user_id == user_id and row.accepted == 0 %}
                                 <a href="/answer/{{ row.id }}/accept" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
                         {% endif %}
-
-
-                            <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add comment</a>
-                    </td>
                   {% endif %}
                   </tr>
                   <tr>
