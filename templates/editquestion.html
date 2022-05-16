@@ -8,7 +8,7 @@
 </head>
 
 <body>
-
+{{ ckeditor.load() }}
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
@@ -29,7 +29,8 @@
                 <label class="static_txt" for="title">Story title:</label><br>
                 <input type="text" name="title" class="title"   value="{{ selected_question[0].title}}" required><br>
                 <label class="static_txt" for="message">Message:</label><br>
-                <textarea class="message" name="message" required>{{selected_question[0].message}}</textarea><br>
+                {{ ckeditor.create(value=selected_question[0].message) }}<br>
+{#                <textarea class="message" name="message" required>{{selected_question[0].message}}</textarea><br>#}
                 <input class="user_button" type="submit" value="Edit question"><br>
             </form>
             </div>

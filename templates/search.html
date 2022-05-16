@@ -7,7 +7,7 @@
 </head>
 
 <body>
-
+{{ ckeditor.load() }}
 <div class="header">
     <div class="top-line"></div>
     <div class="logo2">
@@ -86,7 +86,7 @@
                             {% if search_phrase is defined %}
                                   {% autoescape false %}{{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
                             {% else %}
-                                    {{ row.message }}
+                                   {% autoescape false %} {{ row.message }}{% endautoescape %}
                             {% endif %}
 
                         </p>
@@ -123,7 +123,9 @@
             {% if search_phrase is defined %}
                                   {% autoescape false %}<spam class="question-message"> {{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}</spam>{% endautoescape %}
                             {% else %}
-                                   <spam class="question-message"> {{ row.message }} </spam>
+                                   <spam class="question-message"> {% autoescape false %}{{ row.message }}
+{% endautoescape %}
+ </spam>
                             {% endif %}<br><br>
             <a href="/question/{{ row.question_id }}" class="user_button">Go to question</a>
         </div>

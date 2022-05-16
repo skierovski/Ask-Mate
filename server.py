@@ -2,7 +2,10 @@ import datetime
 from flask import Flask, render_template, request, redirect, session, url_for
 import data_handler
 import bcrypt
+from flask_ckeditor import CKEditor
+
 app = Flask(__name__)
+ckeditor = CKEditor(app)
 app.secret_key = b'abc'
 app.config['UPLOAD_FOLDER'] = 'static'
 app.config['MAX_CONTENT_PATH'] = 16 * 1024 * 1024
@@ -179,11 +182,33 @@ def last_question_list():
 @app.route('/question/<question_id>/new-tag', methods=['POST', 'GET'])
 def add_tag(question_id):
     if request.method == 'GET':
-        return render_template('new_tag.html', question_id=question_id)
+        tags = []
+        for i in range (len(data_handler.get_tags())):
+            tags.append(data_handler.get_tags()[i]['name'])
+        return render_template('new_tag.html', question_id=question_id, tags=tags)
     selected_tag = request.form.get('tag')
-    selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
-    data_handler.add_tag_to_question(selected_tag_id, question_id)
+    if data_handler.check_if_tag_in_tags(selected_tag) == 1:
+        selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
+        data_handler.add_tag_to_question(selected_tag_id, question_id)
+    else:
+        data_handler.add_new_tag_to_base(selected_tag)
+        selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
+        data_handler.add_tag_to_question(selected_tag_id, question_id)
     return redirect(f"/question/{str(question_id)}")
+
+
+@app.route('/question/<question_id>/delete-tag', methods=['POST', 'GET'])
+def delete_tag(question_id):
+    if request.method == 'GET':
+        question_tags = []
+        for i in range(len(data_handler.get_tags_for_question(question_id))):
+            question_tags.append(data_handler.get_tags_for_question(question_id)[i]['name'])
+        return render_template('delete_tag.html', question_id=question_id, question_tags=question_tags)
+    selected_tag_id = data_handler.get_tag_id(request.form.get('tag'))[0]['id']
+    data_handler.delete_tag(question_id, selected_tag_id)
+    return redirect(f"/question/{str(question_id)}")
+
+
 
 
 @app.route("/sign_up", methods=['POST', 'GET'])
@@ -245,6 +270,7 @@ def if_valid_username(username):
         if numbers[i] in list(username):
             return False
         return True
+
 
 @app.route('/users/<user_id>', methods=['GET'])
 def account_page(user_id):
