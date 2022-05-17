@@ -98,6 +98,11 @@ def delete_answer(answer_id):
 @app.route('/question/<question_id>/<vote>')
 def vote_question(question_id, vote):
     direction = 1 if vote == 'vote-up' else -1
+    user_id = data_handler.get_user_id_from_question_id(question_id)
+    if direction == 1:
+        data_handler.reputation_question_up(user_id['user_id'])
+    else:
+        data_handler.reputation_question_down(user_id['user_id'])
     data_handler.vote('question', direction, question_id)
     return redirect("/list")
 
@@ -105,6 +110,11 @@ def vote_question(question_id, vote):
 @app.route('/answer/<answer_id>/<vote>')
 def vote_answer(answer_id, vote):
     direction = 1 if vote == 'vote-up' else -1
+    user_id = data_handler.get_user_id_from_answer_id(answer_id)
+    if direction == 1:
+        data_handler.reputation_answer_up(user_id['user_id'])
+    else:
+        data_handler.reputation_answer_down(user_id['user_id'])
     data_handler.vote('answer', direction, answer_id)
     question_id = data_handler.get_id(int(answer_id))
     return redirect(f"/question/{str(question_id[0]['question_id'])}")
@@ -287,6 +297,8 @@ def account_page(user_id):
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
     q_id = data_handler.get_id(answer_id)
+    user_id = data_handler.get_user_id_from_answer_id(answer_id)
+    data_handler.reputation_accepted_up(user_id['user_id'])
     data_handler.accept_answer(answer_id)
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
