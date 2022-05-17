@@ -21,7 +21,7 @@
                 <h2>Wrong username or password</h2>
                 {% endif %}
                 <label class="sign-up-labels" for="username">Username</label><br>
-                <input name="username" id="username" size="50" type="text" required/>
+                <input name="username" id="username" size="50" pattern="[0-9a-zA-Z'-'\s]*" type="text" required/>
                 <br><br>
                 <label class="sign-up-labels" for="password">Password</label><br>
                 <input name="password" id="password" size="50" type="password" required/>

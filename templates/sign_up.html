@@ -33,10 +33,10 @@
                 </div>
 
                 <label class="sign-up-labels" for="username">Username</label><br>
-                <input name="username" id="username" size="50" type="text" placeholder="Your beautiful name here" required/>
+                <input name="username" id="username" size="50" type="text" pattern="[0-9a-zA-Z'-'\s]*" placeholder="Your beautiful name here" required/>
                 <br><br>
                 <label class="sign-up-labels" for="email">Email</label><br>
-                <input name="email" id="email" size="50" type="email" placeholder="Your email" required/>
+                <input name="email" id="email" size="50" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="Your email" required/>
                 <br><br>
                 <label class="sign-up-labels" for="password">Password</label><br>
                 <input name="password" id="password" size="50" type="password" required/>
