@@ -171,10 +171,10 @@
                   {% endif %}
                   {% if is_log_in %}
                     <td class="question-image">
-                      {% if row.accepted == 1 %}
+                      {% if row.accepted == 1 and ( selected_question[0].user_id ) != user_id  %}
                         <a href="/question/{{ selected_question[0].id }}" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
                         {%  endif %}
-                      {% if row.accepted == 0 %}
+                      {% if row.accepted == 0 and ( selected_question[0].user_id ) != user_id %}
                             <a href="/question/{{ selected_question[0].id }}" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
                             {%  endif %}
                     {% if ( selected_question[0].user_id ) != user_id and ( row.user_id ) == user_id %}

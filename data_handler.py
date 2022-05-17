@@ -480,3 +480,72 @@ def declined_answer(cursor, answer_id):
 
         """
     cursor.execute(query, answer_id)
+
+@database_common.connection_handler
+def get_user_id_from_answer_id(cursor, answer_id):
+    query = """
+        SELECT user_id
+        FROM answer
+        WHERE id = %s
+    """
+    cursor.execute(query, (answer_id,))
+    return cursor.fetchone()
+
+@database_common.connection_handler
+def reputation_answer_up(cursor, user_id):
+    query = """
+        UPDATE users
+        SET reputation = reputation +10
+        WHERE id = %s;
+    """
+    cursor.execute(query, (user_id,))
+
+
+@database_common.connection_handler
+def reputation_answer_down(cursor, user_id):
+    query = """
+        UPDATE users
+        SET reputation = reputation -2
+        WHERE id = %s;
+        """
+    cursor.execute(query, (user_id,))
+
+
+
+@database_common.connection_handler
+def get_user_id_from_question_id(cursor, question_id):
+    query = """
+        SELECT user_id
+        FROM question
+        WHERE id = %s
+    """
+    cursor.execute(query, (question_id,))
+    return cursor.fetchone()
+
+@database_common.connection_handler
+def reputation_question_up(cursor, user_id):
+    query = """
+        UPDATE users
+        SET reputation = reputation +5
+        WHERE id = %s;
+    """
+    cursor.execute(query, (user_id,))
+
+
+@database_common.connection_handler
+def reputation_question_down(cursor, user_id):
+    query = """
+        UPDATE users
+        SET reputation = reputation -2
+        WHERE id = %s;
+        """
+    cursor.execute(query, (user_id,))
+
+@database_common.connection_handler
+def reputation_accepted_up(cursor, user_id):
+    query = """
+        UPDATE users
+        SET reputation = reputation +15
+        WHERE id = %s;
+    """
+    cursor.execute(query, (user_id,))
