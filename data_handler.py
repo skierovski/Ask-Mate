@@ -194,25 +194,27 @@ def add_answer_comment(cursor, answer_id, question_id, author_id):
 
 @database_common.connection_handler
 def search_question(cursor, search_phrase):
+    search_phrase = '%'+search_phrase+'%'
     query = """
             SELECT question.*,users.username AS author 
             FROM question
             INNER JOIN users  ON users.id = question.user_id
-            WHERE question.title like '%{}%' or question.message like '%{}%'   
-        """.format(search_phrase, search_phrase)
-    cursor.execute(query)
+            WHERE question.title like %s  or question.message like %s   
+        """
+    cursor.execute(query, (search_phrase, search_phrase,))
     return cursor.fetchall()
 
 
 @database_common.connection_handler
 def search_answer(cursor, search_phrase):
+    search_phrase = '%' + search_phrase + '%'
     query = """
             SELECT answer.*,users.username AS author 
             FROM answer
             INNER JOIN users  ON users.id = answer.user_id
-            WHERE answer.message like '%{}%'   
-        """.format(search_phrase)
-    cursor.execute(query)
+            WHERE answer.message like %s   
+        """
+    cursor.execute(query, (search_phrase,))
     return cursor.fetchall()
 
 
