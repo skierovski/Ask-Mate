@@ -311,7 +311,7 @@ def get_tag_id(cursor, selected_tag):
                 WHERE name = %s
                 """
     cursor.execute(query, (selected_tag,))
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -551,3 +551,14 @@ def reputation_accepted_up(cursor, user_id):
         WHERE id = %s;
     """
     cursor.execute(query, (user_id,))
+
+
+@database_common.connection_handler
+def get_question_id_by_tag_id(cursor, tag_id):
+    query = """
+    SELECT question_id
+    FROM question_tag
+    WHERE tag_id = %s
+    """
+    cursor.execute(query, (tag_id,))
+    return cursor.fetchall()

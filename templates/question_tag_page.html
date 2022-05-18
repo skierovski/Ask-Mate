@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions with {{ tag }} tag</title>
+</head>
+<body>
+    {% for question in questions %}
+        <a href="/question/{{ question[0].id }}"><h1>{{ question[0].title }}</h1></a><br>
+    {% endfor %}
+</body>
+</html>
