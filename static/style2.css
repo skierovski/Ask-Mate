@@ -310,16 +310,12 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     overflow: auto;
     width: 260px;
 }
-<<<<<<< HEAD
-
 .main-header{
     align-items: center;
     display: flex;
 
  }
 
-=======
->>>>>>> 1b881a1af60f502e9c8d746cdeda819b65f10863
 .profile-icon{
     border-radius: 75px;
     margin-right: -148px;
@@ -329,7 +325,6 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
 
 .user-name{
     color: #F93A0B;
-<<<<<<< HEAD
     font-size: 50px;
     margin-left: 60px;
 }
@@ -340,7 +335,6 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     font-size: 20px;
     float: right;
     margin-left: 350px;
-=======
     font-size: 40px;
 }
 
@@ -349,5 +343,4 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     margin-right: auto;
     margin-bottom: 100px;
     margin-top: 100px;
->>>>>>> 1b881a1af60f502e9c8d746cdeda819b65f10863
 }
