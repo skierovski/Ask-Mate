@@ -30,12 +30,12 @@
 </div>
 
 <div class="main">
-    {% for row in user_content %}
     <br>
-    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150">
-    <p class="user-name">{{ row.author }}</p>
-    {% endfor %}
-
+    <div class="main-header">
+    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150" class="profile-avatar">
+    <p class="user-name" >{{ username[0]['username'] }}</p>
+    <p class="reputation">Reputation: {{ username[0]['reputation'] }}</p>
+    </div>
 
 </div>
 

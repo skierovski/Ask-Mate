@@ -388,39 +388,48 @@ def get_user_id(cursor, username):
 
 
 @database_common.connection_handler
-def get_user_username(cursor, user_id):
+def get_user_username_and_reputation(cursor, user_id):
     query = """
-    SELECT username
+    SELECT username, reputation
     FROM users
     WHERE id = %s
     """
     cursor.execute(query, (user_id,))
-    return cursor.fetchone()
+    return cursor.fetchall()
 
 
 @database_common.connection_handler
-def user_data(cursor, user_id):
-    query1 = """
+def user_data_question(cursor, user_id):
+    query = """
         SELECT *
         FROM question
         WHERE user_id = %s
     """
-    query2 = """
+    cursor.execute(query, (user_id,))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def user_data_answer(cursor, user_id):
+    query = """
             SELECT *
             FROM answer
             WHERE user_id = %s
         """
-    query3 = """
+
+    cursor.execute(query, (user_id,))
+    return cursor.fetchall()
+
+
+
+@database_common.connection_handler
+def user_data_comment(cursor, user_id):
+    query = """
             SELECT *
             FROM comment
             WHERE user_id = %s
         """
-
-    cursor.execute(query1, user_id)
-    cursor.execute(query2, user_id)
-    cursor.execute(query3, user_id)
+    cursor.execute(query, (user_id,))
     return cursor.fetchall()
-
 
 @database_common.connection_handler
 def check_if_tag_in_tags(cursor, selected_tag):

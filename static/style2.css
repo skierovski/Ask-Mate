@@ -311,6 +311,12 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     width: 260px;
 }
 
+.main-header{
+    align-items: center;
+    display: flex;
+
+ }
+
 .profile-icon{
     border-radius: 75px;
     margin-right: -148px;
@@ -319,5 +325,14 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
 }
 .user-name{
     color: #F93A0B;
-    font-size: 40px;
+    font-size: 50px;
+    margin-left: 60px;
+}
+.profile-avatar{
+    border-radius: 70px;
+}
+.reputation{
+    font-size: 20px;
+    float: right;
+    margin-left: 350px;
 }

@@ -26,7 +26,7 @@ def route_list():
         order_by = request.args.get("order_by", "title")
         questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
         user_id = data_handler.get_user_id(session['username'])['id']
-        user_username = data_handler.get_user_username(user_id)
+        user_username = data_handler.get_user_username_and_reputation(user_id)
         return render_template('list.html', user_question=questions, is_log_in=is_log_in, user_id=user_id, user_username=user_username)
     return render_template('list.html', user_question=questions, is_log_in=is_log_in)
 
@@ -287,9 +287,15 @@ def account_page(user_id):
     is_log_in = False
     if "username" in session:
         is_log_in = True
-    user_content = data_handler.user_data(user_id)
-    username = data_handler.get_user_username(user_id)
-    return render_template("account_details.html", user_content=user_content, is_log_in=is_log_in, username=username)
+    user_content_question = data_handler.user_data_question(user_id)
+    user_content_answer = data_handler.user_data_answer(user_id)
+    user_content_comment = data_handler.user_data_comment(user_id)
+    username = data_handler.get_user_username_and_reputation(user_id)
+    return render_template("account_details.html", question=user_content_question,
+                                                    answer=user_content_answer,
+                                                    comment=user_content_comment,
+                                                    is_log_in=is_log_in,
+                                                    username=username)
 
 
 
