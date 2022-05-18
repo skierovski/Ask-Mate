@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
+    <meta charset="UTF-8">
+    <title>Tag page</title>
+</head>
+<body>
+{% for tag in tags %}
+    <div><h1><a href="tag_page/{{ tag.name }}">{{ tag.name }}</a><h1></div>
+{% endfor %}
+</body>
+</html>

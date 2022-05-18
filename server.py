@@ -299,8 +299,6 @@ def account_page(user_id):
 
 
 
-
-
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
     q_id = data_handler.get_id(answer_id)
@@ -309,11 +307,33 @@ def accept_answer(answer_id):
     data_handler.accept_answer(answer_id)
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
 
+
 @app.route('/answer/<answer_id>/declined')
 def decline_answer(answer_id):
     q_id = data_handler.get_id(answer_id)
     data_handler.declined_answer(answer_id)
     return redirect(f"/question/{str(q_id[0]['question_id'])}")
+
+
+@app.route('/tag_page')
+def tag_page():
+    tags = data_handler.get_tags()
+    return render_template('tag_page.html', tags=tags)
+
+
+@app.route('/tag_page/<tag>')
+def questions_tag_page(tag):
+    questions = []
+    questions_id = []
+    if tag == 'c':
+        tag = 'c#'
+    tag_id = data_handler.get_tag_id(tag)['id']
+    for i in range(len(data_handler.get_question_id_by_tag_id(tag_id))):
+        questions_id.append(data_handler.get_question_id_by_tag_id(tag_id)[i]['question_id'])
+    for id in questions_id:
+        questions.append(data_handler.get_question(id))
+    return render_template('question_tag_page.html', questions=questions, tag=tag)
+
 
 if __name__ == "__main__":
     app.run()
