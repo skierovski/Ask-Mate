@@ -300,6 +300,7 @@ def account_page(user_id):
 
 
 
+
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
     q_id = data_handler.get_id(answer_id)
