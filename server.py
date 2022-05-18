@@ -318,6 +318,8 @@ def tag_page():
 def questions_tag_page(tag):
     questions = []
     questions_id = []
+    if tag == 'c':
+        tag = 'c#'
     tag_id = data_handler.get_tag_id(tag)['id']
     for i in range(len(data_handler.get_question_id_by_tag_id(tag_id))):
         questions_id.append(data_handler.get_question_id_by_tag_id(tag_id)[i]['question_id'])
