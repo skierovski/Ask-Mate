@@ -31,16 +31,85 @@
 
 <div class="main">
     <br>
-<<<<<<< HEAD
     <div class="main-header">
     <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150" class="profile-avatar">
-    <p class="user-name" >{{ username[0]['username'] }}</p>
-    <p class="reputation">Reputation: {{ username[0]['reputation'] }}</p>
+        <a href="/users/{{ question[0]['user_id'] }}" style="text-decoration: none"><p class="user-name" >{{ username[0]['username'] }}</p></a>
+        <table class="user-experience">
+            <tr>
+                <td><p class="reputation">Reputation: {{ username[0]['reputation'] }}</p>
+                <p class="reputation">Questions: {{ question|length }}</p>
+                <p class="reputation">Answers: {{ answer|length  }}</p>
+                <p class="reputation">Comments: {{ comment|length  }}</p></td>
+            </tr>
+            </table>
     </div>
-=======
-    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150">
-    <p class="user-name">{{ username['username'] }}</p>
->>>>>>> 1b881a1af60f502e9c8d746cdeda819b65f10863
+<br>
+<br>
+    {% for row in question %}
+        <div class="list-question">
+            <table>
+                <tbody>
+                  <tr>
+                    <td class="question-statistic">
+                        <p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p>
+                        <p><span class="static_value">
+                            {% if is_log_in %}
+                                {% if ( row.user_id ) != user_id %}
+                                    <a href="/question/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                                {% endif %}
+                            {% endif %}
+
+                {{ row.vote_number }}
+
+                {% if is_log_in %}
+                    {% if ( row.user_id ) != user_id %}
+                        <a href="/question/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
+                    {% endif %}
+                {% endif %}
+                        </span><span class="static_txt"> question votes</span></p>
+                    </td>
+                    <td></td>
+                    <td rowspan="4" class="question-details">
+                        <p><a href="/question/{{ row.id }}" class="title">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.title | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {{ row.title }}
+                            {% endif %}
+                            </a></p>
+                        <p class="question-message">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {% autoescape false %}{{ row.message }}{% endautoescape %}
+                            {% endif %}
+
+                        </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td class="question-image"><img width="130px" src="/static/img.png" alt="Question image"/></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="3"></td>
+                  </tr>
+                  <tr>
+                     <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ username[0]['username'] }}</spam>
+                     </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+</div>
 
 
 </div>

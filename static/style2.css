@@ -313,7 +313,7 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
 .main-header{
     align-items: center;
     display: flex;
-
+    margin-top: 20px;
  }
 
 .profile-icon{
@@ -335,7 +335,8 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     font-size: 20px;
     float: right;
     margin-left: 350px;
-    font-size: 40px;
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
 
 .tag_container{
@@ -343,4 +344,7 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
     margin-right: auto;
     margin-bottom: 100px;
     margin-top: 100px;
+}
+.user-experience{
+    margin-top: 15px;
 }
