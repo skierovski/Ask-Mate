@@ -148,7 +148,7 @@
                             {% if is_log_in %}
                                 <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
                             {% endif %}
-                        </span><span class="static_txt"> question votes</span></p>
+                        </span><span class="static_txt"> answer votes</span></p>
                     </td>
                     <td></td>
                     <td rowspan="4" class="question-details">
@@ -177,6 +177,9 @@
                       {% if row.accepted == 0 and ( selected_question[0].user_id ) != user_id %}
                             <a href="/question/{{ selected_question[0].id }}" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
                             {%  endif %}
+                      {% if ( row.user_id ) == user_id %}
+                       <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add answer comment</a><br><br>
+                          {% endif %}
                     {% if ( selected_question[0].user_id ) != user_id and ( row.user_id ) == user_id %}
                             <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
                             <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
