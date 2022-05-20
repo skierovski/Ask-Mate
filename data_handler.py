@@ -109,7 +109,7 @@ def update_view_number(cursor, q_id):
     SET view_number = view_number + 1
     WHERE id = %s
     """
-    cursor.execute(query, q_id)
+    cursor.execute(query, (q_id,))
 
 
 @database_common.connection_handler
@@ -480,7 +480,7 @@ def accept_answer(cursor, answer_id):
         WHERE id = %s;
     
     """
-    cursor.execute(query, answer_id)
+    cursor.execute(query, (answer_id,))
 
 @database_common.connection_handler
 def declined_answer(cursor, answer_id):
@@ -490,7 +490,7 @@ def declined_answer(cursor, answer_id):
             WHERE id = %s;
 
         """
-    cursor.execute(query, answer_id)
+    cursor.execute(query, (answer_id,))
 
 @database_common.connection_handler
 def get_user_id_from_answer_id(cursor, answer_id):
