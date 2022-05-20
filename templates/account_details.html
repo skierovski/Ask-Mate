@@ -1,47 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>Question list</title>
-</head>
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-        <div class ="account-panel">
-            {% if not is_log_in %}
-            <a href="/sign_up" class="register-btn"> Sign Up</a>
-            {% endif %}
-            {% if is_log_in %}
-            <div class="profile-icon">
-                <a href="/users/{{ user_id }}" class="profile-icon">
-                <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="75" height="75" class="profile-icon">
-                </a>
-                </div>
-            <a class="login-btn" href="/logout">Log-out</a>
-            {% else %}
-            <a class="login-btn" href="/login">Login</a>
-            {% endif %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+    <div class="title">
+        <h1><b>{% block title %}User pages: {% endblock %}</b></h1>
+        <a class="user_button" href="/">Return to home page</a>
+    </div>
+    <div class="list-question">
+        <div class="question-box">
+        <table class="user-experience">
+                <td style="width: 600px;">  <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150" class="profile-avatar">
+        <a href="/users/{{ question[0]['user_id'] }}" style="text-decoration: none"><p class="user-name" >{{ username[0]['username'] }}</p></a></td>
+                <td>
+                <p class="info-text"">Reputation: {{ username[0]['reputation'] }}</p>
+                <p class="info-text">Questions: {{ question|length }}</p>
+                <p class="info-text">Answers: {{ answer|length  }}</p>
+                <p class="info-text">Comments: {{ comment|length  }}</p></td>
+            </tr>
+            </table>
         </div>
+        <div class="question-footer" style="color: white"><b>Your questions:</b></div><br>
+        {% for row in question %}
+        <div class="question-footer" >
+             <p><a href="/question/{{ row.id }}" class="title">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.title | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {{ row.title }}
+                            {% endif %}
+                            </a></p>
+            <spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+
+        </div><br>
+        {% endfor %}
     </div>
-</div>
-
-<div class="main">
-    <br>
-    <div class="main-header">
-    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150" class="profile-avatar">
-    <p class="user-name" >{{ username[0]['username'] }}</p>
-    <p class="reputation">Reputation: {{ username[0]['reputation'] }}</p>
-    </div>
-    <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="150" height="150">
-    <p class="user-name">{{ username['username'] }}</p>
-</div>
-
-
-<div class="footer">Team APA</div>
-
-</body>
-</html>
+<br>
+{% endblock %}

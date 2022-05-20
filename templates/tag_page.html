@@ -1,13 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-    <meta charset="UTF-8">
-    <title>Tag page</title>
-</head>
-<body>
-{% for tag in tags %}
-    <div><h1><a href="tag_page/{{ tag.name }}">{{ tag.name }}</a><h1></div>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="title">
+        <h1><b>{% block title %}Tag pages: {% endblock %}</b></h1>
+        <a class="user_button" href="/">Return to home page</a>
+    </div>
+    <div class="list-question">
+    <div class="question-box">
+    {% for tag in tags %}
+        <a class="static_txt" href="tag_page/{{ tag.name }}">{{ tag.name }}</a><br>
+    {% endfor %}
+    </div></div>
+
+{% endblock %}

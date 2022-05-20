@@ -10,7 +10,7 @@
                 <div class="flex-container-user list-question">
                     <div class="flex-items-user question-box">Username: <b>{{user.username}}</b></div>
                     <div class="flex-items-user question-box">Email: {{user.email}}</div>
-                    <div class="flex-items-user question-box">Registered time: {{user.register_time}}</div>
+                    <div class="flex-items-user question-box">Registered time: {{user.register_time.strftime('%d-%m-%Y %H:%M:%S')}}</div>
                     <div class="flex-items-user question-box"><a href="/user/{{user.id}}/delete" class="user_button">Delete user</a></div>
                 </div>
 

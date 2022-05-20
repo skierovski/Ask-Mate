@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Questions with {{ tag }} tag</title>
-</head>
-<body>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="title">
+        <h1><b>{% block title %}Questions with {{ tag }} tag {% endblock %}</b></h1>
+        <a class="user_button" href="/">Return to home page</a>
+    </div>
+    <div class="list-question">
     {% for question in questions %}
-        <a href="/question/{{ question[0].id }}"><h1>{{ question[0].title }}</h1></a><br>
+        <div class="question-footer">
+        <a class="title" href="/question/{{ question[0].id }}">{{ question[0].title }}</a><br>
+        <p class="info-text">{{ question[0].submission_time.strftime('%d-%m-%Y %H:%M:%S') }}</p>
+        </div><br>
     {% endfor %}
-</body>
-</html>
+    </div>
+
+{% endblock %}
