@@ -198,11 +198,11 @@ def add_tag(question_id):
         return render_template('new_tag.html', question_id=question_id, tags=tags)
     selected_tag = request.form.get('tag')
     if data_handler.check_if_tag_in_tags(selected_tag) == 1:
-        selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
+        selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
         data_handler.add_tag_to_question(selected_tag_id, question_id)
     else:
         data_handler.add_new_tag_to_base(selected_tag)
-        selected_tag_id = data_handler.get_tag_id(selected_tag)[0]['id']
+        selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
         data_handler.add_tag_to_question(selected_tag_id, question_id)
     return redirect(f"/question/{str(question_id)}")
 
@@ -214,7 +214,7 @@ def delete_tag(question_id):
         for i in range(len(data_handler.get_tags_for_question(question_id))):
             question_tags.append(data_handler.get_tags_for_question(question_id)[i]['name'])
         return render_template('delete_tag.html', question_id=question_id, question_tags=question_tags)
-    selected_tag_id = data_handler.get_tag_id(request.form.get('tag'))[0]['id']
+    selected_tag_id = data_handler.get_tag_id(request.form.get('tag'))['id']
     data_handler.delete_tag(question_id, selected_tag_id)
     return redirect(f"/question/{str(question_id)}")
 
