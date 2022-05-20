@@ -1,29 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-    <title>Success</title>
-</head>
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-    </div>
-</div>
+{% extends 'base.html' %}
 
-
-<div class="main">
+{% block content %}
     <div class="title">
+        <h1>{% block title %}Welcome{% endblock %}</h1>
+        <a href="/list" class="user_button"> All question list</a>
     </div>
-    <div>
-        <h1 class="hello-msg">Hi {{user_name}}, Your registration was successful</h1>
-        <p class="info-text">If you want to log in, just click the button below ;)</p>
-        <a href="/login" class="user_button">Log in</a>
+    <div class="list-question">
+        <div class="question-box">
+            <h1 class="hello-msg">Hi {{user_name}}, Your registration was successful</h1>
+            <p class="info-text">If you want to log in, just click the button below ;)</p>
+            <a href="/login" class="user_button">Log in</a>
+        </div>
     </div>
-</div>
-<div class="footer">Team APA</div>
-</body>
-</html>
+{% endblock %}

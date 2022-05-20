@@ -1,75 +1,19 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-    <title>All users</title>
-</head>
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-        <div class ="account-panel">
-            {% if not is_log_in %}
-            <a href="/sign_up" class="register-btn"> Sign Up</a>
-            {% endif %}
-            {% if is_log_in %}
-            <div class="profile-icon">
-                <a href="/users/{{ user_id }}" class="profile-icon">
-                <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="75" height="75" class="profile-icon">
-                </a>
-                </div>
-            <a class="login-btn" href="/logout">Log-out</a>
-            {% else %}
-            <a class="login-btn" href="/login">Login</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
+{% extends 'base.html' %}
 
-<div class="main-user-list">
+{% block content %}
+
     <div class="title">
-        <h1><b>List of all users: </b></h1>
+        <h1><b>{% block title %}List of all users: {% endblock %}</b></h1>
         <a class="user_button" href="/">Return to home page</a>
     </div>
-
-    <div class="list-question">
         {% for user in all_users %}
-        <table class="user-list">
-            <tbody>
-                <tr>
-                    <td>
-                        Id: {{user.id}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Username: <b>{{user.username}}</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Email: {{user.email}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Registered time: {{user.register_time}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="/user/{{user.id}}/delete" class="user_button">Delete user</a>
-                    </td>
-                </tr>
-                    {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-<div class="footer">Team APA</div>
-</body>
-</html>
+                <div class="flex-container-user list-question">
+                    <div class="flex-items-user question-box">Username: <b>{{user.username}}</b></div>
+                    <div class="flex-items-user question-box">Email: {{user.email}}</div>
+                    <div class="flex-items-user question-box">Registered time: {{user.register_time}}</div>
+                    <div class="flex-items-user question-box"><a href="/user/{{user.id}}/delete" class="user_button">Delete user</a></div>
+                </div>
 
+        {% endfor %}
+    <br><br>
+{% endblock %}

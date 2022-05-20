@@ -20,11 +20,11 @@ def colored_text(text, search_phrase):
 def route_list():
     is_log_in = False
     questions = data_handler.get_questions()
+    order_direction = request.args.get("order_direction", "desc")
+    order_by = request.args.get("order_by", "title")
+    questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
     if "username" in session:
         is_log_in = True
-        order_direction = request.args.get("order_direction", "desc")
-        order_by = request.args.get("order_by", "title")
-        questions.sort(key=lambda q: q[order_by], reverse=(order_direction == 'desc'))
         user_id = data_handler.get_user_id(session['username'])['id']
         user_username = data_handler.get_user_username_and_reputation(user_id)
         return render_template('list.html', user_question=questions, is_log_in=is_log_in, user_id=user_id, user_username=user_username)

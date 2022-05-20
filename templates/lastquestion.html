@@ -1,75 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>AskMate - Question</title>
-</head>
+{% extends 'base.html' %}
 
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-            <div class ="account-panel">
-            {% if not is_log_in %}
-            <a href="/sign_up" class="register-btn"> Sign Up</a>
-            {% endif %}
+{% block content %}
+    <div class="title">
+        <h1>{% block title %}Last question{% endblock %}</h1>
+        <div>
+            <a href="/list" class="user_button">Question list</a>
             {% if is_log_in %}
-            <a class="login-btn" href="/logout">Log-out</a>
-            {% else %}
-            <a class="login-btn" href="/login">Login</a>
+                <a href="/add-question" class="user_button"> Add new question </a>
             {% endif %}
+                <a href="/list_of_users" class="user_button"> Users list </a>
+                <a href="/tag_page" class="user_button"> Search by tag </a>
         </div>
     </div>
+        <br>
 
-</div>
-
-<div class="main">
-    <div class="title">
-        <h1>Last Question</h1>
-        <a href="/list" class="user_button"> All question list</a>
+    <div class="list-question">
+        <table>
+            <thead>
+                <th class="search_by">Sort by: </th>
+                <th class="search_col">Submission Time<br>
+                    <a href="/list?order_by=submission_time&order_direction=asc" class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+                    <a href="/list?order_by=submission_time"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+                </th>
+                <th class="search_col">View number<br>
+                    <a href="/list?order_by=view_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+                    <a href="/list?order_by=view_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+                </th>
+                <th class="search_col">Vote number<br>
+                    <a href="/list?order_by=vote_number&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+                    <a href="/list?order_by=vote_number"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+                </th>
+                <th class="search_col">Title<br>
+                    <a href="/list?order_by=title&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+                    <a href="/list?order_by=title"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+                </th>
+                <th class="search_col">
+                    Message<br>
+                    <a href="/list?order_by=message&order_direction=asc"class="UPandDOWN"><i class="fa-solid fa-angle-up"></i></a>
+                    <a href="/list?order_by=message"class="UPandDOWN"><i class="fa-solid fa-angle-down"></i></a>
+                </th>
+                <th>
+                    <form action="/search">
+                        <input id="search-input" type="text" name="q" placeholder="Search..." style="width: 150px">
+                        <button class="user_button" type="submit">Search</button>
+                    </form>
+                </th>
+            </thead>
+        </table>
     </div>
 
     {% for row in user_question %}
-        <div class="list-question">
-            <table>
-                <tbody>
-                  <tr>
-                    <td class="question-statistic">
-                        <p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p>
-                        <p><span class="static_value">{{ row.vote_number }}</span><span class="static_txt"> question votes</span></p>
-                    </td>
-                    <td></td>
-                    <td rowspan="4" class="question-details">
-                        <p><a href="/question/{{ row.id }}" class="title"> {{ row.title }} </a></p>
-                        {% autoescape false %}<p class="question-message">{{ row.message }}</p>{% endautoescape %}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                    <td class="question-image"><img width="130px" src="/static/img.png" alt="Question image"/></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                     <td colspan="3"></td>
-                  </tr>
-                  <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
-                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">Team Apa</spam>
-                     </td>
-                  </tr>
-                </tbody>
-            </table>
+        <div class="list-box">
+            <div class="flex-container">
+                <div class="flex-items">
+                    <div class="question-statistic">
+                         <p> <span class="static_value"> {{ row.view_number }}</span><span class="static_txt"> question views</span></p>
+                         <p><span class="static_value">
+                            {% if is_log_in %}
+                                {% if ( row.user_id ) != user_id %}
+                                    <a href="/question/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
+                                {% endif %}
+                            {% endif %}
+                            {{ row.vote_number }}
+                            {% if is_log_in %}
+                                {% if ( row.user_id ) != user_id %}
+                                    <a href="/question/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
+                                {% endif %}
+                            {% endif %}
+                        </span><span class="static_txt"> question votes</span></p>
+                    </div>
+                    <div class="question-image">
+                        <img class="img-question"  src="/static/img.png" alt="Question image"/>
+                    </div>
+                </div>
+                <div class="flex-items">
+                    <div class="question-details">
+                        <p><a href="/question/{{ row.id }}" class="title">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.title | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {{ row.title }}
+                            {% endif %}
+                            </a></p>
+                        <p class="question-message">
+                            {% if search_phrase is defined %}
+                                  {% autoescape false %}{{ row.message | replace(search_phrase, '<mark>'+search_phrase+'</mark>') }}{% endautoescape %}
+                            {% else %}
+                                    {% autoescape false %}{{ row.message }}{% endautoescape %}
+                            {% endif %}
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="question-footer" >
+                <spam class="static_txt">Published: </spam>
+                <spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+                <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam>
+                <spam class="static_value">{{ row.author }}</spam>
+            </div><br>
         </div>
     {% endfor %}
-</div>
-<div class="footer">Team APA</div>
-</body>
-</html>
+
+<br><br><br>
+{% endblock %}

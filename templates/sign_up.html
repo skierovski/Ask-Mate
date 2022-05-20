@@ -1,52 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>Sign up</title>
-</head>
+{% extends 'base.html' %}
 
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-    </div>
-</div>
+{% block content %}
 
-
-<div class="main">
     <div class="title">
-        <h1>Sign up</h1>
+        <h1>{% block title %}Sign up{% endblock %}</h1>
         <a href="/list" class="user_button"> All question list</a>
     </div>
 
     <div class="list-question">
-        <div class="question-footer" style="width: 832px">
+        <div class="question-box">
 
             <form action="/sign_up" method="POST" enctype="multipart/form-data">
-                <div class="duplicated_user_name">
                     {% if user_duplicated %}
+                        <div class="duplicated_user_name">
                         <h1 style="color: white">{{ username }} already exist, keep trying ;)</h1>
+                        </div>
                     {% endif %}
-                </div>
 
-                <label class="sign-up-labels" for="username">Username</label><br>
+                <label class="static_txt" for="username">Username</label><br>
                 <input name="username" id="username" size="50" type="text" pattern="[0-9a-zA-Z'-'\s]*" placeholder="Your beautiful name here" required/>
                 <br><br>
-                <label class="sign-up-labels" for="email">Email</label><br>
+                <label class="static_txt" for="email">Email</label><br>
                 <input name="email" id="email" size="50" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="Your email" required/>
                 <br><br>
-                <label class="sign-up-labels" for="password">Password</label><br>
+                <label class="static_txt" for="password">Password</label><br>
                 <input name="password" id="password" size="50" type="password" required/>
                 <br><br>
                 <input class="user_button" type="submit" value="Sign up"/>
             </form>
         </div>
     </div>
-</div>
-
-<div class="footer">Team APA</div>
-</body>
-</html>
+{% endblock %}

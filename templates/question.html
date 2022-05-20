@@ -1,55 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
-<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
-    <title>Question details</title>
+{% extends 'base.html' %}
 
-</head>
+{% block content %}
 
-<body>
-{{ ckeditor.load() }}
-<div class="header">
-    <div class="top-line"></div>
-    <div class="logo2">
-        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
-        <div class ="account-panel">
-            {% if not is_log_in %}
-            <a href="/sign_up" class="register-btn"> Sign Up</a>
-            {% endif %}
-            {% if is_log_in %}
-            <div class="profile-icon">
-                <a href="/users/{{ user_id }}" class="profile-icon">
-                <img src="/static/default-avatar-profile-icon-vector-social-media-user-image-400-205124837.jpg" width="75" height="75" class="profile-icon">
-                </a>
-                </div>
-            <a class="login-btn" href="/logout">Log-out</a>
-            {% else %}
-            <a class="login-btn" href="/login">Login</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-<div class="main">
     <div class="title">
-        <h1>Question details</h1>
+        <h1>{% block title %}Question details{% endblock %}</h1>
 
         <a href="/list" class="user_button"> All question list</a>
-
+    </div>
         <br><br>
-        <div class="list-question">
-            <table>
-                <tbody>
-                  <tr>
-                    <td class="question-statistic">
-                        <p> <span class="static_value"> {{ selected_question[0].view_number }}</span><span class="static_txt"> question views</span></p>
-                        <p><span class="static_value">
-                            {{ selected_question[0].vote_number }}
-                        </span><span class="static_txt"> question votes</span></p>
-                    </td>
-                    <td></td>
-                    <td rowspan="4" class="question-details">
+
+
+        <div class="list-box">
+            <div class="flex-container">
+                <div class="flex-items">
+                    <div class="question-statistic">
+                         <p>
+                             <span class="static_value"> {{ selected_question[0].view_number }}</span>
+                             <span class="static_txt"> question views</span>
+                         </p>
+                        <p>
+                            <span class="static_value">{{ selected_question[0].vote_number }}</span>
+                            <span class="static_txt"> question votes</span>
+                        </p>
+                    </div>
+                {% if is_log_in %}
+                    <div class="question-image">
+                            {% if ( selected_question[0].user_id ) == user_id %}
+                                <a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a><br><br>
+                                <a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a><br><br>
+                            {% endif %}
+                                <a href="/question/{{ selected_question[0].id }}/new-comment" class="user_button"> Add comment</a><br><br>
+                    </div>
+                {% endif %}
+
+                </div>
+                <div class="flex-items">
+                    <div class="question-details">
                         <p class="question-title">{{ selected_question[0].title }}</p>
                         <p class="question-tag">Tags:
                         {% if is_log_in %}
@@ -70,45 +56,21 @@
                                 {% endfor %}
                             {% endif %}</p>
                        {% autoescape false %} <p class="question-message">{{ selected_question[0].message }}</p>{% endautoescape %}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                    <td class="question-image">
-                      {% if is_log_in %}
-                          {% if ( selected_question[0].user_id ) == user_id %}
-                            <a href="/question/{{ selected_question[0].id }}/delete" class="user_button"> Delete question</a><br><br>
-                            <a href="/question/{{ selected_question[0].id }}/edit" class="user_button"> Edit question</a><br><br>
-                          {% endif %}
-                            <a href="/question/{{ selected_question[0].id }}/new-comment" class="user_button"> Add comment</a><br><br>
-                      {% endif %}
-                    </td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                     <td colspan="3"></td>
-                  </tr>
-                  <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ selected_question[0].submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
-                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ selected_question[0].author }}</spam>
-                     </td>
-                  </tr>
-                    <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt">Question comment: </spam>
-                     </td>
-                  </tr>
-                <tr>
-                     <td colspan="3"></td>
-                  </tr>
-                {% for row in selected_question_comments %}
-                  <tr>
-
-                    <td colspan="3" class="question-footer" style="width: 845px">
+                    </div>
+                </div>
+            </div>
+            <div class="question-footer" >
+                <spam class="static_txt">Published: </spam>
+                <spam class="static_value">{{ selected_question[0].submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+                <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam>
+                <spam class="static_value">{{ selected_question[0].author }}</spam>
+            </div>
+        <br>
+            <div class="question-footer" style="color: white">
+                <b>Question comment:</b>
+            </div><br>
+            {% for row in selected_question_comments %}
+                  <div class="question-footer">
                             <spam class="static_txt">Published: </spam><spam class="static_value"> {{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S') }}
                         {% if row.edited_count == 0 %}
                             <spam class="static_txt"><i class="fa-solid fa-user"></i></spam> {{ row.author }}
@@ -123,25 +85,22 @@
                                 <a href="/comments/{{ row.id }}/delete" class="user_button" onclick="return confirm('Are you sure you want to delete this comment?')"> Delete comment</a><br>
                             {% endif %}
                         {% endif %}
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                  </div>
+                <br>
+                {% endfor %}<br>
         </div>
-    </div>
     <h1>Answer</h1>
-    {% if is_log_in and ( selected_question[0].user_id ) != user_id%}
+        {% if is_log_in and ( selected_question[0].user_id ) != user_id%}
             <a href="/question/{{ selected_question[0].id }}/new-answer" class="user_button"> Add answer</a><br><br>
-    {% endif %}
+        {% endif %}
+
+
     {% for row in selected_answer %}
-        <div class="list-question">
-            <table>
-                <tbody>
-                  <tr>
-                    <td class="question-statistic">
-                        <p><span class="static_value">
-                            {% if is_log_in %}
+        <div class="list-box">
+                <div class="flex-container">
+                    <div class="flex-items">
+                        <div class="question-statistic"><span class="static_value">
+                             {% if is_log_in %}
                                 <a href="/answer/{{ row.id }}/vote-down" class="down"><i class="fa-solid fa-hand-point-down"></i></a>
                             {% endif %}
                                     {{ row.vote_number }}
@@ -149,94 +108,54 @@
                                 <a href="/answer/{{ row.id }}/vote-up" class="up"><i class="fa-solid fa-hand-point-up"></i></a>
                             {% endif %}
                         </span><span class="static_txt"> answer votes</span></p>
-                    </td>
-                    <td></td>
-                    <td rowspan="4" class="question-details">
-
-                       {% autoescape false %} <p class="question-message">{{ row.message }}</p>{% endautoescape %}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                  {% if not is_log_in %}
-                  {% if row.accepted ==1 %}
-                      <td class="question-image">
-                  <a href="/login" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
-                  {% elif row.accepted == 0 %}
-                      <td class="question-image">
-                      <a href="/login" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
-                      {% endif %}
-                  {% endif %}
-                  {% if is_log_in %}
-                    <td class="question-image">
-                      {% if row.accepted == 1 and ( selected_question[0].user_id ) != user_id  %}
-                        <a href="/question/{{ selected_question[0].id }}" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
-                        {%  endif %}
-                      {% if row.accepted == 0 and ( selected_question[0].user_id ) != user_id %}
-                            <a href="/question/{{ selected_question[0].id }}" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
-                            {%  endif %}
-                      {% if ( row.user_id ) == user_id %}
-                       <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add answer comment</a><br><br>
-                          {% endif %}
-                    {% if ( selected_question[0].user_id ) != user_id and ( row.user_id ) == user_id %}
-                            <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
-                            <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
-                    {% endif %}
-                        {% if selected_question[0].user_id == user_id and row.accepted == 1 %}
-                            <a href="/answer/{{ row.id }}/declined" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
-                            {% elif selected_question[0].user_id == user_id and row.accepted == 0 %}
-                                <a href="/answer/{{ row.id }}/accept" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
+                        </div>
+                        {% if not is_log_in %}
+                            {% if row.accepted ==1 %}
+                                <div class="question-image">
+                                    <a href="/login" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
+                            {% elif row.accepted == 0 %}
+                                <div class="question-image">
+                                    <a href="/login" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
+                            {% endif %}
                         {% endif %}
-                  {% endif %}
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                  </tr>
-                  <tr>
-                     <td colspan="3"></td>
-                  </tr>
-                  <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
-                     <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ row.author }}</spam>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td class="question-footer" colspan="3"><spam class="static_txt"><b>Answer comments: </b></spam>
-                     </td>
-                  </tr>
+                        {% if is_log_in %}
+                            <div class="question-image">
+                                {% if row.accepted == 1 and ( selected_question[0].user_id ) != user_id  %}
+                                    <a href="/question/{{ selected_question[0].id }}" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
+                                {%  endif %}
+                                {% if row.accepted == 0 and ( selected_question[0].user_id ) != user_id %}
+                                    <a href="/question/{{ selected_question[0].id }}" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
+                                {%  endif %}
+                                {% if ( row.user_id ) == user_id %}
+                                    <a href="/answer/{{ row.id }}/new-comment" class="user_button">Add answer comment</a><br><br>
+                                {% endif %}
+                                {% if ( selected_question[0].user_id ) != user_id and ( row.user_id ) == user_id %}
+                                    <a href="/answer/{{ row.id }}/delete" class="user_button">Delete answer</a><br><br>
+                                    <a href="/answer/{{ row.id }}/edit" class="user_button"> Edit answer</a><br><br>
+                                {% endif %}
+                                {% if selected_question[0].user_id == user_id and row.accepted == 1 %}
+                                    <a href="/answer/{{ row.id }}/declined" class="user_button" style="background-color:#F93A0B"><i class="fa-solid fa-check"></i></a><br><br>
+                                {% elif selected_question[0].user_id == user_id and row.accepted == 0 %}
+                                    <a href="/answer/{{ row.id }}/accept" class="user_button"><i class="fa-solid fa-check"></i></a><br><br>
+                                {% endif %}
+                        {% endif %}
+                            </div>
+                    </div>
+                    <div class="flex-items">
+                        <div class="question-details">
+                            {% autoescape false %} <p class="question-message">{{ row.message }}</p>{% endautoescape %}
+                        </div>
+                    </div>
+                </div>
+                <div class="question-footer" >
+                    <spam class="static_txt">Published: </spam><spam class="static_value">{{ row.submission_time.strftime('%d-%m-%Y %H:%M:%S')}} </spam>
+                    <spam class="static_txt"> <i class="fa-solid fa-user"></i> </spam><spam class="static_value">{{ row.author }}</spam>
 
-                         {% for comment in selected_answer_comments %}
-
-                            {% if comment.answer_id  ==  row.id  %}
-                    <tr>
-                        <td class="question-footer" colspan="3" >
-                            <spam class="static_txt">Published: </spam><spam class="static_value"> {{ comment.submission_time.strftime('%d-%m-%Y %H:%M:%S') }}
-                            {% if comment.edited_count == 0 %}
-                                <spam class="static_txt"><i class="fa-solid fa-user"></i></spam> {{ comment.author }}
-                            {% else %}
-                            <spam class="static_txt"><i class="fa-solid fa-user-pen"></i></spam> Edited {{ comment.edited_count }} times by {{ comment.author }}.</spam>
-                            {% endif %}
-
-                                    <br><br><spam class="static_value">{% autoescape false %}{{ comment.message }}
-{% endautoescape %}</spam><br><br>
-                            {% if is_log_in %}
-                            <a href="/comment/{{ comment.id }}/edit" class="user_button">Edit comment</a>
-                            <a href="/comments/{{ comment.id }}/delete" class="user_button" onclick="return confirm('Are you sure you want to delete this comment?')"> Delete comment</a>
-                            {% endif %}
-                              </td>
-                    </tr>
-                            {% endif %}
-
-                        {% endfor %}
-                </tbody>
-            </table>
+                </div><br>
+                <div class="question-footer" style="color: white">
+                    <b>Answer comments:</b>
+                </div><br>
         </div>
     {% endfor %}
-
-
-</div>
-<div class="footer">Team APA</div>
-</body>
-</html>
+<br><br>
+{% endblock %}
