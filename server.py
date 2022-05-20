@@ -194,24 +194,30 @@ def add_tag(question_id):
     if request.method == 'GET':
         tags_available_to_add = []
         all_tags = []
-        for i in range(len(data_handler.get_tags())):
-            all_tags.append(data_handler.get_tags()[i]['name'])
         question_tags = []
         for i in range(len(data_handler.get_tags_for_question(question_id))):
             question_tags.append(data_handler.get_tags_for_question(question_id)[i]['name'])
+        for i in range(len(data_handler.get_tags())):
+            all_tags.append(data_handler.get_tags()[i]['name'])
         for tag in all_tags:
             if tag not in question_tags:
                 tags_available_to_add.append(tag)
         return render_template('new_tag.html', question_id=question_id, tags=tags_available_to_add)
-    selected_tag = request.form.get('tag')
-    if data_handler.check_if_tag_in_tags(selected_tag) == 1:
-        selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
-        data_handler.add_tag_to_question(selected_tag_id, question_id)
+    selected_tag = request.form.get('tag').strip(' ')
+    question_tags = []
+    for i in range(len(data_handler.get_tags_for_question(question_id))):
+        question_tags.append(data_handler.get_tags_for_question(question_id)[i]['name'])
+    if selected_tag not in question_tags:
+        if data_handler.check_if_tag_in_tags(selected_tag) == 1:
+            selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
+            data_handler.add_tag_to_question(selected_tag_id, question_id)
+        else:
+            data_handler.add_new_tag_to_base(selected_tag)
+            selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
+            data_handler.add_tag_to_question(selected_tag_id, question_id)
+        return redirect(f"/question/{str(question_id)}")
     else:
-        data_handler.add_new_tag_to_base(selected_tag)
-        selected_tag_id = data_handler.get_tag_id(selected_tag)['id']
-        data_handler.add_tag_to_question(selected_tag_id, question_id)
-    return redirect(f"/question/{str(question_id)}")
+        return redirect(f"/question/{str(question_id)}")
 
 
 @app.route('/question/<question_id>/delete-tag', methods=['POST', 'GET'])
