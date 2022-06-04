@@ -360,7 +360,7 @@ def get_hashed_password(cursor, username):
     WHERE username = %s
     """
     cursor.execute(query, (username,))
-    return cursor.fetchall()
+    return cursor.fetchall() # fetchone
 
 
 @database_common.connection_handler

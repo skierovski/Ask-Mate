@@ -357,6 +357,25 @@ a:hover.UPandDOWN, a:active.UPandDOWN {
 
 }
 
+#answer-accept {
+	background-color:#17171E;
+	border-radius:25px;
+	border:1px solid #F93A0B;
+	display:inline-block;
+	cursor:pointer;
+	color: white;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:10px 24px;
+	text-decoration:none;
+}
+
+#answer-accept:active {
+	position:relative;
+	top:1px;
+}
+
 .user-name{
     color: #F93A0B;
     font-size: 50px;

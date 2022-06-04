@@ -288,9 +288,8 @@ def logout():
 def if_valid_username(username):
     numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     for i in range(len(numbers)):
-        if numbers[i] in list(username):
-            return False
-        return True
+        return not numbers[i] in list(username)
+
 
 
 @app.route('/users/<user_id>', methods=['GET'])
@@ -312,6 +311,7 @@ def account_page(user_id):
 
 @app.route('/answer/<answer_id>/accept')
 def accept_answer(answer_id):
+    #transaction SQL
     q_id = data_handler.get_id(answer_id)
     user_id = data_handler.get_user_id_from_answer_id(answer_id)
     data_handler.reputation_accepted_up(user_id['user_id'])
