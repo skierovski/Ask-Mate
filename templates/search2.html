@@ -1,7 +1,23 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="{{url_for('static', filename='style2.css')}}">
+<script src="https://kit.fontawesome.com/8fd9367667.js" crossorigin="anonymous"></script>
+    <title>Question search</title>
+</head>
 
-{% block content %}
-<div class="title">
+<body>
+{{ ckeditor.load() }}
+<div class="header">
+    <div class="top-line"></div>
+    <div class="logo2">
+        <p class="logo"><i class="fa-solid fa-comments" id="logo"></i>AskMate</p>
+    </div>
+
+</div>
+
+<div class="main">
+    <div class="title">
         <h1>Question list</h1>
 
         <a href="/list" class="user_button"> All question list</a>
@@ -112,8 +128,14 @@
  </spam>
                             {% endif %}<br><br>
             <a href="/question/{{ row.question_id }}" class="user_button">Go to question</a>
-        </div><br><br>
+        </div>
         {% endfor %}
     </div>
-</div><br><br><br><br>
-{% endblock %}
+</div>
+<div class="footer">Team APA</div>
+</body>
+
+
+
+
+
