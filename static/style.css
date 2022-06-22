@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+body{
+    height:100%;
+    width:100%;
+    margin:0;
+    padding: 0;
+    background-color: #17171E;
+}
+
+.grid-main{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 100px 100px 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.header {
+    grid-area: 1 / 1 / 2 / 6;
+  height: 100px;
+     z-index: 1;
+  background-color: #212130;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.main {
+    grid-area: 2 / 2 / 5 / 5;
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*margin-bottom: 100px;*/
+  /*margin-top: 100px;*/
+  overflow: auto;
+  /*width: 900px;*/
+  /*  height: 100%;*/
+}
+
+
+.footer {
+    grid-area: 5 / 1 / 6 / 6;
+  position: fixed;
+  bottom: 0px;
+  overflow: hidden;
+  width: 100%;
+  background-color: #212130;
+  color: #F93A0B;
+  text-align: center;
+}
